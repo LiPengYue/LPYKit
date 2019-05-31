@@ -73,6 +73,8 @@
 		E3AA413B2293F9610051875E /* DeleteCollectionCellViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3AA413A2293F9610051875E /* DeleteCollectionCellViewController.m */; };
 		E3AA41412295458A0051875E /* DeleteCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E3AA41402295458A0051875E /* DeleteCollectionViewCell.m */; };
 		E3AA414422954FF30051875E /* DelegateModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E3AA414322954FF30051875E /* DelegateModel.m */; };
+		E3DA111922A104A900BB525C /* CountDownHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = E3DA111522A104A900BB525C /* CountDownHandler.m */; };
+		E3DA111A22A104A900BB525C /* PYDateManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E3DA111822A104A900BB525C /* PYDateManager.m */; };
 		E3DE08F52264276500904AC7 /* BaseTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = E3DE08F42264276500904AC7 /* BaseTableView.m */; };
 		E3DE08F8226438E300904AC7 /* BaseTableViewDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E3DE08F7226438E300904AC7 /* BaseTableViewDelegate.m */; };
 		E3EC0F20229D2DC700219EFD /* DemoTextViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3EC0F1F229D2DC700219EFD /* DemoTextViewController.m */; };
@@ -83,8 +85,6 @@
 		E3EEDF41229E9E1B00DF3DEA /* PYCountDownModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E3EEDF3B229E9E1B00DF3DEA /* PYCountDownModel.m */; };
 		E3EEDF42229E9E1B00DF3DEA /* PYCountDownViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3EEDF3C229E9E1B00DF3DEA /* PYCountDownViewController.m */; };
 		E3EEDF43229E9E1B00DF3DEA /* PYCountDownTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E3EEDF3F229E9E1B00DF3DEA /* PYCountDownTableViewCell.m */; };
-		E3EEDF48229E9E7400DF3DEA /* PYDateManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E3EEDF44229E9E7400DF3DEA /* PYDateManager.m */; };
-		E3EEDF49229E9E7400DF3DEA /* CountDownHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = E3EEDF45229E9E7400DF3DEA /* CountDownHandler.m */; };
 		E3EFF69B2297DD5E00142FDD /* ThumbnailImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3EFF69A2297DD5E00142FDD /* ThumbnailImageViewController.m */; };
 		E3F3707C22802C6400633B66 /* YYTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = E3F3704922802C6400633B66 /* YYTextView.m */; };
 		E3F3707D22802C6400633B66 /* YYTextMagnifier.m in Sources */ = {isa = PBXBuildFile; fileRef = E3F3704D22802C6400633B66 /* YYTextMagnifier.m */; };
@@ -277,6 +277,10 @@
 		E3AA41402295458A0051875E /* DeleteCollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DeleteCollectionViewCell.m; sourceTree = "<group>"; };
 		E3AA414222954FF30051875E /* DelegateModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DelegateModel.h; sourceTree = "<group>"; };
 		E3AA414322954FF30051875E /* DelegateModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DelegateModel.m; sourceTree = "<group>"; };
+		E3DA111522A104A900BB525C /* CountDownHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CountDownHandler.m; sourceTree = "<group>"; };
+		E3DA111622A104A900BB525C /* PYDateManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYDateManager.h; sourceTree = "<group>"; };
+		E3DA111722A104A900BB525C /* CountDownHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CountDownHandler.h; sourceTree = "<group>"; };
+		E3DA111822A104A900BB525C /* PYDateManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYDateManager.m; sourceTree = "<group>"; };
 		E3DE08F32264276500904AC7 /* BaseTableView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseTableView.h; sourceTree = "<group>"; };
 		E3DE08F42264276500904AC7 /* BaseTableView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseTableView.m; sourceTree = "<group>"; };
 		E3DE08F6226438E300904AC7 /* BaseTableViewDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseTableViewDelegate.h; sourceTree = "<group>"; };
@@ -297,10 +301,6 @@
 		E3EEDF3E229E9E1B00DF3DEA /* PYCountDownTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYCountDownTableViewCell.h; sourceTree = "<group>"; };
 		E3EEDF3F229E9E1B00DF3DEA /* PYCountDownTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYCountDownTableViewCell.m; sourceTree = "<group>"; };
 		E3EEDF40229E9E1B00DF3DEA /* PYCountDownViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYCountDownViewController.h; sourceTree = "<group>"; };
-		E3EEDF44229E9E7400DF3DEA /* PYDateManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PYDateManager.m; path = "../../../../../../Downloads/PYCountDownHandler-master/PYCountDownHandler/Classes/PYDateManager.m"; sourceTree = "<group>"; };
-		E3EEDF45229E9E7400DF3DEA /* CountDownHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CountDownHandler.m; path = "../../../../../../Downloads/PYCountDownHandler-master/PYCountDownHandler/Classes/CountDownHandler.m"; sourceTree = "<group>"; };
-		E3EEDF46229E9E7400DF3DEA /* PYDateManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PYDateManager.h; path = "../../../../../../Downloads/PYCountDownHandler-master/PYCountDownHandler/Classes/PYDateManager.h"; sourceTree = "<group>"; };
-		E3EEDF47229E9E7400DF3DEA /* CountDownHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CountDownHandler.h; path = "../../../../../../Downloads/PYCountDownHandler-master/PYCountDownHandler/Classes/CountDownHandler.h"; sourceTree = "<group>"; };
 		E3EFF6992297DD5E00142FDD /* ThumbnailImageViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ThumbnailImageViewController.h; sourceTree = "<group>"; };
 		E3EFF69A2297DD5E00142FDD /* ThumbnailImageViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ThumbnailImageViewController.m; sourceTree = "<group>"; };
 		E3F3704822802C6400633B66 /* YYText.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYText.h; sourceTree = "<group>"; };
@@ -935,10 +935,10 @@
 		E3EEDF37229E9DDA00DF3DEA /* CountDown */ = {
 			isa = PBXGroup;
 			children = (
-				E3EEDF47229E9E7400DF3DEA /* CountDownHandler.h */,
-				E3EEDF45229E9E7400DF3DEA /* CountDownHandler.m */,
-				E3EEDF46229E9E7400DF3DEA /* PYDateManager.h */,
-				E3EEDF44229E9E7400DF3DEA /* PYDateManager.m */,
+				E3DA111722A104A900BB525C /* CountDownHandler.h */,
+				E3DA111522A104A900BB525C /* CountDownHandler.m */,
+				E3DA111622A104A900BB525C /* PYDateManager.h */,
+				E3DA111822A104A900BB525C /* PYDateManager.m */,
 			);
 			path = CountDown;
 			sourceTree = "<group>";
@@ -1315,6 +1315,7 @@
 				E3FFC16A2293D2AD00069463 /* BaseDismissAnimationHandler.m in Sources */,
 				E3F3707D22802C6400633B66 /* YYTextMagnifier.m in Sources */,
 				E36CF5712248A79300C32DEC /* BaseGradientView.m in Sources */,
+				E3DA111A22A104A900BB525C /* PYDateManager.m in Sources */,
 				E3F3709022802C6400633B66 /* YYTextTransaction.m in Sources */,
 				E3AA414422954FF30051875E /* DelegateModel.m in Sources */,
 				E36CF54E22489F7600C32DEC /* AttributedStrFiltrateRuler.m in Sources */,
@@ -1335,11 +1336,11 @@
 				E3F3708522802C6400633B66 /* YYTextDebugOption.m in Sources */,
 				E36CF5782248AA6300C32DEC /* BaseButtonHandler.m in Sources */,
 				E301CCEC2265C4D5000F024F /* BasetableTestHeserFooterView1.m in Sources */,
+				E3DA111922A104A900BB525C /* CountDownHandler.m in Sources */,
 				E3F3708E22802C6400633B66 /* NSAttributedString+YYText.m in Sources */,
 				E3F3709322802C6400633B66 /* YYTextWeakProxy.m in Sources */,
 				E3EEDF42229E9E1B00DF3DEA /* PYCountDownViewController.m in Sources */,
 				E3F3709722802CDD00633B66 /* BaseTextViewController.m in Sources */,
-				E3EEDF49229E9E7400DF3DEA /* CountDownHandler.m in Sources */,
 				E3F3708D22802C6400633B66 /* NSParagraphStyle+YYText.m in Sources */,
 				E3F3708F22802C6400633B66 /* UIPasteboard+YYText.m in Sources */,
 				E301CCF32265C561000F024F /* BaseTableHeaderFooterView.m in Sources */,
@@ -1382,7 +1383,6 @@
 				E3F3709122802C6400633B66 /* UIView+YYText.m in Sources */,
 				E3619E8D226449C600F2E1E1 /* MainTableViewCell.m in Sources */,
 				E3F3708922802C6400633B66 /* YYTextAttribute.m in Sources */,
-				E3EEDF48229E9E7400DF3DEA /* PYDateManager.m in Sources */,
 				E3F3707E22802C6400633B66 /* YYTextContainerView.m in Sources */,
 				E3DE08F8226438E300904AC7 /* BaseTableViewDelegate.m in Sources */,
 				E3EEDF36229E814200DF3DEA /* PresentDemoViewController.m in Sources */,

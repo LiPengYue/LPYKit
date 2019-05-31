@@ -6,7 +6,7 @@
 //  Copyright © 2018年 yi23. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 #import "PYDateManager.h"
 
 /**
