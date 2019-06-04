@@ -15,6 +15,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,assign) PresentAnimationStyle presentStyle;
 @property (nonatomic,assign) DismissAnimationStyle dismissStyle;
 @property (nonatomic,assign) BOOL isShowNavigetion;
+@property (nonatomic,assign) BOOL isHaveShadowAnimation;
+@property (nonatomic,assign) BOOL isLinkage;
 @end
 
 NS_ASSUME_NONNULL_END

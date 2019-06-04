@@ -153,4 +153,8 @@
  */
 @property (nonatomic,assign) BOOL isStopWithBackstage;
 
+/// 进入后 又回到前台的时间差
++ (NSInteger) timeDifferent;
++ (void) applicationDidEnterBackgroundWithCurrentDate: (NSDate *)date;
++ (void) applicationDidBecomeActiveWithCurrentDate: (NSDate *)date;
 @end

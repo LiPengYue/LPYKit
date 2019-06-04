@@ -43,6 +43,7 @@ UITableViewDataSource
 - (void) setup {
     self.countDownHandler = [[CountDownHandler alloc]init];
     self.countDownHandler.targetMaxCount = 100;
+    self.countDownHandler.isStopWithBackstage = false;
     [self.countDownHandler start];
     [self setupView];
     [self loadData];

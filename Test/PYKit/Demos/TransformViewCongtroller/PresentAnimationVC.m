@@ -23,7 +23,9 @@ BaseTableViewDataSource
 @property (nonatomic,copy) NSString *selectedDismissStyle;
 
 @property (nonatomic,strong) UIButton *haveNavigetionVCButton;
+@property (nonatomic,strong) UIButton *linkButton;
 @property (nonatomic,strong) UIButton *presentButton;
+@property (nonatomic,strong) UIButton *haveShadowAnimationButton;
 @property (nonatomic,strong) UILabel *label;
 @end
 
@@ -34,7 +36,9 @@ BaseTableViewDataSource
     self.view.backgroundColor = UIColor.whiteColor;
     [self.view addSubview:self.label];
     [self.view addSubview:self.haveNavigetionVCButton];
+    [self.view addSubview:self.linkButton];
     [self.view addSubview:self.presentButton];
+    [self.view addSubview:self.haveShadowAnimationButton];
     [self.view addSubview: self.tableView];
 }
 
@@ -106,8 +110,8 @@ BaseTableViewDataSource
 - (UIButton *) haveNavigetionVCButton {
     if (!_haveNavigetionVCButton) {
         _haveNavigetionVCButton = [UIButton new];
-        _haveNavigetionVCButton.frame = CGRectMake(10, CGRectGetMaxY(self.label.frame) + 10, self.view.frame.size.width -20, 50);
-        [_haveNavigetionVCButton setTitle:@"是否包含导航条" forState:UIControlStateNormal];
+        _haveNavigetionVCButton.frame = CGRectMake(10, CGRectGetMaxY(self.label.frame) + 10, self.view.frame.size.width/2-15, 50);
+        [_haveNavigetionVCButton setTitle:@"含导航条" forState:UIControlStateNormal];
         [_haveNavigetionVCButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         _haveNavigetionVCButton.layer.borderColor = UIColor.redColor.CGColor;
         _haveNavigetionVCButton.layer.borderWidth = 1;
@@ -122,12 +126,46 @@ BaseTableViewDataSource
     button.backgroundColor = isSelected ? [UIColor colorWithRed:0.5 green:0.6 blue:0.8 alpha:0.3] : UIColor.whiteColor;
 }
 
+- (UIButton *) haveShadowAnimationButton {
+    if (!_haveShadowAnimationButton) {
+        _haveShadowAnimationButton = [UIButton new];
+        _haveShadowAnimationButton.frame = CGRectMake(CGRectGetMaxX(self.haveNavigetionVCButton.frame) + 10, self.haveNavigetionVCButton.frame.origin.y, self.view.frame.size.width/2-15, 50);
+        [_haveShadowAnimationButton setTitle:@"阴影动画" forState:UIControlStateNormal];
+        [_haveShadowAnimationButton setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+        [_haveShadowAnimationButton addTarget:self action:@selector(click_haveShadowAnimationButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+        _haveShadowAnimationButton.layer.borderColor = UIColor.redColor.CGColor;
+        _haveShadowAnimationButton.layer.borderWidth = 1;
+    }
+    return _haveShadowAnimationButton;
+}
+
+- (void)click_haveShadowAnimationButtonAction: (UIButton *)button {
+    button.selected = !button.selected;
+    button.backgroundColor = button.selected ? [UIColor colorWithRed:0.5 green:0.6 blue:0.8 alpha:0.3] : UIColor.whiteColor;
+}
+- (UIButton *)linkButton {
+    if (!_linkButton) {
+        _linkButton = [UIButton new];
+        _linkButton.frame = CGRectMake(CGRectGetMaxX(self.haveNavigetionVCButton.frame) + 10, CGRectGetMaxY(self.haveNavigetionVCButton.frame) + 10, self.view.frame.size.width/2-15, 50);
+        [_linkButton setTitle:@"联动" forState:UIControlStateNormal];
+        [_linkButton setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+        [_linkButton addTarget:self action:@selector(click__linkButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+        _linkButton.layer.borderColor = UIColor.redColor.CGColor;
+        _linkButton.layer.borderWidth = 1;
+    }
+    return _linkButton;
+}
+
+- (void)click__linkButtonAction: (UIButton *)button {
+    button.selected = !button.selected;
+    button.backgroundColor = button.selected ? [UIColor colorWithRed:0.5 green:0.6 blue:0.8 alpha:0.3] : UIColor.whiteColor;
+}
 
 /// presentButton
 - (UIButton *) presentButton {
     if (!_presentButton) {
         _presentButton = [UIButton new];
-        _presentButton.frame = CGRectMake(10, CGRectGetMaxY(self.haveNavigetionVCButton.frame) + 10, self.view.frame.size.width, 50);
+        _presentButton.frame = CGRectMake(10, CGRectGetMaxY(self.haveNavigetionVCButton.frame) + 10, self.view.frame.size.width/2-15, 50);
         [_presentButton setTitle:@"present" forState:UIControlStateNormal];
         [_presentButton setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
         [_presentButton addTarget:self action:@selector(click_presentButtonAction:) forControlEvents:UIControlEventTouchUpInside];
@@ -143,9 +181,14 @@ BaseTableViewDataSource
     presentViewController.dismissStyle = [self.dismissData indexOfObject:self.selectedDismissStyle];
     
     UIViewController *vc = self.haveNavigetionVCButton.selected ? presentViewController.presentNavigationController : presentViewController;
+    
     presentViewController.isShowNavigetion = self.haveNavigetionVCButton.selected;
+    presentViewController.isHaveShadowAnimation = self.haveShadowAnimationButton.selected;
+    presentViewController.isLinkage = self.linkButton.selected;
     [self presentViewController:vc animated:true completion:nil];
 }
+
+
 
 - (BaseTableView *)tableView {
     if (!_tableView) {

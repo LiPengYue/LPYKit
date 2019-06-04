@@ -28,9 +28,38 @@
     .setUpDismissStyle(self.dismissStyle)
     .setUpPresentStartAlpha(0)
     .setUpDismissEndAlpha(0)
-    .setUpIsLinkage(true);
+    .setUpIsLinkage(self.isLinkage);
+    
+    self.shadowAnimationConfig
+    .setUpDismissShadowOpacity(0.2)
+    .setUpDismissShadowColor([UIColor colorWithWhite:0 alpha:0.06])
+    .setUpPresentShadowColor([UIColor colorWithWhite:0 alpha:0.06])
+    .setUpDismissShadowOffset(CGSizeMake(1, 1))
+    .setUpPresentShadowOffset(CGSizeMake(10, 10));
     
     self.animationView = self.imageView;
+    if (self.isHaveShadowAnimation) {
+        [self setupAnimationLifeCycles];
+    }
+}
+
+- (void) setupAnimationLifeCycles {
+    __weak typeof(self)weakSelf = self;
+    [self presentAnimationBegin:^(UIView *toView, UIView *fromeView) {
+        // 转场动画将要开始
+        //        NSLog(@"present 转场动画将要开始");
+    } andCompletion:^(UIView *toView, UIView *fromeView) {
+        //        NSLog(@"present 转场动画已经结束,开启阴影动画");
+        [weakSelf.shadowAnimationConfig beginPresentAnimationWithDuration:0.5];
+        
+    }];
+    
+    [self dismissAnimationBegin:^(UIView *toView, UIView *fromeView) {
+        //        NSLog(@"dismiss 转场动画将要开始,开启阴影动画");
+        [weakSelf.shadowAnimationConfig beginDismissAnimationWithDuration:2];
+    } andCompletion:^(UIView *toView, UIView *fromeView) {
+        //        NSLog(@"dismiss 转场动画已经结束");
+    }];
 }
 
 /// imageView

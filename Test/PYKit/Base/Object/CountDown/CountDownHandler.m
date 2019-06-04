@@ -9,6 +9,10 @@
 #import "CountDownHandler.h"
 #import <objc/runtime.h>
 
+CGFloat STATIC_CURRENT_TIME_DIFFERENCE = 0;
+NSDate *STATIC_APPLICATION_DID_ENTER_BACKGROUND = nil;
+NSDate *STATIC_APPLICATION_DID_BECOME_ACTIVE = nil;
+
 static NSString *const K_countDownHandler_startCountDown = @"K_countDownHandler_startCountDown";
 
 
@@ -20,6 +24,22 @@ static NSString *const K_countDownHandler_startCountDown = @"K_countDownHandler_
 @end
 
 @implementation CountDownHandler
+
++ (void)applicationDidBecomeActiveWithCurrentDate:(NSDate *)date {
+    STATIC_APPLICATION_DID_BECOME_ACTIVE = date;
+    STATIC_CURRENT_TIME_DIFFERENCE = -1;
+}
++ (void) applicationDidEnterBackgroundWithCurrentDate: (NSDate *)date {
+    STATIC_APPLICATION_DID_ENTER_BACKGROUND = date;
+    STATIC_CURRENT_TIME_DIFFERENCE = -1;
+}
+
++ (NSInteger)timeDifferent {
+    if (STATIC_CURRENT_TIME_DIFFERENCE <= 0) {
+        STATIC_CURRENT_TIME_DIFFERENCE = STATIC_APPLICATION_DID_BECOME_ACTIVE.timeIntervalSince1970 - STATIC_APPLICATION_DID_ENTER_BACKGROUND.timeIntervalSince1970;
+    }
+    return STATIC_CURRENT_TIME_DIFFERENCE;
+}
 
 - (instancetype) init {
     if (self = [super init]) {
@@ -166,19 +186,22 @@ static NSString *const K_countDownHandler_startCountDown = @"K_countDownHandler_
 }
 
 - (void) lock: (void(^)(void))block {
-    dispatch_semaphore_wait(self.semaphore, DISPATCH_TIME_FOREVER);
+//    dispatch_semaphore_wait(self.semaphore, DISPATCH_TIME_FOREVER);
     if (block) {
         block();
     }
-    dispatch_semaphore_signal(self.semaphore);
+//    dispatch_semaphore_signal(self.semaphore);
 }
 
 - (void) createTimer {
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    dispatch_source_t _timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0,queue);
+    dispatch_source_set_timer(_timer,dispatch_walltime(NULL, 0),1.0*NSEC_PER_SEC, 0); //每秒执行
     
-    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0);
-    
-    dispatch_source_t timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue);
-    self.timer = timer;
+//    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0);
+//
+//    dispatch_source_t timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue);
+    self.timer = _timer;
     /*
      第一个参数:定时器对象
      第二个参数:DISPATCH_TIME_NOW 表示从现在开始计时
@@ -186,12 +209,13 @@ static NSString *const K_countDownHandler_startCountDown = @"K_countDownHandler_
      第四个参数:精准度(表示允许的误差,0表示绝对精准)
      */
     dispatch_time_t t = self.isStopWithBackstage ? DISPATCH_TIME_NOW : dispatch_walltime(NULL,0);
-    dispatch_source_set_timer(timer, t, self.timeInterval * NSEC_PER_SEC, 0 * NSEC_PER_SEC);
+    t = dispatch_walltime(NULL,0);
+//    dispatch_source_set_timer(self.timer, t, self.timeInterval * NSEC_PER_SEC, 0 * NSEC_PER_SEC);
     __weak typeof(self) weakSelf = self;
-    dispatch_source_set_event_handler(timer, ^{
+    dispatch_source_set_event_handler(self.timer, ^{
         [weakSelf timerAction];
     });
-    dispatch_resume(timer);
+    dispatch_resume(self.timer);
 }
 
 - (void)dealloc {
