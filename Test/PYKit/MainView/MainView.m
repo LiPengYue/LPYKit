@@ -44,7 +44,8 @@ BaseTableViewDataSource
                        @"DeleteCollectionCellViewController",
                        @"ThumbnailImageViewController",
                        @"PresentAnimationVC",
-                       @"PYCountDownViewController"
+                       @"PYCountDownViewController",
+                       @"DebugNetWorkViewController"
                        ];
     }
     return _dataArray;

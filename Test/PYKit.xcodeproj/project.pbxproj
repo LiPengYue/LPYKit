@@ -19,6 +19,9 @@
 		E301CCF32265C561000F024F /* BaseTableHeaderFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = E301CCF22265C561000F024F /* BaseTableHeaderFooterView.m */; };
 		E301CCFB2265CBAD000F024F /* BaseTableTestCell3.m in Sources */ = {isa = PBXBuildFile; fileRef = E301CCF92265CBAD000F024F /* BaseTableTestCell3.m */; };
 		E301CCFC2265CBAD000F024F /* BaseTableTestCell3.xib in Resources */ = {isa = PBXBuildFile; fileRef = E301CCFA2265CBAD000F024F /* BaseTableTestCell3.xib */; };
+		E311E47322C70557000FF903 /* BaseDebugNetWorkModelHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = E311E47222C70557000FF903 /* BaseDebugNetWorkModelHandler.m */; };
+		E311E47922C71358000FF903 /* BaseDebugNetWorkDataStepModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E311E47822C71358000FF903 /* BaseDebugNetWorkDataStepModel.m */; };
+		E311E47D22C73CD1000FF903 /* UIView+ChangeFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = E311E47C22C73CD1000FF903 /* UIView+ChangeFrame.m */; };
 		E324933C225F42910061AED6 /* BaseAnimationProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = E3249336225F42910061AED6 /* BaseAnimationProxy.m */; };
 		E324933D225F42910061AED6 /* BasePointProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = E3249338225F42910061AED6 /* BasePointProgressView.m */; };
 		E324933E225F42910061AED6 /* BasePointProgressViewProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = E324933B225F42910061AED6 /* BasePointProgressViewProtocol.m */; };
@@ -27,6 +30,7 @@
 		E32AC6822244D358007BD4D3 /* BaseThemeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E32AC6812244D358007BD4D3 /* BaseThemeManager.m */; };
 		E32AC6872244DC4D007BD4D3 /* BaseFont.m in Sources */ = {isa = PBXBuildFile; fileRef = E32AC6862244DC4D007BD4D3 /* BaseFont.m */; };
 		E32AC68A2244F215007BD4D3 /* BaseView.m in Sources */ = {isa = PBXBuildFile; fileRef = E32AC6892244F215007BD4D3 /* BaseView.m */; };
+		E32F938C22CC57DB00723F56 /* BaseTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = E32F938B22CC57DB00723F56 /* BaseTextView.m */; };
 		E33551D422447ED200AE6C3B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E33551D322447ED200AE6C3B /* AppDelegate.m */; };
 		E33551D722447ED200AE6C3B /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E33551D622447ED200AE6C3B /* ViewController.m */; };
 		E33551DC22447ED300AE6C3B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E33551DB22447ED300AE6C3B /* Assets.xcassets */; };
@@ -39,6 +43,12 @@
 		E3619E852264483900F2E1E1 /* BaseObjectHeaders.m in Sources */ = {isa = PBXBuildFile; fileRef = E3619E842264483900F2E1E1 /* BaseObjectHeaders.m */; };
 		E3619E892264495700F2E1E1 /* MainView.m in Sources */ = {isa = PBXBuildFile; fileRef = E3619E882264495700F2E1E1 /* MainView.m */; };
 		E3619E8D226449C600F2E1E1 /* MainTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E3619E8C226449C600F2E1E1 /* MainTableViewCell.m */; };
+		E363C69F22BCC29900DF4F04 /* BaseDebugNetWorkDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E363C69E22BCC29900DF4F04 /* BaseDebugNetWorkDataModel.m */; };
+		E36C8B3E22C9A6DD0021A2CC /* DebugNetWorkMainView.m in Sources */ = {isa = PBXBuildFile; fileRef = E36C8B3D22C9A6DD0021A2CC /* DebugNetWorkMainView.m */; };
+		E36C8B4122CA18FF0021A2CC /* DebugNetWorkDataViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E36C8B4022CA18FF0021A2CC /* DebugNetWorkDataViewController.m */; };
+		E36C8B4622CB09B30021A2CC /* DebugNetWorkSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E36C8B4522CB09B30021A2CC /* DebugNetWorkSearchViewController.m */; };
+		E36C8B4A22CB0AA30021A2CC /* DebugNetWorkSearchTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = E36C8B4922CB0AA30021A2CC /* DebugNetWorkSearchTableView.m */; };
+		E36C8B4D22CB0C220021A2CC /* DebugNetWorkSearchTableViewHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = E36C8B4C22CB0C220021A2CC /* DebugNetWorkSearchTableViewHeaderView.m */; };
 		E36CF51922487F7400C32DEC /* BaseLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = E36CF51822487F7400C32DEC /* BaseLabel.m */; };
 		E36CF51C22487FCB00C32DEC /* ViewShadowConfigration.m in Sources */ = {isa = PBXBuildFile; fileRef = E36CF51B22487FCB00C32DEC /* ViewShadowConfigration.m */; };
 		E36CF51F2248835100C32DEC /* BaseViewHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = E36CF51E2248835100C32DEC /* BaseViewHandler.m */; };
@@ -64,6 +74,8 @@
 		E36CF5852248B3B200C32DEC /* NSObject+T.m in Sources */ = {isa = PBXBuildFile; fileRef = E36CF5832248B3B200C32DEC /* NSObject+T.m */; };
 		E36CF5862248B3B200C32DEC /* NSObject+SignalHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = E36CF5842248B3B200C32DEC /* NSObject+SignalHandler.m */; };
 		E36CF5B82248D3FD00C32DEC /* BaseNavigationBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = E36CF5B62248D3FD00C32DEC /* BaseNavigationBarView.m */; };
+		E37200F422CB42CC005638BB /* BaseDebugNetWorkCommon.m in Sources */ = {isa = PBXBuildFile; fileRef = E37200F322CB42CC005638BB /* BaseDebugNetWorkCommon.m */; };
+		E37200F722CB50A4005638BB /* BaseDebugNetWorkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E37200F622CB50A4005638BB /* BaseDebugNetWorkViewController.m */; };
 		E3A9A9E8224B743800CEC939 /* BaseNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3A9A9E7224B743800CEC939 /* BaseNavigationController.m */; };
 		E3A9A9EC224B81E100CEC939 /* ScrollViewPanDirectionHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = E3A9A9EA224B81E100CEC939 /* ScrollViewPanDirectionHandler.m */; };
 		E3A9A9F1224B92D400CEC939 /* BaseDebugNetWorkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E3A9A9F0224B92D400CEC939 /* BaseDebugNetWorkManager.m */; };
@@ -165,6 +177,12 @@
 		E301CCF82265CBAD000F024F /* BaseTableTestCell3.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseTableTestCell3.h; sourceTree = "<group>"; };
 		E301CCF92265CBAD000F024F /* BaseTableTestCell3.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseTableTestCell3.m; sourceTree = "<group>"; };
 		E301CCFA2265CBAD000F024F /* BaseTableTestCell3.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BaseTableTestCell3.xib; sourceTree = "<group>"; };
+		E311E47122C70557000FF903 /* BaseDebugNetWorkModelHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseDebugNetWorkModelHandler.h; sourceTree = "<group>"; };
+		E311E47222C70557000FF903 /* BaseDebugNetWorkModelHandler.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseDebugNetWorkModelHandler.m; sourceTree = "<group>"; };
+		E311E47722C71358000FF903 /* BaseDebugNetWorkDataStepModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseDebugNetWorkDataStepModel.h; sourceTree = "<group>"; };
+		E311E47822C71358000FF903 /* BaseDebugNetWorkDataStepModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseDebugNetWorkDataStepModel.m; sourceTree = "<group>"; };
+		E311E47B22C73CD1000FF903 /* UIView+ChangeFrame.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIView+ChangeFrame.h"; sourceTree = "<group>"; };
+		E311E47C22C73CD1000FF903 /* UIView+ChangeFrame.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIView+ChangeFrame.m"; sourceTree = "<group>"; };
 		E3249336225F42910061AED6 /* BaseAnimationProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseAnimationProxy.m; sourceTree = "<group>"; };
 		E3249337225F42910061AED6 /* BaseAnimationProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseAnimationProxy.h; sourceTree = "<group>"; };
 		E3249338225F42910061AED6 /* BasePointProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BasePointProgressView.m; sourceTree = "<group>"; };
@@ -181,6 +199,8 @@
 		E32AC6862244DC4D007BD4D3 /* BaseFont.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseFont.m; sourceTree = "<group>"; };
 		E32AC6882244F215007BD4D3 /* BaseView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseView.h; sourceTree = "<group>"; };
 		E32AC6892244F215007BD4D3 /* BaseView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseView.m; sourceTree = "<group>"; };
+		E32F938A22CC57DB00723F56 /* BaseTextView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseTextView.h; sourceTree = "<group>"; };
+		E32F938B22CC57DB00723F56 /* BaseTextView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseTextView.m; sourceTree = "<group>"; };
 		E33551CF22447ED200AE6C3B /* PYkit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PYkit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E33551D222447ED200AE6C3B /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		E33551D322447ED200AE6C3B /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -207,6 +227,18 @@
 		E3619E8B226449C600F2E1E1 /* MainTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainTableViewCell.h; sourceTree = "<group>"; };
 		E3619E8C226449C600F2E1E1 /* MainTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MainTableViewCell.m; sourceTree = "<group>"; };
 		E3619E8F22644DC300F2E1E1 /* BaseLog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseLog.h; sourceTree = "<group>"; };
+		E363C69D22BCC29900DF4F04 /* BaseDebugNetWorkDataModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseDebugNetWorkDataModel.h; sourceTree = "<group>"; };
+		E363C69E22BCC29900DF4F04 /* BaseDebugNetWorkDataModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseDebugNetWorkDataModel.m; sourceTree = "<group>"; };
+		E36C8B3C22C9A6DD0021A2CC /* DebugNetWorkMainView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DebugNetWorkMainView.h; sourceTree = "<group>"; };
+		E36C8B3D22C9A6DD0021A2CC /* DebugNetWorkMainView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DebugNetWorkMainView.m; sourceTree = "<group>"; };
+		E36C8B3F22CA18FF0021A2CC /* DebugNetWorkDataViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DebugNetWorkDataViewController.h; sourceTree = "<group>"; };
+		E36C8B4022CA18FF0021A2CC /* DebugNetWorkDataViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DebugNetWorkDataViewController.m; sourceTree = "<group>"; };
+		E36C8B4422CB09B30021A2CC /* DebugNetWorkSearchViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DebugNetWorkSearchViewController.h; sourceTree = "<group>"; };
+		E36C8B4522CB09B30021A2CC /* DebugNetWorkSearchViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DebugNetWorkSearchViewController.m; sourceTree = "<group>"; };
+		E36C8B4822CB0AA30021A2CC /* DebugNetWorkSearchTableView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DebugNetWorkSearchTableView.h; sourceTree = "<group>"; };
+		E36C8B4922CB0AA30021A2CC /* DebugNetWorkSearchTableView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DebugNetWorkSearchTableView.m; sourceTree = "<group>"; };
+		E36C8B4B22CB0C220021A2CC /* DebugNetWorkSearchTableViewHeaderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DebugNetWorkSearchTableViewHeaderView.h; sourceTree = "<group>"; };
+		E36C8B4C22CB0C220021A2CC /* DebugNetWorkSearchTableViewHeaderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DebugNetWorkSearchTableViewHeaderView.m; sourceTree = "<group>"; };
 		E36CF51722487F7400C32DEC /* BaseLabel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseLabel.h; sourceTree = "<group>"; };
 		E36CF51822487F7400C32DEC /* BaseLabel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseLabel.m; sourceTree = "<group>"; };
 		E36CF51A22487FCB00C32DEC /* ViewShadowConfigration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewShadowConfigration.h; sourceTree = "<group>"; };
@@ -259,6 +291,10 @@
 		E36CF5B32248B6A000C32DEC /* BaseFiltrateRulerHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseFiltrateRulerHeader.h; sourceTree = "<group>"; };
 		E36CF5B62248D3FD00C32DEC /* BaseNavigationBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseNavigationBarView.m; sourceTree = "<group>"; };
 		E36CF5B72248D3FD00C32DEC /* BaseNavigationBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseNavigationBarView.h; sourceTree = "<group>"; };
+		E37200F222CB42CC005638BB /* BaseDebugNetWorkCommon.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseDebugNetWorkCommon.h; sourceTree = "<group>"; };
+		E37200F322CB42CC005638BB /* BaseDebugNetWorkCommon.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseDebugNetWorkCommon.m; sourceTree = "<group>"; };
+		E37200F522CB50A4005638BB /* BaseDebugNetWorkViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseDebugNetWorkViewController.h; sourceTree = "<group>"; };
+		E37200F622CB50A4005638BB /* BaseDebugNetWorkViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseDebugNetWorkViewController.m; sourceTree = "<group>"; };
 		E3A9A9E6224B743800CEC939 /* BaseNavigationController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseNavigationController.h; sourceTree = "<group>"; };
 		E3A9A9E7224B743800CEC939 /* BaseNavigationController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseNavigationController.m; sourceTree = "<group>"; };
 		E3A9A9EA224B81E100CEC939 /* ScrollViewPanDirectionHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScrollViewPanDirectionHandler.m; sourceTree = "<group>"; };
@@ -476,6 +512,15 @@
 			path = HeaderAndFooter;
 			sourceTree = "<group>";
 		};
+		E311E47A22C73CAF000FF903 /* category */ = {
+			isa = PBXGroup;
+			children = (
+				E311E47B22C73CD1000FF903 /* UIView+ChangeFrame.h */,
+				E311E47C22C73CD1000FF903 /* UIView+ChangeFrame.m */,
+			);
+			path = category;
+			sourceTree = "<group>";
+		};
 		E3249335225F42760061AED6 /* BasePointProgressView */ = {
 			isa = PBXGroup;
 			children = (
@@ -645,6 +690,8 @@
 		E335520C22447FAE00AE6C3B /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				E37200F922CC5773005638BB /* TextView */,
+				E311E47A22C73CAF000FF903 /* category */,
 				E3249335225F42760061AED6 /* BasePointProgressView */,
 				E3A9A9E9224B81CC00CEC939 /* ScrollView */,
 				E36CF5B52248D3E300C32DEC /* BaseNavBar */,
@@ -699,6 +746,56 @@
 				E3619E8F22644DC300F2E1E1 /* BaseLog.h */,
 			);
 			path = Log;
+			sourceTree = "<group>";
+		};
+		E36C8B3A22C9A64C0021A2CC /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				E37200F522CB50A4005638BB /* BaseDebugNetWorkViewController.h */,
+				E37200F622CB50A4005638BB /* BaseDebugNetWorkViewController.m */,
+				E36C8B3F22CA18FF0021A2CC /* DebugNetWorkDataViewController.h */,
+				E36C8B4022CA18FF0021A2CC /* DebugNetWorkDataViewController.m */,
+				E36C8B4322CB097A0021A2CC /* search */,
+				E3A9A9F5224B99D000CEC939 /* DebugNetWorkTableView.h */,
+				E3A9A9F6224B99D000CEC939 /* DebugNetWorkTableView.m */,
+				E3A9A9F8224B9A8200CEC939 /* DebugNetWorkTableViewCell.h */,
+				E3A9A9F9224B9A8200CEC939 /* DebugNetWorkTableViewCell.m */,
+				E36C8B3C22C9A6DD0021A2CC /* DebugNetWorkMainView.h */,
+				E36C8B3D22C9A6DD0021A2CC /* DebugNetWorkMainView.m */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		E36C8B3B22C9A65B0021A2CC /* DataHandlers */ = {
+			isa = PBXGroup;
+			children = (
+				E3A9A9EF224B92D400CEC939 /* BaseDebugNetWorkManager.h */,
+				E3A9A9F0224B92D400CEC939 /* BaseDebugNetWorkManager.m */,
+				E311E47122C70557000FF903 /* BaseDebugNetWorkModelHandler.h */,
+				E311E47222C70557000FF903 /* BaseDebugNetWorkModelHandler.m */,
+			);
+			path = DataHandlers;
+			sourceTree = "<group>";
+		};
+		E36C8B4322CB097A0021A2CC /* search */ = {
+			isa = PBXGroup;
+			children = (
+				E36C8B4422CB09B30021A2CC /* DebugNetWorkSearchViewController.h */,
+				E36C8B4522CB09B30021A2CC /* DebugNetWorkSearchViewController.m */,
+				E36C8B4722CB0A790021A2CC /* Views */,
+			);
+			path = search;
+			sourceTree = "<group>";
+		};
+		E36C8B4722CB0A790021A2CC /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				E36C8B4822CB0AA30021A2CC /* DebugNetWorkSearchTableView.h */,
+				E36C8B4922CB0AA30021A2CC /* DebugNetWorkSearchTableView.m */,
+				E36C8B4B22CB0C220021A2CC /* DebugNetWorkSearchTableViewHeaderView.h */,
+				E36C8B4C22CB0C220021A2CC /* DebugNetWorkSearchTableViewHeaderView.m */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		E36CF51622487F0700C32DEC /* Label */ = {
@@ -843,6 +940,26 @@
 			path = BaseNavBar;
 			sourceTree = "<group>";
 		};
+		E37200F122CB303D005638BB /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				E363C69D22BCC29900DF4F04 /* BaseDebugNetWorkDataModel.h */,
+				E363C69E22BCC29900DF4F04 /* BaseDebugNetWorkDataModel.m */,
+				E311E47722C71358000FF903 /* BaseDebugNetWorkDataStepModel.h */,
+				E311E47822C71358000FF903 /* BaseDebugNetWorkDataStepModel.m */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		E37200F922CC5773005638BB /* TextView */ = {
+			isa = PBXGroup;
+			children = (
+				E32F938A22CC57DB00723F56 /* BaseTextView.h */,
+				E32F938B22CC57DB00723F56 /* BaseTextView.m */,
+			);
+			path = TextView;
+			sourceTree = "<group>";
+		};
 		E3A9A9E9224B81CC00CEC939 /* ScrollView */ = {
 			isa = PBXGroup;
 			children = (
@@ -864,12 +981,11 @@
 		E3A9A9EE224B92AB00CEC939 /* BaseDebugNetWorkManager */ = {
 			isa = PBXGroup;
 			children = (
-				E3A9A9EF224B92D400CEC939 /* BaseDebugNetWorkManager.h */,
-				E3A9A9F0224B92D400CEC939 /* BaseDebugNetWorkManager.m */,
-				E3A9A9F5224B99D000CEC939 /* DebugNetWorkTableView.h */,
-				E3A9A9F6224B99D000CEC939 /* DebugNetWorkTableView.m */,
-				E3A9A9F8224B9A8200CEC939 /* DebugNetWorkTableViewCell.h */,
-				E3A9A9F9224B9A8200CEC939 /* DebugNetWorkTableViewCell.m */,
+				E37200F222CB42CC005638BB /* BaseDebugNetWorkCommon.h */,
+				E37200F322CB42CC005638BB /* BaseDebugNetWorkCommon.m */,
+				E37200F122CB303D005638BB /* Model */,
+				E36C8B3B22C9A65B0021A2CC /* DataHandlers */,
+				E36C8B3A22C9A64C0021A2CC /* Views */,
 			);
 			path = BaseDebugNetWorkManager;
 			sourceTree = "<group>";
@@ -1289,6 +1405,7 @@
 				E3F3707C22802C6400633B66 /* YYTextView.m in Sources */,
 				E36CF56E2248A79300C32DEC /* BaseGradientViewLineConfig.m in Sources */,
 				E36CF5772248AA6300C32DEC /* BaseButton.m in Sources */,
+				E36C8B4622CB09B30021A2CC /* DebugNetWorkSearchViewController.m in Sources */,
 				E36CF55122489F7600C32DEC /* NSAttributedString+Size.m in Sources */,
 				E3F3707F22802C6400633B66 /* YYTextEffectWindow.m in Sources */,
 				E36CF5702248A79300C32DEC /* BaseGradientViewBaseConfig.m in Sources */,
@@ -1319,6 +1436,7 @@
 				E3F3709022802C6400633B66 /* YYTextTransaction.m in Sources */,
 				E3AA414422954FF30051875E /* DelegateModel.m in Sources */,
 				E36CF54E22489F7600C32DEC /* AttributedStrFiltrateRuler.m in Sources */,
+				E36C8B4122CA18FF0021A2CC /* DebugNetWorkDataViewController.m in Sources */,
 				E3FFC16C2293D2AD00069463 /* BaseAnimationHandler.m in Sources */,
 				E3619E892264495700F2E1E1 /* MainView.m in Sources */,
 				E3F3708622802C6400633B66 /* YYLabel.m in Sources */,
@@ -1329,11 +1447,13 @@
 				E3F3708122802C6400633B66 /* YYTextLayout.m in Sources */,
 				E36CF51F2248835100C32DEC /* BaseViewHandler.m in Sources */,
 				E335520B22447F9200AE6C3B /* BaseViewController.m in Sources */,
+				E36C8B3E22C9A6DD0021A2CC /* DebugNetWorkMainView.m in Sources */,
 				E3DE08F52264276500904AC7 /* BaseTableView.m in Sources */,
 				E36CF51922487F7400C32DEC /* BaseLabel.m in Sources */,
 				E32AC68A2244F215007BD4D3 /* BaseView.m in Sources */,
 				E301CCD122648C71000F024F /* BaseTableViewController.m in Sources */,
 				E3F3708522802C6400633B66 /* YYTextDebugOption.m in Sources */,
+				E311E47922C71358000FF903 /* BaseDebugNetWorkDataStepModel.m in Sources */,
 				E36CF5782248AA6300C32DEC /* BaseButtonHandler.m in Sources */,
 				E301CCEC2265C4D5000F024F /* BasetableTestHeserFooterView1.m in Sources */,
 				E3DA111922A104A900BB525C /* CountDownHandler.m in Sources */,
@@ -1342,11 +1462,14 @@
 				E3EEDF42229E9E1B00DF3DEA /* PYCountDownViewController.m in Sources */,
 				E3F3709722802CDD00633B66 /* BaseTextViewController.m in Sources */,
 				E3F3708D22802C6400633B66 /* NSParagraphStyle+YYText.m in Sources */,
+				E363C69F22BCC29900DF4F04 /* BaseDebugNetWorkDataModel.m in Sources */,
+				E311E47D22C73CD1000FF903 /* UIView+ChangeFrame.m in Sources */,
 				E3F3708F22802C6400633B66 /* UIPasteboard+YYText.m in Sources */,
 				E301CCF32265C561000F024F /* BaseTableHeaderFooterView.m in Sources */,
 				E3619E852264483900F2E1E1 /* BaseObjectHeaders.m in Sources */,
 				E32AC67E2244D0F0007BD4D3 /* BaseColorHandler.m in Sources */,
 				E36CF5862248B3B200C32DEC /* NSObject+SignalHandler.m in Sources */,
+				E37200F722CB50A4005638BB /* BaseDebugNetWorkViewController.m in Sources */,
 				E3AA413B2293F9610051875E /* DeleteCollectionCellViewController.m in Sources */,
 				E36CF54D22489F7600C32DEC /* NSAttributedString+FiltrateRuler.m in Sources */,
 				E324933E225F42910061AED6 /* BasePointProgressViewProtocol.m in Sources */,
@@ -1369,6 +1492,7 @@
 				E3A9A9F7224B99D000CEC939 /* DebugNetWorkTableView.m in Sources */,
 				E3249343225F42C60061AED6 /* PresentViewController.m in Sources */,
 				E301CCFB2265CBAD000F024F /* BaseTableTestCell3.m in Sources */,
+				E36C8B4D22CB0C220021A2CC /* DebugNetWorkSearchTableViewHeaderView.m in Sources */,
 				E3EEDF43229E9E1B00DF3DEA /* PYCountDownTableViewCell.m in Sources */,
 				E33551D422447ED200AE6C3B /* AppDelegate.m in Sources */,
 				E36CF54C22489F7600C32DEC /* NSString+FiltrateRuler.m in Sources */,
@@ -1377,13 +1501,17 @@
 				E3F3708722802C6400633B66 /* YYTextRunDelegate.m in Sources */,
 				E3F3708822802C6400633B66 /* YYTextParser.m in Sources */,
 				E3FFC16D2293D2AD00069463 /* BaseProxyWeakHandler.m in Sources */,
+				E32F938C22CC57DB00723F56 /* BaseTextView.m in Sources */,
 				E301CCE12265C218000F024F /* BaseTableTestCell1.m in Sources */,
 				E32AC6872244DC4D007BD4D3 /* BaseFont.m in Sources */,
 				E3FFC1682293D2AD00069463 /* Animater.m in Sources */,
 				E3F3709122802C6400633B66 /* UIView+YYText.m in Sources */,
 				E3619E8D226449C600F2E1E1 /* MainTableViewCell.m in Sources */,
+				E37200F422CB42CC005638BB /* BaseDebugNetWorkCommon.m in Sources */,
 				E3F3708922802C6400633B66 /* YYTextAttribute.m in Sources */,
+				E36C8B4A22CB0AA30021A2CC /* DebugNetWorkSearchTableView.m in Sources */,
 				E3F3707E22802C6400633B66 /* YYTextContainerView.m in Sources */,
+				E311E47322C70557000FF903 /* BaseDebugNetWorkModelHandler.m in Sources */,
 				E3DE08F8226438E300904AC7 /* BaseTableViewDelegate.m in Sources */,
 				E3EEDF36229E814200DF3DEA /* PresentDemoViewController.m in Sources */,
 				E3FFC16F2293D2AD00069463 /* BasePresentViewController.m in Sources */,

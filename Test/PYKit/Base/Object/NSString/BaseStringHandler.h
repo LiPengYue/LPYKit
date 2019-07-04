@@ -13,6 +13,12 @@ NS_ASSUME_NONNULL_BEGIN
 @interface BaseStringHandler : NSObject
 
 + (BaseStringHandler *(^)(id str)) handler;
+
+/// 如果当前 str为nil。则替换为defaultStr
+- (BaseStringHandler *(^)(NSString *defaultStr)) setDefaultIfNull;
+
++ (BaseStringHandler *(^)(id str, NSString *defaultStr)) handlerWithDefault;
+
 - (NSString *) getStr;
 
 
@@ -109,7 +115,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 //判断是否为浮点形：
 - (BOOL)isPureFloat;
-
+- (BOOL) isNumber;
 @end
 
 NS_ASSUME_NONNULL_END

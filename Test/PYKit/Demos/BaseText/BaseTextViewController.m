@@ -62,7 +62,7 @@ static inline UIColor * RGBHEX(long value) {
 - (void) setupTextLabel2 {
     CGFloat w = self.view.frame.size.width - 20;
     CGFloat y = CGRectGetMaxY(self.textLabel.frame);
-    __weak typeof(self) weakSelf = self;
+    
     self.textLabel2.attributedText =
     BaseAttributedStrHandler
     .handle(@"删除线字符串")
@@ -71,9 +71,22 @@ static inline UIColor * RGBHEX(long value) {
     .append(
             BaseAttributedStrHandler
             .handle(@"下划线")
-            .setUpStrikethrough(NSAttStrChangeStyleLineStyleEnum_Single,UIColor.redColor,NULL)
+            .setUpStrikethrough(
+                                NSAttStrChangeStyleLineStyleEnum_Single,
+                                UIColor.redColor,
+                                NULL
+                                )
             .setUpFont(BaseFont.fontSCR(22))
-            )
+            );
+    self.textLabel2.attributedText =
+    BaseAttributedStrHandler
+    .handle(@"下划线")
+    .setUpStrikethrough(
+                        NSAttStrChangeStyleLineStyleEnum_Single,
+                        UIColor.redColor,
+                        NULL
+                        )
+    .setUpFont(BaseFont.fontSCR(22))
     .appendStr(
                BaseImageHandler
                .handle(@"1")
@@ -81,16 +94,40 @@ static inline UIColor * RGBHEX(long value) {
                .setUpYWithFont(BaseFont.fontSCR(22))
                .getImageStr
                )
-    .append(
-            BaseAttributedStrHandler
-            .handle(@"据传输双方在每次交互时声明各自的")
-            .setUpColor(UIColor.blackColor)
-            .setUpFont(BaseFont.fontSCR(20))
-            )
     .str;
+//    .append(
+//            BaseAttributedStrHandler
+//            .handle(@"据传输双方在每次交互时声明各自的")
+//            .setUpColor(UIColor.blackColor)
+//            .setUpFont(BaseFont.fontSCR(20))
+//            )
+//    .str;
     
     CGFloat h = [_textLabel2.attributedText getHeightWithWidth:w];
     self.textLabel2.frame = CGRectMake(10, y + 10, w, h);
+    
+    
+    NSMutableAttributedString *attriButedStr = [[NSMutableAttributedString alloc]initWithString:@"删除线"];
+    NSDictionary *attris = @{
+                          NSStrikethroughStyleAttributeName :  @(NSUnderlineStyleSingle),
+                          NSStrikethroughColorAttributeName : UIColor.redColor,
+                          NSBaselineOffsetAttributeName : @(0),
+                          NSFontAttributeName:BaseFont.fontSCR(20),
+                          };
+    NSRange range =  NSMakeRange(0, attriButedStr.length);
+    [attriButedStr addAttributes:attris range:range];
+    
+    NSTextAttachment *imageAttach = [[NSTextAttachment alloc]init];
+    imageAttach.image = [UIImage imageNamed:@"1"];
+    CGFloat imageW = 30;
+    CGFloat imageH = 32;
+    CGFloat imageY = (BaseFont.fontSCR(20).capHeight - imageH)/2;
+    imageAttach.bounds = CGRectMake(0,imageY, imageW, imageH);
+    NSAttributedString *imageStr = [NSMutableAttributedString attributedStringWithAttachment:imageAttach];
+    
+    [attriButedStr appendAttributedString:imageStr];
+    _textLabel.attributedText = attriButedStr;
+    
 }
 
 - (void) setupTextLabel3 {
@@ -163,7 +200,6 @@ static inline UIColor * RGBHEX(long value) {
             
             [handler setupInRange:obj.rangeValue andCallBack:^(BaseAttributedStrHandler *attributedStr) {
                 __block BaseAttributedStrHandler *handlerHighligh = BaseAttributedStrHandler.handle(@"");
-//                [attributedStr.str.string ]
                 [attributedStr.str.string enumerateSubstringsInRange:NSMakeRange(0, attributedStr.str.string.length) options:NSStringEnumerationByComposedCharacterSequences usingBlock:^(NSString * _Nullable substring, NSRange substringRange, NSRange enclosingRange, BOOL * _Nonnull stop) {
                     BaseAttributedStrHandler *lineHandler = BaseAttributedStrHandler.handle(substring);
                     if (lineHandler.isPureInt || lineHandler.isPureFloat) {

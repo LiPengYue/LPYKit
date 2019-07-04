@@ -18,6 +18,7 @@
 #import "BaseNavigationBarView.h"
 #import "ScrollViewPanDirectionHandler.h"
 
+#import "UIView+ChangeFrame.h"
 NS_ASSUME_NONNULL_BEGIN
 
 @interface BaseViewHeaders : NSObject

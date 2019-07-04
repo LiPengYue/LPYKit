@@ -16,6 +16,20 @@
 @end
 
 @implementation BaseStringHandler
+
++ (BaseStringHandler *(^)(id str, NSString *defaultStr)) handlerWithDefault {
+    return ^(id str, NSString *defaultStr) {
+        BaseStringHandler *handler = BaseStringHandler.handler(str);
+        if (defaultStr.length <= 0) {
+            defaultStr = @"";
+        }
+        if (handler.str.length <= 0) {
+            handler.str = defaultStr;
+        }
+        return handler;
+    };
+}
+
 + (BaseStringHandler *(^)(id str)) handler {
     return ^(id str) {
         BaseStringHandler *handler = [BaseStringHandler new];
@@ -30,6 +44,15 @@
         }
         handler.str = str;
         return handler;
+    };
+}
+
+- (BaseStringHandler *(^)(NSString *defaultStr)) setDefaultIfNull {
+    return ^(NSString *defaultStr) {
+        if (self.str.length <= 0) {
+            self.str = BaseStringHandler.handler(defaultStr).str;
+        }
+        return self;
     };
 }
 
@@ -261,4 +284,16 @@
     float val;
     return[scan scanFloat:&val] && [scan isAtEnd];
 }
+
+/// 是否为数字
+- (BOOL) isNumber
+{
+    if (self.str.length <= 0) {
+        return NO;
+    }
+    NSString *regex = @"[0-9]*";
+    NSPredicate *pred = [NSPredicate predicateWithFormat:@"SELF MATCHES %@",regex];
+    return [pred evaluateWithObject:self.str];
+}
+
 @end
