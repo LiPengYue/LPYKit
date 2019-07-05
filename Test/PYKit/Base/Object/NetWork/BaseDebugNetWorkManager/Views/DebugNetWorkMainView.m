@@ -8,11 +8,15 @@
 
 #import "DebugNetWorkMainView.h"
 #import "DebugNetWorkTableView.h"
+#import "DebugNetWorkSearchView.h"
+#import "BaseObjectHeaders.h"
+#import "BaseViewHeaders.h"
+#import "BaseSize.h"
+
 
 @interface DebugNetWorkMainView()
 
 @property (nonatomic,strong) BaseDebugNetWorkDataStepModel *model;
-
 @end
 
 
@@ -24,13 +28,13 @@
     self = [super initWithFrame:frame];
     if (self) {
         [self setupSubViewsFunc];
+        self.tableView.frame = self.bounds;
     }
     return self;
 }
 
 #pragma mark - func
 // MARK: reload data
-
 
 // MARK: handle views
 - (void) setupSubViewsFunc {
@@ -40,6 +44,10 @@
 // MARK: handle event
 - (void) registerEventsFunc {
     
+}
+
+- (void) scrollToModel: (BaseDebugNetWorkDataStepModel *)model {
+    [self.tableView scrollToModel:model];
 }
 
 // MARK: get && set
@@ -69,9 +77,14 @@
     return self.model;
 }
 
+- (void)setIsAccurateSearch:(BOOL)isAccurateSearch {
+    _isAccurateSearch = isAccurateSearch;
+    self.tableView.isAccurateSearch = isAccurateSearch;
+}
+
 - (void)layoutSubviews {
     [super layoutSubviews];
-    self.tableView.frame = self.bounds;
+//
 }
 
 @end

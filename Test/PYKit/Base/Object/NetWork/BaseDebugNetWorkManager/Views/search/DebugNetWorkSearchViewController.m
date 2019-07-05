@@ -23,8 +23,8 @@
     [self setupViews];
     [self registerEvents];
 }
-// MARK: - init
 
+// MARK: - init
 
 #pragma mark - func
 
@@ -58,15 +58,16 @@
     .getStr;
     
 }
+
 - (DebugNetWorkSearchTableView *)tableView {
     if (!_tableView) {
         _tableView = [[DebugNetWorkSearchTableView alloc]initWithFrame:CGRectZero];
     }
     return _tableView;
 }
+
 // MARK: systom functions
 
 // MARK:life cycles
-
 
 @end

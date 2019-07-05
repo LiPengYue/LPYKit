@@ -68,6 +68,19 @@
     }
 }
 
+- (void) setUpBackgroundColorWithIsSearchResultColor: (BOOL)isSearchResult andIsCurrentSearchResult: (BOOL) isCurrentSearchResult {
+    UIColor *color;
+    if (!isSearchResult) {
+        CGFloat colorItem = (self.model.level * 0.02);
+        colorItem = MIN(0.9 + colorItem, 1);
+        color = [UIColor colorWithRed:colorItem green:colorItem blue:colorItem alpha:1];
+    }else{
+        
+        color = isCurrentSearchResult ? cellBackgroundCurrentSearchColor : cellBackgroundSearchReslutColor;
+    }
+    self.contentView.backgroundColor = color;
+}
+
 - (void) setupBackgroundColor {
     UIColor *color;
     if (self.isSearchReslutCell) {

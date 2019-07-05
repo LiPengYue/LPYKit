@@ -18,6 +18,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 - (NSMutableArray <BaseDebugNetWorkDataStepModel *>*) searchAndOpenAllWithKey: (NSString *)key;
+
+@property (nonatomic,assign) BOOL isAccurateSearch;
+
+- (void) scrollToModel: (BaseDebugNetWorkDataStepModel *)model;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -23,6 +23,8 @@ static NSString *const kDebugNetWorkTableViewCell_doubleTapAction = @"kDebugNetW
 /// 是否为搜索结果的cell，如果是则背景色变成
 @property (nonatomic,assign) BOOL isSearchReslutCell;
 
+- (void) setUpBackgroundColorWithIsSearchResultColor: (BOOL)iSearchResult andIsCurrentSearchResult: (BOOL) isCurrentSearchResult;
+
 /// 单击事件
 @property (nonatomic,copy) void(^singleTapBlock)(DebugNetWorkTableViewCell *cell, NSIndexPath *indexPath);
 

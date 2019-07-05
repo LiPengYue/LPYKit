@@ -13,6 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface DebugNetWorkSearchViewController : BaseDebugNetWorkViewController
 @property (nonatomic,strong) NSArray <BaseDebugNetWorkDataStepModel *>*searchResult;
+@property (nonatomic,strong) BaseDebugNetWorkDataStepModel *currentSearchModel;
 @end
 
 NS_ASSUME_NONNULL_END

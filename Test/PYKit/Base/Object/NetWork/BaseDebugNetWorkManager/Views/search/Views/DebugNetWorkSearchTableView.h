@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface DebugNetWorkSearchTableView : BaseTableView
 @property (nonatomic,assign) BOOL isAutoClose;
+@property (nonatomic,assign) BOOL isAccurateSearch;
 @property (nonatomic,strong) NSArray <BaseDebugNetWorkDataStepModel *>*modelArray;
 @end
 

@@ -76,6 +76,9 @@
 		E36CF5B82248D3FD00C32DEC /* BaseNavigationBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = E36CF5B62248D3FD00C32DEC /* BaseNavigationBarView.m */; };
 		E37200F422CB42CC005638BB /* BaseDebugNetWorkCommon.m in Sources */ = {isa = PBXBuildFile; fileRef = E37200F322CB42CC005638BB /* BaseDebugNetWorkCommon.m */; };
 		E37200F722CB50A4005638BB /* BaseDebugNetWorkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E37200F622CB50A4005638BB /* BaseDebugNetWorkViewController.m */; };
+		E39D427522CE031C00E2A05B /* DebugNetWorkSearchView.m in Sources */ = {isa = PBXBuildFile; fileRef = E39D427422CE031C00E2A05B /* DebugNetWorkSearchView.m */; };
+		E39D427822CF306D00E2A05B /* DebugNetWorkSearchResultTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = E39D427722CF306D00E2A05B /* DebugNetWorkSearchResultTableView.m */; };
+		E39D427C22CF35EB00E2A05B /* DebugNetWorkSearchResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E39D427B22CF35EB00E2A05B /* DebugNetWorkSearchResultViewController.m */; };
 		E3A9A9E8224B743800CEC939 /* BaseNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3A9A9E7224B743800CEC939 /* BaseNavigationController.m */; };
 		E3A9A9EC224B81E100CEC939 /* ScrollViewPanDirectionHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = E3A9A9EA224B81E100CEC939 /* ScrollViewPanDirectionHandler.m */; };
 		E3A9A9F1224B92D400CEC939 /* BaseDebugNetWorkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E3A9A9F0224B92D400CEC939 /* BaseDebugNetWorkManager.m */; };
@@ -295,6 +298,12 @@
 		E37200F322CB42CC005638BB /* BaseDebugNetWorkCommon.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseDebugNetWorkCommon.m; sourceTree = "<group>"; };
 		E37200F522CB50A4005638BB /* BaseDebugNetWorkViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseDebugNetWorkViewController.h; sourceTree = "<group>"; };
 		E37200F622CB50A4005638BB /* BaseDebugNetWorkViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseDebugNetWorkViewController.m; sourceTree = "<group>"; };
+		E39D427322CE031C00E2A05B /* DebugNetWorkSearchView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DebugNetWorkSearchView.h; sourceTree = "<group>"; };
+		E39D427422CE031C00E2A05B /* DebugNetWorkSearchView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DebugNetWorkSearchView.m; sourceTree = "<group>"; };
+		E39D427622CF306D00E2A05B /* DebugNetWorkSearchResultTableView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DebugNetWorkSearchResultTableView.h; sourceTree = "<group>"; };
+		E39D427722CF306D00E2A05B /* DebugNetWorkSearchResultTableView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DebugNetWorkSearchResultTableView.m; sourceTree = "<group>"; };
+		E39D427A22CF35EB00E2A05B /* DebugNetWorkSearchResultViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DebugNetWorkSearchResultViewController.h; sourceTree = "<group>"; };
+		E39D427B22CF35EB00E2A05B /* DebugNetWorkSearchResultViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DebugNetWorkSearchResultViewController.m; sourceTree = "<group>"; };
 		E3A9A9E6224B743800CEC939 /* BaseNavigationController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseNavigationController.h; sourceTree = "<group>"; };
 		E3A9A9E7224B743800CEC939 /* BaseNavigationController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseNavigationController.m; sourceTree = "<group>"; };
 		E3A9A9EA224B81E100CEC939 /* ScrollViewPanDirectionHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScrollViewPanDirectionHandler.m; sourceTree = "<group>"; };
@@ -762,6 +771,8 @@
 				E3A9A9F9224B9A8200CEC939 /* DebugNetWorkTableViewCell.m */,
 				E36C8B3C22C9A6DD0021A2CC /* DebugNetWorkMainView.h */,
 				E36C8B3D22C9A6DD0021A2CC /* DebugNetWorkMainView.m */,
+				E39D427322CE031C00E2A05B /* DebugNetWorkSearchView.h */,
+				E39D427422CE031C00E2A05B /* DebugNetWorkSearchView.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -780,6 +791,8 @@
 		E36C8B4322CB097A0021A2CC /* search */ = {
 			isa = PBXGroup;
 			children = (
+				E39D427A22CF35EB00E2A05B /* DebugNetWorkSearchResultViewController.h */,
+				E39D427B22CF35EB00E2A05B /* DebugNetWorkSearchResultViewController.m */,
 				E36C8B4422CB09B30021A2CC /* DebugNetWorkSearchViewController.h */,
 				E36C8B4522CB09B30021A2CC /* DebugNetWorkSearchViewController.m */,
 				E36C8B4722CB0A790021A2CC /* Views */,
@@ -794,6 +807,8 @@
 				E36C8B4922CB0AA30021A2CC /* DebugNetWorkSearchTableView.m */,
 				E36C8B4B22CB0C220021A2CC /* DebugNetWorkSearchTableViewHeaderView.h */,
 				E36C8B4C22CB0C220021A2CC /* DebugNetWorkSearchTableViewHeaderView.m */,
+				E39D427622CF306D00E2A05B /* DebugNetWorkSearchResultTableView.h */,
+				E39D427722CF306D00E2A05B /* DebugNetWorkSearchResultTableView.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1440,6 +1455,7 @@
 				E3FFC16C2293D2AD00069463 /* BaseAnimationHandler.m in Sources */,
 				E3619E892264495700F2E1E1 /* MainView.m in Sources */,
 				E3F3708622802C6400633B66 /* YYLabel.m in Sources */,
+				E39D427822CF306D00E2A05B /* DebugNetWorkSearchResultTableView.m in Sources */,
 				E3F3708222802C6400633B66 /* YYTextLine.m in Sources */,
 				E36CF55422489F7600C32DEC /* BaseAttriButedStrHandler+ChangeStyle.m in Sources */,
 				E36CF57F2248B2C000C32DEC /* BaseImageHandler+ChangeColor.m in Sources */,
@@ -1494,6 +1510,7 @@
 				E301CCFB2265CBAD000F024F /* BaseTableTestCell3.m in Sources */,
 				E36C8B4D22CB0C220021A2CC /* DebugNetWorkSearchTableViewHeaderView.m in Sources */,
 				E3EEDF43229E9E1B00DF3DEA /* PYCountDownTableViewCell.m in Sources */,
+				E39D427C22CF35EB00E2A05B /* DebugNetWorkSearchResultViewController.m in Sources */,
 				E33551D422447ED200AE6C3B /* AppDelegate.m in Sources */,
 				E36CF54C22489F7600C32DEC /* NSString+FiltrateRuler.m in Sources */,
 				E36CF5852248B3B200C32DEC /* NSObject+T.m in Sources */,
@@ -1520,6 +1537,7 @@
 				E3FFC16B2293D2AD00069463 /* BasePresentAnimationHandler.m in Sources */,
 				E3F3708B22802C6400633B66 /* YYTextRubyAnnotation.m in Sources */,
 				E36CF55022489F7600C32DEC /* BaseAttriButedStrHandler.m in Sources */,
+				E39D427522CE031C00E2A05B /* DebugNetWorkSearchView.m in Sources */,
 				E36CF51C22487FCB00C32DEC /* ViewShadowConfigration.m in Sources */,
 				E36CF54F22489F7600C32DEC /* NSString+StringHandler.m in Sources */,
 				E3A9A9F1224B92D400CEC939 /* BaseDebugNetWorkManager.m in Sources */,

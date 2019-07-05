@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface DebugNetWorkDataViewController : BaseDebugNetWorkViewController
+@interface DebugNetWorkDataViewController : BaseViewController
 
 - (void) reloadDataWithID: (id)data;
 

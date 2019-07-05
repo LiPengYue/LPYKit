@@ -8,7 +8,9 @@
 
 
 #import "BaseDebugNetWorkDataStepModel.h"
+#import "BaseDebugNetWorkCommon.h"
 #import "BaseStringHandler.h"
+#import "BaseAttriButedStrHandler+ChangeStyle.h"
 #import "BaseDebugNetWorkManager.h"
 @implementation BaseDebugNetWorkDataStepModel
 - (instancetype)init
@@ -310,4 +312,158 @@
     _count = [self getCount:0];
 }
 
+- (NSString *) getTreeLayer {
+    NSMutableArray <BaseDebugNetWorkDataStepModel *>*arrayM = [NSMutableArray new];
+    
+    BaseDebugNetWorkDataStepModel *modelTemp = self;
+    
+    while (1) {
+        [arrayM addObject:modelTemp];
+        if (modelTemp.superPoint == nil) {
+            break;
+        }
+        modelTemp = modelTemp.superPoint;
+    }
+    
+    BaseStringHandler *handler = BaseStringHandler.handler(@"");
+    for (NSInteger i = arrayM.count-1; i >= 0; i--) {
+      BaseDebugNetWorkDataStepModel *model = arrayM[i];
+        if(model.superPoint) {
+            handler.addObjc(@"→");
+        }
+        switch (model.type) {
+                
+            case BaseDebugNetWorkDataStepModelType_Dictionary: {
+                NSString *key = model.key;
+                if (key.length <= 0) {
+                    key = @"obj";
+                }
+                handler
+                .addObjc(key)
+                .setDefaultIfNull(@"obj")
+                .addObjc(@"{")
+                .addInt(model.count)
+                .addObjc(@"}");
+            }
+                break;
+            case BaseDebugNetWorkDataStepModelType_Array: {
+                NSString *key = model.key;
+                if (key.length <= 0) {
+                    key = @"obj";
+                }
+                handler
+                .addObjc(key)
+                .setDefaultIfNull(@"arr")
+                .addObjc(@"[")
+                .addInt(model.count)
+                .addObjc(@"]");
+            }
+                break;
+            case BaseDebugNetWorkDataStepModelType_Number:
+            case BaseDebugNetWorkDataStepModelType_String:
+                handler
+                .addObjc(model.key)
+                .addObjc(@":")
+                .addObjc(model.data);
+                break;
+        }
+    }
+    return handler.getStr;
+}
+
+- (NSAttributedString *)getTreeLayerAttriStr {
+    NSMutableArray <BaseDebugNetWorkDataStepModel *>*arrayM = [NSMutableArray new];
+    
+    BaseDebugNetWorkDataStepModel *modelTemp = self;
+    
+    while (1) {
+        [arrayM addObject:modelTemp];
+        if (modelTemp.superPoint == nil) {
+            break;
+        }
+        modelTemp = modelTemp.superPoint;
+    }
+    
+     BaseAttributedStrHandler*handler = BaseAttributedStrHandler.handle(@"");
+    for (NSInteger i = arrayM.count-1; i >= 0; i--) {
+        BaseDebugNetWorkDataStepModel *model = arrayM[i];
+        if(model.superPoint) {
+//            handler.addObjc(@"→");
+            handler.append(
+                           BaseAttributedStrHandler
+                           .handle(@"→")
+                           );
+        }
+        switch (model.type) {
+                
+            case BaseDebugNetWorkDataStepModelType_Dictionary: {
+                NSString *key = model.key;
+                if (key.length <= 0) {
+                    key = @"obj";
+                }
+              
+                key =
+                BaseStringHandler
+                .handler(key)
+                .addObjc(@"{")
+                .addInt(model.count)
+                .addObjc(@"}")
+                .getStr;
+                
+                handler
+                .append(
+                        BaseAttributedStrHandler
+                        .handle(key)
+                        );
+                handler
+                .setUpColor(normalColor);
+            }
+                break;
+            case BaseDebugNetWorkDataStepModelType_Array: {
+                NSString *key = model.key;
+                if (key.length <= 0) {
+                    key = @"array";
+                }
+                key =
+                BaseStringHandler
+                .handler(key)
+                .addObjc(@"[")
+                .addInt(model.count)
+                .addObjc(@"]")
+                .getStr;
+                
+                handler
+                .append(
+                        BaseAttributedStrHandler
+                        .handle(key)
+                        );
+                
+                handler
+                .setUpColor(normalColor);
+            }
+                break;
+            case BaseDebugNetWorkDataStepModelType_Number:
+            case BaseDebugNetWorkDataStepModelType_String:
+                handler
+                .append(
+                    BaseAttributedStrHandler
+                        .handle(BaseStringHandler.handler(@"\n").addObjc(model.key))
+                        .setUpColor(searchResultCellKeyColor)
+                )
+                .append(
+                        BaseAttributedStrHandler
+                        .handle(@":")
+                        .setUpColor(normalColor)
+                )
+                .append(
+                BaseAttributedStrHandler
+                        .handle(model.data)
+                        .setUpColor(BaseDebugNetWorkDataStepModelType_Number == model.type ? numberColor : stringColor)
+                        );
+                break;
+        }
+    }
+    handler.setUpFont(BaseFont.fontSCR(12));
+    return handler.str;
+}
 @end

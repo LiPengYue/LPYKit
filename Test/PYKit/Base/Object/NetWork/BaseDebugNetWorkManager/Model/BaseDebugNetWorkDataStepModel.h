@@ -95,6 +95,11 @@ typedef enum : NSUInteger {
  */
 - (NSArray <BaseDebugNetWorkDataStepModel *>*) faltSelfDataIfOpen;
 
+/// 到self的视图结构
+- (NSString *) getTreeLayer;
+
+- (NSAttributedString *)getTreeLayerAttriStr;
+
 @end
 
 NS_ASSUME_NONNULL_END

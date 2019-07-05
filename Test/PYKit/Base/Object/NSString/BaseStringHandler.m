@@ -87,7 +87,7 @@
  */
 - (BaseStringHandler *(^)(NSInteger value)) addInt {
     return ^(NSInteger value) {
-        self.str = [NSString stringWithFormat:@"%ld",(long)value];
+        self.str = [NSString stringWithFormat:@"%@%ld",self.str,(long)value];
         return self;
     };
 }

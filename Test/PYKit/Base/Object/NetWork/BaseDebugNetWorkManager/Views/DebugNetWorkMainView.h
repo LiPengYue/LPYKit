@@ -30,6 +30,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,copy) BaseDebugNetWorkDataModel *(^searchBlock)(NSString *searchKey);
 
 @property (nonatomic,strong) DebugNetWorkTableView *tableView;
+
+@property (nonatomic,assign) BOOL isAccurateSearch;
+
+- (void) scrollToModel: (BaseDebugNetWorkDataStepModel *)model;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -10,6 +10,11 @@
 #import "DebugNetWorkTableView.h"
 #import "DebugNetWorkTableViewCell.h"
 #import "BaseObjectHeaders.h"
+#import "DebugNetWorkSearchView.h"
+#import "BaseObjectHeaders.h"
+#import "BaseViewHeaders.h"
+#import "BaseSize.h"
+
 static NSString *const kDebugNetWorkTableViewCellId = @"kDebugNetWorkTableViewCellId";
 
 @interface DebugNetWorkTableView()
@@ -22,6 +27,7 @@ UITableViewDataSource
 @property (nonatomic,strong) BaseDebugNetWorkDataStepModel *currentSearchModel;
 @property (nonatomic,strong) NSMutableArray <BaseDebugNetWorkDataStepModel*>* searchResultModelArray;
 @end
+
 @implementation DebugNetWorkTableView
 - (instancetype)initWithFrame:(CGRect)frame style:(UITableViewStyle)style {
     if (self = [super initWithFrame:frame style:style]) {
@@ -45,6 +51,21 @@ UITableViewDataSource
     return _modelArray;
 }
 
+- (void) scrollToModel: (BaseDebugNetWorkDataStepModel *)model {
+    NSInteger row = [self.modelArray indexOfObject:model];
+    if (row > self.modelArray.count) {
+        return;
+    }
+    if (row < 0) {
+        return;
+    }
+    self.currentSearchModel = model;
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:0];
+    [self reloadData];
+    [self scrollToRowAtIndexPath:indexPath  atScrollPosition:UITableViewScrollPositionTop animated:true];
+   
+}
+
 // MARK: - get && set
 - (void)setModel:(BaseDebugNetWorkDataStepModel *)model {
     _model = model;
@@ -59,13 +80,16 @@ UITableViewDataSource
     NSMutableArray <BaseDebugNetWorkDataStepModel *>*arrayM = [NSMutableArray new];
     if (key.length > 0) {
         [self.modelArray enumerateObjectsUsingBlock:^(BaseDebugNetWorkDataStepModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            if ([obj.key containsString:key]) {
+            BOOL isTrue = self.isAccurateSearch ? [obj.key isEqualToString:key]: [obj.key containsString:key];
+            if (isTrue) {
                 [arrayM addObject:obj];
-            }
-            if ([obj.data isKindOfClass:NSString.class]) {
-                NSString *data = obj.data;
-                if ([data containsString:key]) {
-                    [arrayM addObject:obj];
+            }else{
+                if ([obj.data isKindOfClass:NSString.class]) {
+                    NSString *data = obj.data;
+                    BOOL isTrue = self.isAccurateSearch ? [data isEqualToString:key]: [data containsString:key];
+                    if (isTrue) {
+                        [arrayM addObject:obj];
+                    }
                 }
             }
         }];
@@ -95,8 +119,10 @@ UITableViewDataSource
     id cellAny = [tableView dequeueReusableCellWithIdentifier:kDebugNetWorkTableViewCellId forIndexPath:indexPath];
     if ([cellAny isKindOfClass:DebugNetWorkTableViewCell.class]) {
         DebugNetWorkTableViewCell *cell = cellAny;
-        cell.isSearchReslutCell = [self.searchResultModelArray containsObject:self.modelArray[indexPath.row]];
         cell.model = self.modelArray[indexPath.row];
+        BOOL isSearchReulst = [self.searchResultModelArray containsObject:self.modelArray[indexPath.row]];
+        BOOL isCurrentSearchResult = [cell.model isEqual:self.currentSearchModel];
+        [cell setUpBackgroundColorWithIsSearchResultColor:isSearchReulst andIsCurrentSearchResult: isCurrentSearchResult];
         
         [self registerCellEventsWithCell: cell];
         

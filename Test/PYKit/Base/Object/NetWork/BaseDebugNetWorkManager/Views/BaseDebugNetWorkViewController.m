@@ -47,13 +47,7 @@ UITextFieldDelegate
 }
 
 - (void) baseReloadNaviTitle {
-    
-//    self.navBarView.addRightItemWithTitleAndImg(@"展开全部",nil);
     [self.navBarView reloadView];
-//    [self.navBarView.rightItems enumerateObjectsUsingBlock:^(UIButton * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-//        obj.layer.masksToBounds = true;
-//        obj.layer.cornerRadius = obj.height/2.0f;
-//    }];
 }
 
 - (void)setTitleStr:(NSString *)titleStr {
@@ -93,43 +87,47 @@ UITextFieldDelegate
     }
 }
 
-- (void)setSearchResultCount:(NSInteger)searchResultCount {
-    _searchResultCount = searchResultCount;
-    
-}
 - (void) setupPanHandlerEvent {
     __weak typeof (self) weakSelf = self;
     self.panHandler.up = ^{
+        
+        [weakSelf hiddenTopSearchView];
         [UIView animateWithDuration:0.25 animations:^{
             weakSelf.animationView.top = BaseSize.statusBarH;
             weakSelf.animationView.height = BaseSize.screenH - BaseSize.statusBarH;
             weakSelf.navBarView.bottom = weakSelf.view.top;
         }];
-        [weakSelf hiddenTopSearchView];
     };
     self.panHandler.down = ^{
+        
+        if (weakSelf.navBarView.titleButton.isSelected) {
+            [weakSelf showTopSearchView];
+        }
+        
         [UIView animateWithDuration:0.25 animations:^{
             weakSelf.navBarView.top = weakSelf.view.top;
             weakSelf.animationView.top = weakSelf.navBarView.titleButton.selected ? weakSelf.topMenuView.bottom : weakSelf.navBarView.bottom;
             weakSelf.animationView.height = BaseSize.screen_navH;
         }];
-        [weakSelf showTopSearchView];
     };
 }
 
 - (void) hiddenTopSearchView {
-    self.navBarView.titleButton.selected = false;
+//    self.navBarView.titleButton.selected = false;
     [self.view endEditing:true];
     [UIView animateWithDuration:0.2 animations:^{
         self.topMenuView.bottom = self.navBarView.top;
+        self.animationView.top = self.navBarView.bottom;
     }];
+    self.animationView.height = BaseSize.screenH - self.animationView.top;
 }
 
 - (void) showTopSearchView {
-    self.navBarView.titleButton.selected = true;
     [UIView animateWithDuration:0.2 animations:^{
         self.topMenuView.top = self.navBarView.bottom;
+        self.animationView.top = self.topMenuView.bottom;
     }];
+    self.animationView.height = BaseSize.screenH - self.animationView.top;
 }
 // MARK: - get set
 
@@ -166,6 +164,7 @@ UITextFieldDelegate
         
         [_topMenuView addSubview:self.searchTextView];
         [_topMenuView addSubview:self.textFildBottomButton];
+        
         self.searchTextView.top = 10;
         self.searchTextView.left = 12;
         self.searchTextView.width = _topMenuView.width-24;
@@ -175,6 +174,11 @@ UITextFieldDelegate
         self.textFildBottomButton.width = self.searchTextView.right;
         self.textFildBottomButton.height = 15;
 
+        // 查看概览
+        self.showResultVc.top = self.textFildBottomButton.bottom;
+        
+        
+        
         _topMenuView.height = self.textFildBottomButton.bottom + 10;
     }
     return _topMenuView;
@@ -185,6 +189,7 @@ UITextFieldDelegate
         _searchTextView = [[UITextField alloc]init];
         _searchTextView.delegate = self;
         _searchTextView.textColor = leftTitleColor;
+        _searchTextView.returnKeyType = UIReturnKeySearch;
         _searchTextView.clearButtonMode = UITextFieldViewModeWhileEditing;
         _searchTextView.leftView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 10, 10)];
         _searchTextView.placeholder = @"输入搜索内容";
@@ -212,14 +217,23 @@ UITextFieldDelegate
 - (UIButton *) showResultVc {
     if (!_showResultVc) {
         _showResultVc = [UIButton new];
+        _showResultVc.height = 40;
+        _showResultVc.width = 60;
+        _showResultVc.layer.borderColor = normalColor.CGColor;
+        
         [_showResultVc setTitle:@"在上级页面显示结果" forState:UIControlStateNormal];
         
-        [_showResultVc setTitleColor:messageColor forState:UIControlStateNormal];
+        [_showResultVc setTitleColor:normalColor forState:UIControlStateNormal];
         
         [_showResultVc addTarget:self action:@selector(click_showResultWithTreeAction:) forControlEvents:UIControlEventTouchUpInside];
-        _showResultVc.layer.cornerRadius = 20;
+        
+        _showResultVc.layer.cornerRadius = 6;
         _showResultVc.layer.borderColor = messageColor.CGColor;
         _showResultVc.layer.borderWidth = 1;
+        
+        [_showResultVc setTitle:@"查看总览" forState:UIControlStateNormal];
+        _showResultVc.titleLabel.font = BaseFont.fontSCL(12);
+        
     }
     return _showResultVc;
 }
@@ -232,19 +246,25 @@ UITextFieldDelegate
 - (UIButton *) scrollToNext {
     if (!_scrollToNext) {
         _scrollToNext = [UIButton new];
+        _scrollToNext.width = 60;
+        _scrollToNext.height = 40;
         [_scrollToNext setTitle:@"下一个" forState:UIControlStateNormal];
         
-        [_scrollToNext setTitleColor:messageColor forState:UIControlStateNormal];
+        [_scrollToNext setTitleColor:normalColor forState:UIControlStateNormal];
         
         [_scrollToNext addTarget:self action:@selector(click_scrollToNextAction:) forControlEvents:UIControlEventTouchUpInside];
         _scrollToNext.layer.cornerRadius = 20;
         _scrollToNext.layer.borderColor = messageColor.CGColor;
         _scrollToNext.layer.borderWidth = 1;
+        
+        _scrollToNext.titleLabel.font = BaseFont.fontSCL(12);
     }
     return _scrollToNext;
 }
 
 - (void) click_scrollToNextAction:(UIButton *)button {
+//    button.selected = !button.selected;
+//    button.backgroundColor = button.selected ? messageColor : UIColor.whiteColor;
     if (self.clickNext) self.clickNext();
 }
 
@@ -252,6 +272,8 @@ UITextFieldDelegate
 - (UIButton *) scrollToFront {
     if (!_scrollToFront) {
         _scrollToFront = [UIButton new];
+        _scrollToFront.width = 60;
+        _scrollToFront.height = 40;
         [_scrollToFront setTitle:@"上一个" forState:UIControlStateNormal];
         
         [_scrollToFront setTitleColor:messageColor forState:UIControlStateNormal];
@@ -260,6 +282,7 @@ UITextFieldDelegate
         _scrollToFront.layer.cornerRadius = 20;
         _scrollToFront.layer.borderColor = messageColor.CGColor;
         _scrollToFront.layer.borderWidth = 1;
+        _scrollToFront.titleLabel.font = BaseFont.fontSCL(12);
     }
     return _scrollToFront;
 }
@@ -280,6 +303,26 @@ UITextFieldDelegate
     return _searchResultCountLabel;
 }
 
+- (void)setSearchResultCount:(NSInteger)searchResultCount {
+    _searchResultCount = searchResultCount;
+    NSString *str = @"";
+    
+    if (self.searchTextView.text.length > 0) {
+        str =
+        BaseStringHandler
+        .handler(@"搜索：“")
+        .addObjc(self.searchTextView.text)
+        .addObjc(@"”共 ")
+        .addInt(searchResultCount)
+        .addObjc(@" 个结果")
+        .getStr;
+    }else{
+        str = @"搜索...";
+    }
+    [self.textFildBottomButton setTitle:str forState:UIControlStateNormal];
+    
+}
+
 // MARK: - delegate
 
 - (void) changedTextField: (UITextField *)textField {
@@ -291,6 +334,8 @@ UITextFieldDelegate
         .handler(@"搜索：")
         .addObjc(textField.text)
         .getStr;
+    }else{
+        str = @"搜索...";
     }
     [self.textFildBottomButton setTitle:str forState:UIControlStateNormal];
     
@@ -308,6 +353,12 @@ UITextFieldDelegate
 }
 
 - (BOOL)textFieldShouldEndEditing:(UITextField *)textField {
+    return YES;
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    [self.view endEditing:false];
+    [self delayDidChangeText];
     return YES;
 }
 
