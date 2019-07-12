@@ -143,7 +143,8 @@
     [self.superPoint removeWithKey:self.key andModel:self];
 }
 
-- (id) parsingData {
+
+- (id)toDic {
     id data;
     switch (self.type) {
         case BaseJsonViewStepModelType_Dictionary: {
@@ -153,7 +154,7 @@
                 if ([obj isKindOfClass:BaseJsonViewStepModel.class]) {
                     BaseJsonViewStepModel *model = obj;
                     if (model.key > 0) {
-                        dicM[model.key] =  [model parsingData];
+                        dicM[model.key] =  [model toDic];
                     }
                 }
             }];
@@ -190,17 +191,6 @@
     }
     return data;
 }
-- (id)toDic {
-   
-    id data = [self parsingData];
-    if (self.key) {
-        NSMutableDictionary *dic = [NSMutableDictionary new];
-         dic[self.key] = data;
-        return dic;
-    }else{
-        return data;
-    }
-}
 
 
 - (id) selfDataSerialization {
@@ -211,7 +201,7 @@
         [array enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             if ([obj isKindOfClass:BaseJsonViewStepModel.class]) {
                 BaseJsonViewStepModel *model = obj;
-                [arrayM addObject:[model parsingData]];
+                [arrayM addObject:[model toDic]];
             }
         }];
         value = arrayM.copy;
@@ -559,15 +549,21 @@
 
 - (NSString *) conversionToJson {
     NSDictionary *dic = [self toDic];
-    return [BaseJsonViewStepModel convertToJsonData:dic];
+    NSMutableDictionary *dicM = [NSMutableDictionary new];
+    if (![dic isKindOfClass:NSDictionary.class]) {
+        if (self.key.length > 0) {
+            dicM[self.key] = dic;
+        }
+    }else{
+        dicM = dic.mutableCopy;
+    }
+    return [BaseJsonViewStepModel convertToJsonData:dicM];
 }
 
 + (NSString *)convertToJsonData:(id) value{
     NSError *error;
     if (!value) return nil;
-    if (![value isKindOfClass:NSDictionary.class]) {
-        return [NSString stringWithFormat:@"%@",value];
-    }
+    
     id jsonData = [NSJSONSerialization dataWithJSONObject:value options:NSJSONWritingPrettyPrinted error:&error];
     
     NSString *jsonString;
