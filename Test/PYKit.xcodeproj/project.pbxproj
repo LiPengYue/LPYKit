@@ -20,7 +20,7 @@
 		E301CCFB2265CBAD000F024F /* BaseTableTestCell3.m in Sources */ = {isa = PBXBuildFile; fileRef = E301CCF92265CBAD000F024F /* BaseTableTestCell3.m */; };
 		E301CCFC2265CBAD000F024F /* BaseTableTestCell3.xib in Resources */ = {isa = PBXBuildFile; fileRef = E301CCFA2265CBAD000F024F /* BaseTableTestCell3.xib */; };
 		E311E47322C70557000FF903 /* BaseDebugNetWorkModelHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = E311E47222C70557000FF903 /* BaseDebugNetWorkModelHandler.m */; };
-		E311E47922C71358000FF903 /* BaseDebugNetWorkDataStepModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E311E47822C71358000FF903 /* BaseDebugNetWorkDataStepModel.m */; };
+		E311E47922C71358000FF903 /* BaseJsonViewStepModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E311E47822C71358000FF903 /* BaseJsonViewStepModel.m */; };
 		E311E47D22C73CD1000FF903 /* UIView+ChangeFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = E311E47C22C73CD1000FF903 /* UIView+ChangeFrame.m */; };
 		E324933C225F42910061AED6 /* BaseAnimationProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = E3249336225F42910061AED6 /* BaseAnimationProxy.m */; };
 		E324933D225F42910061AED6 /* BasePointProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = E3249338225F42910061AED6 /* BasePointProgressView.m */; };
@@ -43,12 +43,10 @@
 		E3619E852264483900F2E1E1 /* BaseObjectHeaders.m in Sources */ = {isa = PBXBuildFile; fileRef = E3619E842264483900F2E1E1 /* BaseObjectHeaders.m */; };
 		E3619E892264495700F2E1E1 /* MainView.m in Sources */ = {isa = PBXBuildFile; fileRef = E3619E882264495700F2E1E1 /* MainView.m */; };
 		E3619E8D226449C600F2E1E1 /* MainTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E3619E8C226449C600F2E1E1 /* MainTableViewCell.m */; };
-		E363C69F22BCC29900DF4F04 /* BaseDebugNetWorkDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E363C69E22BCC29900DF4F04 /* BaseDebugNetWorkDataModel.m */; };
-		E36C8B3E22C9A6DD0021A2CC /* DebugNetWorkMainView.m in Sources */ = {isa = PBXBuildFile; fileRef = E36C8B3D22C9A6DD0021A2CC /* DebugNetWorkMainView.m */; };
-		E36C8B4122CA18FF0021A2CC /* DebugNetWorkDataViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E36C8B4022CA18FF0021A2CC /* DebugNetWorkDataViewController.m */; };
-		E36C8B4622CB09B30021A2CC /* DebugNetWorkSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E36C8B4522CB09B30021A2CC /* DebugNetWorkSearchViewController.m */; };
-		E36C8B4A22CB0AA30021A2CC /* DebugNetWorkSearchTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = E36C8B4922CB0AA30021A2CC /* DebugNetWorkSearchTableView.m */; };
-		E36C8B4D22CB0C220021A2CC /* DebugNetWorkSearchTableViewHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = E36C8B4C22CB0C220021A2CC /* DebugNetWorkSearchTableViewHeaderView.m */; };
+		E36C8B3E22C9A6DD0021A2CC /* BaseJsonViewMainView.m in Sources */ = {isa = PBXBuildFile; fileRef = E36C8B3D22C9A6DD0021A2CC /* BaseJsonViewMainView.m */; };
+		E36C8B4122CA18FF0021A2CC /* BaseJsonViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E36C8B4022CA18FF0021A2CC /* BaseJsonViewController.m */; };
+		E36C8B4A22CB0AA30021A2CC /* BaseJsonViewSearchResultTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = E36C8B4922CB0AA30021A2CC /* BaseJsonViewSearchResultTableView.m */; };
+		E36C8B4D22CB0C220021A2CC /* BaseJsonViewSearchResultTableViewHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = E36C8B4C22CB0C220021A2CC /* BaseJsonViewSearchResultTableViewHeaderView.m */; };
 		E36CF51922487F7400C32DEC /* BaseLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = E36CF51822487F7400C32DEC /* BaseLabel.m */; };
 		E36CF51C22487FCB00C32DEC /* ViewShadowConfigration.m in Sources */ = {isa = PBXBuildFile; fileRef = E36CF51B22487FCB00C32DEC /* ViewShadowConfigration.m */; };
 		E36CF51F2248835100C32DEC /* BaseViewHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = E36CF51E2248835100C32DEC /* BaseViewHandler.m */; };
@@ -74,17 +72,18 @@
 		E36CF5852248B3B200C32DEC /* NSObject+T.m in Sources */ = {isa = PBXBuildFile; fileRef = E36CF5832248B3B200C32DEC /* NSObject+T.m */; };
 		E36CF5862248B3B200C32DEC /* NSObject+SignalHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = E36CF5842248B3B200C32DEC /* NSObject+SignalHandler.m */; };
 		E36CF5B82248D3FD00C32DEC /* BaseNavigationBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = E36CF5B62248D3FD00C32DEC /* BaseNavigationBarView.m */; };
-		E37200F422CB42CC005638BB /* BaseDebugNetWorkCommon.m in Sources */ = {isa = PBXBuildFile; fileRef = E37200F322CB42CC005638BB /* BaseDebugNetWorkCommon.m */; };
-		E37200F722CB50A4005638BB /* BaseDebugNetWorkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E37200F622CB50A4005638BB /* BaseDebugNetWorkViewController.m */; };
-		E39D427522CE031C00E2A05B /* DebugNetWorkSearchView.m in Sources */ = {isa = PBXBuildFile; fileRef = E39D427422CE031C00E2A05B /* DebugNetWorkSearchView.m */; };
-		E39D427822CF306D00E2A05B /* DebugNetWorkSearchResultTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = E39D427722CF306D00E2A05B /* DebugNetWorkSearchResultTableView.m */; };
-		E39D427C22CF35EB00E2A05B /* DebugNetWorkSearchResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E39D427B22CF35EB00E2A05B /* DebugNetWorkSearchResultViewController.m */; };
+		E37200F422CB42CC005638BB /* BaseJsonViewCommon.m in Sources */ = {isa = PBXBuildFile; fileRef = E37200F322CB42CC005638BB /* BaseJsonViewCommon.m */; };
+		E39D427522CE031C00E2A05B /* BaseJsonViewSearchView.m in Sources */ = {isa = PBXBuildFile; fileRef = E39D427422CE031C00E2A05B /* BaseJsonViewSearchView.m */; };
+		E39D427822CF306D00E2A05B /* BaseJsonViewSearchResultListTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = E39D427722CF306D00E2A05B /* BaseJsonViewSearchResultListTableView.m */; };
+		E39D427C22CF35EB00E2A05B /* BaseJsonViewSearchResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E39D427B22CF35EB00E2A05B /* BaseJsonViewSearchResultViewController.m */; };
+		E39D428322D30D9F00E2A05B /* BaseJsonEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E39D428222D30D9F00E2A05B /* BaseJsonEditViewController.m */; };
+		E39D428622D30DB800E2A05B /* BaseJsonEditMainView.m in Sources */ = {isa = PBXBuildFile; fileRef = E39D428522D30DB800E2A05B /* BaseJsonEditMainView.m */; };
 		E3A9A9E8224B743800CEC939 /* BaseNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3A9A9E7224B743800CEC939 /* BaseNavigationController.m */; };
 		E3A9A9EC224B81E100CEC939 /* ScrollViewPanDirectionHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = E3A9A9EA224B81E100CEC939 /* ScrollViewPanDirectionHandler.m */; };
-		E3A9A9F1224B92D400CEC939 /* BaseDebugNetWorkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E3A9A9F0224B92D400CEC939 /* BaseDebugNetWorkManager.m */; };
+		E3A9A9F1224B92D400CEC939 /* BaseJsonViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E3A9A9F0224B92D400CEC939 /* BaseJsonViewManager.m */; };
 		E3A9A9F4224B98A900CEC939 /* DebugNetWorkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3A9A9F3224B98A900CEC939 /* DebugNetWorkViewController.m */; };
-		E3A9A9F7224B99D000CEC939 /* DebugNetWorkTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = E3A9A9F6224B99D000CEC939 /* DebugNetWorkTableView.m */; };
-		E3A9A9FA224B9A8200CEC939 /* DebugNetWorkTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E3A9A9F9224B9A8200CEC939 /* DebugNetWorkTableViewCell.m */; };
+		E3A9A9F7224B99D000CEC939 /* BaseJsonViewTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = E3A9A9F6224B99D000CEC939 /* BaseJsonViewTableView.m */; };
+		E3A9A9FA224B9A8200CEC939 /* BaseJsonViewTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E3A9A9F9224B9A8200CEC939 /* BaseJsonViewTableViewCell.m */; };
 		E3AA413B2293F9610051875E /* DeleteCollectionCellViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3AA413A2293F9610051875E /* DeleteCollectionCellViewController.m */; };
 		E3AA41412295458A0051875E /* DeleteCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E3AA41402295458A0051875E /* DeleteCollectionViewCell.m */; };
 		E3AA414422954FF30051875E /* DelegateModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E3AA414322954FF30051875E /* DelegateModel.m */; };
@@ -182,8 +181,8 @@
 		E301CCFA2265CBAD000F024F /* BaseTableTestCell3.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BaseTableTestCell3.xib; sourceTree = "<group>"; };
 		E311E47122C70557000FF903 /* BaseDebugNetWorkModelHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseDebugNetWorkModelHandler.h; sourceTree = "<group>"; };
 		E311E47222C70557000FF903 /* BaseDebugNetWorkModelHandler.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseDebugNetWorkModelHandler.m; sourceTree = "<group>"; };
-		E311E47722C71358000FF903 /* BaseDebugNetWorkDataStepModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseDebugNetWorkDataStepModel.h; sourceTree = "<group>"; };
-		E311E47822C71358000FF903 /* BaseDebugNetWorkDataStepModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseDebugNetWorkDataStepModel.m; sourceTree = "<group>"; };
+		E311E47722C71358000FF903 /* BaseJsonViewStepModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseJsonViewStepModel.h; sourceTree = "<group>"; };
+		E311E47822C71358000FF903 /* BaseJsonViewStepModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseJsonViewStepModel.m; sourceTree = "<group>"; };
 		E311E47B22C73CD1000FF903 /* UIView+ChangeFrame.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIView+ChangeFrame.h"; sourceTree = "<group>"; };
 		E311E47C22C73CD1000FF903 /* UIView+ChangeFrame.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIView+ChangeFrame.m"; sourceTree = "<group>"; };
 		E3249336225F42910061AED6 /* BaseAnimationProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseAnimationProxy.m; sourceTree = "<group>"; };
@@ -230,18 +229,14 @@
 		E3619E8B226449C600F2E1E1 /* MainTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainTableViewCell.h; sourceTree = "<group>"; };
 		E3619E8C226449C600F2E1E1 /* MainTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MainTableViewCell.m; sourceTree = "<group>"; };
 		E3619E8F22644DC300F2E1E1 /* BaseLog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseLog.h; sourceTree = "<group>"; };
-		E363C69D22BCC29900DF4F04 /* BaseDebugNetWorkDataModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseDebugNetWorkDataModel.h; sourceTree = "<group>"; };
-		E363C69E22BCC29900DF4F04 /* BaseDebugNetWorkDataModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseDebugNetWorkDataModel.m; sourceTree = "<group>"; };
-		E36C8B3C22C9A6DD0021A2CC /* DebugNetWorkMainView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DebugNetWorkMainView.h; sourceTree = "<group>"; };
-		E36C8B3D22C9A6DD0021A2CC /* DebugNetWorkMainView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DebugNetWorkMainView.m; sourceTree = "<group>"; };
-		E36C8B3F22CA18FF0021A2CC /* DebugNetWorkDataViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DebugNetWorkDataViewController.h; sourceTree = "<group>"; };
-		E36C8B4022CA18FF0021A2CC /* DebugNetWorkDataViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DebugNetWorkDataViewController.m; sourceTree = "<group>"; };
-		E36C8B4422CB09B30021A2CC /* DebugNetWorkSearchViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DebugNetWorkSearchViewController.h; sourceTree = "<group>"; };
-		E36C8B4522CB09B30021A2CC /* DebugNetWorkSearchViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DebugNetWorkSearchViewController.m; sourceTree = "<group>"; };
-		E36C8B4822CB0AA30021A2CC /* DebugNetWorkSearchTableView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DebugNetWorkSearchTableView.h; sourceTree = "<group>"; };
-		E36C8B4922CB0AA30021A2CC /* DebugNetWorkSearchTableView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DebugNetWorkSearchTableView.m; sourceTree = "<group>"; };
-		E36C8B4B22CB0C220021A2CC /* DebugNetWorkSearchTableViewHeaderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DebugNetWorkSearchTableViewHeaderView.h; sourceTree = "<group>"; };
-		E36C8B4C22CB0C220021A2CC /* DebugNetWorkSearchTableViewHeaderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DebugNetWorkSearchTableViewHeaderView.m; sourceTree = "<group>"; };
+		E36C8B3C22C9A6DD0021A2CC /* BaseJsonViewMainView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseJsonViewMainView.h; sourceTree = "<group>"; };
+		E36C8B3D22C9A6DD0021A2CC /* BaseJsonViewMainView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseJsonViewMainView.m; sourceTree = "<group>"; };
+		E36C8B3F22CA18FF0021A2CC /* BaseJsonViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseJsonViewController.h; sourceTree = "<group>"; };
+		E36C8B4022CA18FF0021A2CC /* BaseJsonViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseJsonViewController.m; sourceTree = "<group>"; };
+		E36C8B4822CB0AA30021A2CC /* BaseJsonViewSearchResultTableView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseJsonViewSearchResultTableView.h; sourceTree = "<group>"; };
+		E36C8B4922CB0AA30021A2CC /* BaseJsonViewSearchResultTableView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseJsonViewSearchResultTableView.m; sourceTree = "<group>"; };
+		E36C8B4B22CB0C220021A2CC /* BaseJsonViewSearchResultTableViewHeaderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseJsonViewSearchResultTableViewHeaderView.h; sourceTree = "<group>"; };
+		E36C8B4C22CB0C220021A2CC /* BaseJsonViewSearchResultTableViewHeaderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseJsonViewSearchResultTableViewHeaderView.m; sourceTree = "<group>"; };
 		E36CF51722487F7400C32DEC /* BaseLabel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseLabel.h; sourceTree = "<group>"; };
 		E36CF51822487F7400C32DEC /* BaseLabel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseLabel.m; sourceTree = "<group>"; };
 		E36CF51A22487FCB00C32DEC /* ViewShadowConfigration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewShadowConfigration.h; sourceTree = "<group>"; };
@@ -294,28 +289,30 @@
 		E36CF5B32248B6A000C32DEC /* BaseFiltrateRulerHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseFiltrateRulerHeader.h; sourceTree = "<group>"; };
 		E36CF5B62248D3FD00C32DEC /* BaseNavigationBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseNavigationBarView.m; sourceTree = "<group>"; };
 		E36CF5B72248D3FD00C32DEC /* BaseNavigationBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseNavigationBarView.h; sourceTree = "<group>"; };
-		E37200F222CB42CC005638BB /* BaseDebugNetWorkCommon.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseDebugNetWorkCommon.h; sourceTree = "<group>"; };
-		E37200F322CB42CC005638BB /* BaseDebugNetWorkCommon.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseDebugNetWorkCommon.m; sourceTree = "<group>"; };
-		E37200F522CB50A4005638BB /* BaseDebugNetWorkViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseDebugNetWorkViewController.h; sourceTree = "<group>"; };
-		E37200F622CB50A4005638BB /* BaseDebugNetWorkViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseDebugNetWorkViewController.m; sourceTree = "<group>"; };
-		E39D427322CE031C00E2A05B /* DebugNetWorkSearchView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DebugNetWorkSearchView.h; sourceTree = "<group>"; };
-		E39D427422CE031C00E2A05B /* DebugNetWorkSearchView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DebugNetWorkSearchView.m; sourceTree = "<group>"; };
-		E39D427622CF306D00E2A05B /* DebugNetWorkSearchResultTableView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DebugNetWorkSearchResultTableView.h; sourceTree = "<group>"; };
-		E39D427722CF306D00E2A05B /* DebugNetWorkSearchResultTableView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DebugNetWorkSearchResultTableView.m; sourceTree = "<group>"; };
-		E39D427A22CF35EB00E2A05B /* DebugNetWorkSearchResultViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DebugNetWorkSearchResultViewController.h; sourceTree = "<group>"; };
-		E39D427B22CF35EB00E2A05B /* DebugNetWorkSearchResultViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DebugNetWorkSearchResultViewController.m; sourceTree = "<group>"; };
+		E37200F222CB42CC005638BB /* BaseJsonViewCommon.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseJsonViewCommon.h; sourceTree = "<group>"; };
+		E37200F322CB42CC005638BB /* BaseJsonViewCommon.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseJsonViewCommon.m; sourceTree = "<group>"; };
+		E39D427322CE031C00E2A05B /* BaseJsonViewSearchView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseJsonViewSearchView.h; sourceTree = "<group>"; };
+		E39D427422CE031C00E2A05B /* BaseJsonViewSearchView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseJsonViewSearchView.m; sourceTree = "<group>"; };
+		E39D427622CF306D00E2A05B /* BaseJsonViewSearchResultListTableView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseJsonViewSearchResultListTableView.h; sourceTree = "<group>"; };
+		E39D427722CF306D00E2A05B /* BaseJsonViewSearchResultListTableView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseJsonViewSearchResultListTableView.m; sourceTree = "<group>"; };
+		E39D427A22CF35EB00E2A05B /* BaseJsonViewSearchResultViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseJsonViewSearchResultViewController.h; sourceTree = "<group>"; };
+		E39D427B22CF35EB00E2A05B /* BaseJsonViewSearchResultViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseJsonViewSearchResultViewController.m; sourceTree = "<group>"; };
+		E39D428122D30D9F00E2A05B /* BaseJsonEditViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseJsonEditViewController.h; sourceTree = "<group>"; };
+		E39D428222D30D9F00E2A05B /* BaseJsonEditViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseJsonEditViewController.m; sourceTree = "<group>"; };
+		E39D428422D30DB800E2A05B /* BaseJsonEditMainView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseJsonEditMainView.h; sourceTree = "<group>"; };
+		E39D428522D30DB800E2A05B /* BaseJsonEditMainView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseJsonEditMainView.m; sourceTree = "<group>"; };
 		E3A9A9E6224B743800CEC939 /* BaseNavigationController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseNavigationController.h; sourceTree = "<group>"; };
 		E3A9A9E7224B743800CEC939 /* BaseNavigationController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseNavigationController.m; sourceTree = "<group>"; };
 		E3A9A9EA224B81E100CEC939 /* ScrollViewPanDirectionHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScrollViewPanDirectionHandler.m; sourceTree = "<group>"; };
 		E3A9A9EB224B81E100CEC939 /* ScrollViewPanDirectionHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScrollViewPanDirectionHandler.h; sourceTree = "<group>"; };
-		E3A9A9EF224B92D400CEC939 /* BaseDebugNetWorkManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseDebugNetWorkManager.h; sourceTree = "<group>"; };
-		E3A9A9F0224B92D400CEC939 /* BaseDebugNetWorkManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseDebugNetWorkManager.m; sourceTree = "<group>"; };
+		E3A9A9EF224B92D400CEC939 /* BaseJsonViewManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseJsonViewManager.h; sourceTree = "<group>"; };
+		E3A9A9F0224B92D400CEC939 /* BaseJsonViewManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseJsonViewManager.m; sourceTree = "<group>"; };
 		E3A9A9F2224B98A900CEC939 /* DebugNetWorkViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DebugNetWorkViewController.h; sourceTree = "<group>"; };
 		E3A9A9F3224B98A900CEC939 /* DebugNetWorkViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DebugNetWorkViewController.m; sourceTree = "<group>"; };
-		E3A9A9F5224B99D000CEC939 /* DebugNetWorkTableView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DebugNetWorkTableView.h; sourceTree = "<group>"; };
-		E3A9A9F6224B99D000CEC939 /* DebugNetWorkTableView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DebugNetWorkTableView.m; sourceTree = "<group>"; };
-		E3A9A9F8224B9A8200CEC939 /* DebugNetWorkTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DebugNetWorkTableViewCell.h; sourceTree = "<group>"; };
-		E3A9A9F9224B9A8200CEC939 /* DebugNetWorkTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DebugNetWorkTableViewCell.m; sourceTree = "<group>"; };
+		E3A9A9F5224B99D000CEC939 /* BaseJsonViewTableView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseJsonViewTableView.h; sourceTree = "<group>"; };
+		E3A9A9F6224B99D000CEC939 /* BaseJsonViewTableView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseJsonViewTableView.m; sourceTree = "<group>"; };
+		E3A9A9F8224B9A8200CEC939 /* BaseJsonViewTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseJsonViewTableViewCell.h; sourceTree = "<group>"; };
+		E3A9A9F9224B9A8200CEC939 /* BaseJsonViewTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseJsonViewTableViewCell.m; sourceTree = "<group>"; };
 		E3AA41392293F9610051875E /* DeleteCollectionCellViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DeleteCollectionCellViewController.h; sourceTree = "<group>"; };
 		E3AA413A2293F9610051875E /* DeleteCollectionCellViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DeleteCollectionCellViewController.m; sourceTree = "<group>"; };
 		E3AA413F2295458A0051875E /* DeleteCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DeleteCollectionViewCell.h; sourceTree = "<group>"; };
@@ -760,19 +757,9 @@
 		E36C8B3A22C9A64C0021A2CC /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				E37200F522CB50A4005638BB /* BaseDebugNetWorkViewController.h */,
-				E37200F622CB50A4005638BB /* BaseDebugNetWorkViewController.m */,
-				E36C8B3F22CA18FF0021A2CC /* DebugNetWorkDataViewController.h */,
-				E36C8B4022CA18FF0021A2CC /* DebugNetWorkDataViewController.m */,
-				E36C8B4322CB097A0021A2CC /* search */,
-				E3A9A9F5224B99D000CEC939 /* DebugNetWorkTableView.h */,
-				E3A9A9F6224B99D000CEC939 /* DebugNetWorkTableView.m */,
-				E3A9A9F8224B9A8200CEC939 /* DebugNetWorkTableViewCell.h */,
-				E3A9A9F9224B9A8200CEC939 /* DebugNetWorkTableViewCell.m */,
-				E36C8B3C22C9A6DD0021A2CC /* DebugNetWorkMainView.h */,
-				E36C8B3D22C9A6DD0021A2CC /* DebugNetWorkMainView.m */,
-				E39D427322CE031C00E2A05B /* DebugNetWorkSearchView.h */,
-				E39D427422CE031C00E2A05B /* DebugNetWorkSearchView.m */,
+				E39D427E22D30D4100E2A05B /* Main */,
+				E39D427D22D3069A00E2A05B /* Edit */,
+				E36C8B4322CB097A0021A2CC /* Search */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -780,35 +767,33 @@
 		E36C8B3B22C9A65B0021A2CC /* DataHandlers */ = {
 			isa = PBXGroup;
 			children = (
-				E3A9A9EF224B92D400CEC939 /* BaseDebugNetWorkManager.h */,
-				E3A9A9F0224B92D400CEC939 /* BaseDebugNetWorkManager.m */,
+				E3A9A9EF224B92D400CEC939 /* BaseJsonViewManager.h */,
+				E3A9A9F0224B92D400CEC939 /* BaseJsonViewManager.m */,
 				E311E47122C70557000FF903 /* BaseDebugNetWorkModelHandler.h */,
 				E311E47222C70557000FF903 /* BaseDebugNetWorkModelHandler.m */,
 			);
 			path = DataHandlers;
 			sourceTree = "<group>";
 		};
-		E36C8B4322CB097A0021A2CC /* search */ = {
+		E36C8B4322CB097A0021A2CC /* Search */ = {
 			isa = PBXGroup;
 			children = (
-				E39D427A22CF35EB00E2A05B /* DebugNetWorkSearchResultViewController.h */,
-				E39D427B22CF35EB00E2A05B /* DebugNetWorkSearchResultViewController.m */,
-				E36C8B4422CB09B30021A2CC /* DebugNetWorkSearchViewController.h */,
-				E36C8B4522CB09B30021A2CC /* DebugNetWorkSearchViewController.m */,
+				E39D427A22CF35EB00E2A05B /* BaseJsonViewSearchResultViewController.h */,
+				E39D427B22CF35EB00E2A05B /* BaseJsonViewSearchResultViewController.m */,
 				E36C8B4722CB0A790021A2CC /* Views */,
 			);
-			path = search;
+			path = Search;
 			sourceTree = "<group>";
 		};
 		E36C8B4722CB0A790021A2CC /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				E36C8B4822CB0AA30021A2CC /* DebugNetWorkSearchTableView.h */,
-				E36C8B4922CB0AA30021A2CC /* DebugNetWorkSearchTableView.m */,
-				E36C8B4B22CB0C220021A2CC /* DebugNetWorkSearchTableViewHeaderView.h */,
-				E36C8B4C22CB0C220021A2CC /* DebugNetWorkSearchTableViewHeaderView.m */,
-				E39D427622CF306D00E2A05B /* DebugNetWorkSearchResultTableView.h */,
-				E39D427722CF306D00E2A05B /* DebugNetWorkSearchResultTableView.m */,
+				E36C8B4822CB0AA30021A2CC /* BaseJsonViewSearchResultTableView.h */,
+				E36C8B4922CB0AA30021A2CC /* BaseJsonViewSearchResultTableView.m */,
+				E36C8B4B22CB0C220021A2CC /* BaseJsonViewSearchResultTableViewHeaderView.h */,
+				E36C8B4C22CB0C220021A2CC /* BaseJsonViewSearchResultTableViewHeaderView.m */,
+				E39D427622CF306D00E2A05B /* BaseJsonViewSearchResultListTableView.h */,
+				E39D427722CF306D00E2A05B /* BaseJsonViewSearchResultListTableView.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -958,10 +943,8 @@
 		E37200F122CB303D005638BB /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				E363C69D22BCC29900DF4F04 /* BaseDebugNetWorkDataModel.h */,
-				E363C69E22BCC29900DF4F04 /* BaseDebugNetWorkDataModel.m */,
-				E311E47722C71358000FF903 /* BaseDebugNetWorkDataStepModel.h */,
-				E311E47822C71358000FF903 /* BaseDebugNetWorkDataStepModel.m */,
+				E311E47722C71358000FF903 /* BaseJsonViewStepModel.h */,
+				E311E47822C71358000FF903 /* BaseJsonViewStepModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -973,6 +956,50 @@
 				E32F938B22CC57DB00723F56 /* BaseTextView.m */,
 			);
 			path = TextView;
+			sourceTree = "<group>";
+		};
+		E39D427D22D3069A00E2A05B /* Edit */ = {
+			isa = PBXGroup;
+			children = (
+				E39D428122D30D9F00E2A05B /* BaseJsonEditViewController.h */,
+				E39D428222D30D9F00E2A05B /* BaseJsonEditViewController.m */,
+				E39D428022D30D7F00E2A05B /* Views */,
+			);
+			path = Edit;
+			sourceTree = "<group>";
+		};
+		E39D427E22D30D4100E2A05B /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				E39D427F22D30D5000E2A05B /* Views */,
+				E36C8B3F22CA18FF0021A2CC /* BaseJsonViewController.h */,
+				E36C8B4022CA18FF0021A2CC /* BaseJsonViewController.m */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		E39D427F22D30D5000E2A05B /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				E3A9A9F5224B99D000CEC939 /* BaseJsonViewTableView.h */,
+				E3A9A9F6224B99D000CEC939 /* BaseJsonViewTableView.m */,
+				E3A9A9F8224B9A8200CEC939 /* BaseJsonViewTableViewCell.h */,
+				E3A9A9F9224B9A8200CEC939 /* BaseJsonViewTableViewCell.m */,
+				E36C8B3C22C9A6DD0021A2CC /* BaseJsonViewMainView.h */,
+				E36C8B3D22C9A6DD0021A2CC /* BaseJsonViewMainView.m */,
+				E39D427322CE031C00E2A05B /* BaseJsonViewSearchView.h */,
+				E39D427422CE031C00E2A05B /* BaseJsonViewSearchView.m */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		E39D428022D30D7F00E2A05B /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				E39D428422D30DB800E2A05B /* BaseJsonEditMainView.h */,
+				E39D428522D30DB800E2A05B /* BaseJsonEditMainView.m */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		E3A9A9E9224B81CC00CEC939 /* ScrollView */ = {
@@ -996,8 +1023,8 @@
 		E3A9A9EE224B92AB00CEC939 /* BaseDebugNetWorkManager */ = {
 			isa = PBXGroup;
 			children = (
-				E37200F222CB42CC005638BB /* BaseDebugNetWorkCommon.h */,
-				E37200F322CB42CC005638BB /* BaseDebugNetWorkCommon.m */,
+				E37200F222CB42CC005638BB /* BaseJsonViewCommon.h */,
+				E37200F322CB42CC005638BB /* BaseJsonViewCommon.m */,
 				E37200F122CB303D005638BB /* Model */,
 				E36C8B3B22C9A65B0021A2CC /* DataHandlers */,
 				E36C8B3A22C9A64C0021A2CC /* Views */,
@@ -1420,7 +1447,6 @@
 				E3F3707C22802C6400633B66 /* YYTextView.m in Sources */,
 				E36CF56E2248A79300C32DEC /* BaseGradientViewLineConfig.m in Sources */,
 				E36CF5772248AA6300C32DEC /* BaseButton.m in Sources */,
-				E36C8B4622CB09B30021A2CC /* DebugNetWorkSearchViewController.m in Sources */,
 				E36CF55122489F7600C32DEC /* NSAttributedString+Size.m in Sources */,
 				E3F3707F22802C6400633B66 /* YYTextEffectWindow.m in Sources */,
 				E36CF5702248A79300C32DEC /* BaseGradientViewBaseConfig.m in Sources */,
@@ -1443,7 +1469,7 @@
 				E3A9A9E8224B743800CEC939 /* BaseNavigationController.m in Sources */,
 				E3FFC1722293D2AD00069463 /* BasePresentViewControllerConfiguration.m in Sources */,
 				E3FFC16E2293D2AD00069463 /* BasePresentNavigationController.m in Sources */,
-				E3A9A9FA224B9A8200CEC939 /* DebugNetWorkTableViewCell.m in Sources */,
+				E3A9A9FA224B9A8200CEC939 /* BaseJsonViewTableViewCell.m in Sources */,
 				E3FFC16A2293D2AD00069463 /* BaseDismissAnimationHandler.m in Sources */,
 				E3F3707D22802C6400633B66 /* YYTextMagnifier.m in Sources */,
 				E36CF5712248A79300C32DEC /* BaseGradientView.m in Sources */,
@@ -1451,11 +1477,13 @@
 				E3F3709022802C6400633B66 /* YYTextTransaction.m in Sources */,
 				E3AA414422954FF30051875E /* DelegateModel.m in Sources */,
 				E36CF54E22489F7600C32DEC /* AttributedStrFiltrateRuler.m in Sources */,
-				E36C8B4122CA18FF0021A2CC /* DebugNetWorkDataViewController.m in Sources */,
+				E36C8B4122CA18FF0021A2CC /* BaseJsonViewController.m in Sources */,
 				E3FFC16C2293D2AD00069463 /* BaseAnimationHandler.m in Sources */,
 				E3619E892264495700F2E1E1 /* MainView.m in Sources */,
 				E3F3708622802C6400633B66 /* YYLabel.m in Sources */,
-				E39D427822CF306D00E2A05B /* DebugNetWorkSearchResultTableView.m in Sources */,
+				E39D427822CF306D00E2A05B /* BaseJsonViewSearchResultListTableView.m in Sources */,
+				E39D428322D30D9F00E2A05B /* BaseJsonEditViewController.m in Sources */,
+				E39D428622D30DB800E2A05B /* BaseJsonEditMainView.m in Sources */,
 				E3F3708222802C6400633B66 /* YYTextLine.m in Sources */,
 				E36CF55422489F7600C32DEC /* BaseAttriButedStrHandler+ChangeStyle.m in Sources */,
 				E36CF57F2248B2C000C32DEC /* BaseImageHandler+ChangeColor.m in Sources */,
@@ -1463,13 +1491,13 @@
 				E3F3708122802C6400633B66 /* YYTextLayout.m in Sources */,
 				E36CF51F2248835100C32DEC /* BaseViewHandler.m in Sources */,
 				E335520B22447F9200AE6C3B /* BaseViewController.m in Sources */,
-				E36C8B3E22C9A6DD0021A2CC /* DebugNetWorkMainView.m in Sources */,
+				E36C8B3E22C9A6DD0021A2CC /* BaseJsonViewMainView.m in Sources */,
 				E3DE08F52264276500904AC7 /* BaseTableView.m in Sources */,
 				E36CF51922487F7400C32DEC /* BaseLabel.m in Sources */,
 				E32AC68A2244F215007BD4D3 /* BaseView.m in Sources */,
 				E301CCD122648C71000F024F /* BaseTableViewController.m in Sources */,
 				E3F3708522802C6400633B66 /* YYTextDebugOption.m in Sources */,
-				E311E47922C71358000FF903 /* BaseDebugNetWorkDataStepModel.m in Sources */,
+				E311E47922C71358000FF903 /* BaseJsonViewStepModel.m in Sources */,
 				E36CF5782248AA6300C32DEC /* BaseButtonHandler.m in Sources */,
 				E301CCEC2265C4D5000F024F /* BasetableTestHeserFooterView1.m in Sources */,
 				E3DA111922A104A900BB525C /* CountDownHandler.m in Sources */,
@@ -1478,14 +1506,12 @@
 				E3EEDF42229E9E1B00DF3DEA /* PYCountDownViewController.m in Sources */,
 				E3F3709722802CDD00633B66 /* BaseTextViewController.m in Sources */,
 				E3F3708D22802C6400633B66 /* NSParagraphStyle+YYText.m in Sources */,
-				E363C69F22BCC29900DF4F04 /* BaseDebugNetWorkDataModel.m in Sources */,
 				E311E47D22C73CD1000FF903 /* UIView+ChangeFrame.m in Sources */,
 				E3F3708F22802C6400633B66 /* UIPasteboard+YYText.m in Sources */,
 				E301CCF32265C561000F024F /* BaseTableHeaderFooterView.m in Sources */,
 				E3619E852264483900F2E1E1 /* BaseObjectHeaders.m in Sources */,
 				E32AC67E2244D0F0007BD4D3 /* BaseColorHandler.m in Sources */,
 				E36CF5862248B3B200C32DEC /* NSObject+SignalHandler.m in Sources */,
-				E37200F722CB50A4005638BB /* BaseDebugNetWorkViewController.m in Sources */,
 				E3AA413B2293F9610051875E /* DeleteCollectionCellViewController.m in Sources */,
 				E36CF54D22489F7600C32DEC /* NSAttributedString+FiltrateRuler.m in Sources */,
 				E324933E225F42910061AED6 /* BasePointProgressViewProtocol.m in Sources */,
@@ -1505,12 +1531,12 @@
 				E33551E222447ED300AE6C3B /* main.m in Sources */,
 				E301CCCD22645CF1000F024F /* BaseTableViewDataSource.m in Sources */,
 				E3EC0F24229D356300219EFD /* PresentAnimationVC.m in Sources */,
-				E3A9A9F7224B99D000CEC939 /* DebugNetWorkTableView.m in Sources */,
+				E3A9A9F7224B99D000CEC939 /* BaseJsonViewTableView.m in Sources */,
 				E3249343225F42C60061AED6 /* PresentViewController.m in Sources */,
 				E301CCFB2265CBAD000F024F /* BaseTableTestCell3.m in Sources */,
-				E36C8B4D22CB0C220021A2CC /* DebugNetWorkSearchTableViewHeaderView.m in Sources */,
+				E36C8B4D22CB0C220021A2CC /* BaseJsonViewSearchResultTableViewHeaderView.m in Sources */,
 				E3EEDF43229E9E1B00DF3DEA /* PYCountDownTableViewCell.m in Sources */,
-				E39D427C22CF35EB00E2A05B /* DebugNetWorkSearchResultViewController.m in Sources */,
+				E39D427C22CF35EB00E2A05B /* BaseJsonViewSearchResultViewController.m in Sources */,
 				E33551D422447ED200AE6C3B /* AppDelegate.m in Sources */,
 				E36CF54C22489F7600C32DEC /* NSString+FiltrateRuler.m in Sources */,
 				E36CF5852248B3B200C32DEC /* NSObject+T.m in Sources */,
@@ -1524,9 +1550,9 @@
 				E3FFC1682293D2AD00069463 /* Animater.m in Sources */,
 				E3F3709122802C6400633B66 /* UIView+YYText.m in Sources */,
 				E3619E8D226449C600F2E1E1 /* MainTableViewCell.m in Sources */,
-				E37200F422CB42CC005638BB /* BaseDebugNetWorkCommon.m in Sources */,
+				E37200F422CB42CC005638BB /* BaseJsonViewCommon.m in Sources */,
 				E3F3708922802C6400633B66 /* YYTextAttribute.m in Sources */,
-				E36C8B4A22CB0AA30021A2CC /* DebugNetWorkSearchTableView.m in Sources */,
+				E36C8B4A22CB0AA30021A2CC /* BaseJsonViewSearchResultTableView.m in Sources */,
 				E3F3707E22802C6400633B66 /* YYTextContainerView.m in Sources */,
 				E311E47322C70557000FF903 /* BaseDebugNetWorkModelHandler.m in Sources */,
 				E3DE08F8226438E300904AC7 /* BaseTableViewDelegate.m in Sources */,
@@ -1537,10 +1563,10 @@
 				E3FFC16B2293D2AD00069463 /* BasePresentAnimationHandler.m in Sources */,
 				E3F3708B22802C6400633B66 /* YYTextRubyAnnotation.m in Sources */,
 				E36CF55022489F7600C32DEC /* BaseAttriButedStrHandler.m in Sources */,
-				E39D427522CE031C00E2A05B /* DebugNetWorkSearchView.m in Sources */,
+				E39D427522CE031C00E2A05B /* BaseJsonViewSearchView.m in Sources */,
 				E36CF51C22487FCB00C32DEC /* ViewShadowConfigration.m in Sources */,
 				E36CF54F22489F7600C32DEC /* NSString+StringHandler.m in Sources */,
-				E3A9A9F1224B92D400CEC939 /* BaseDebugNetWorkManager.m in Sources */,
+				E3A9A9F1224B92D400CEC939 /* BaseJsonViewManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

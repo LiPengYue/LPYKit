@@ -7,10 +7,9 @@
 //
 
 #import "DebugNetWorkViewController.h"
-#import "BaseDebugNetWorkDataModel.h"
-#import "BaseDebugNetWorkManager.h"
-#import "BaseDebugNetWorkDataStepModel.h"
-#import "DebugNetWorkTableView.h"
+#import "BaseJsonViewManager.h"
+#import "BaseJsonViewStepModel.h"
+#import "BaseJsonViewTableView.h"
 static NSString * const productList;
 
 @interface DebugNetWorkViewController ()
@@ -30,8 +29,13 @@ static NSString * const productList;
 #pragma mark - func
 // MARK: network
 - (void) load_netWork {
-//    BaseDebugNetWorkDataStepModel *stepModel = BaseDebugNetWorkManager.convertToStepModelWithJson(productList);
+//    BaseJsonViewStepModel *stepModel = BaseJsonViewManager.convertToStepModelWithJson(productList);
+    
     [self reloadDataWithID:productList];
+
+    
+    [self reloadDataWithID:[self conversionToStr]];
+    
 }
 // MARK: handle views
 - (void) setup_views {

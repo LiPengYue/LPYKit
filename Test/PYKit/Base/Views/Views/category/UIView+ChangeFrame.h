@@ -1,5 +1,5 @@
 //
-//  BaseDebugNetWorkManager.h
+//  BaseJsonViewManager.h
 //  PYKit
 //
 //  Created by 李鹏跃 on 2018/9/11.

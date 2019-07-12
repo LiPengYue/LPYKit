@@ -1,5 +1,5 @@
 //
-//  BaseDebugNetWorkManager.h
+//  BaseJsonViewManager.h
 //  PYKit
 //
 //  Created by 李鹏跃 on 2018/9/11.
@@ -8,7 +8,7 @@
 
 
 #import <Foundation/Foundation.h>
-#import "BaseDebugNetWorkManager.h"
+#import "BaseJsonViewManager.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
