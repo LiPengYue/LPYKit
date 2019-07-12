@@ -553,6 +553,8 @@
     if (![dic isKindOfClass:NSDictionary.class]) {
         if (self.key.length > 0) {
             dicM[self.key] = dic;
+        }else{
+            return [NSString stringWithFormat:@"%@",dic];
         }
     }else{
         dicM = dic.mutableCopy;
