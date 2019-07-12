@@ -143,8 +143,7 @@
     [self.superPoint removeWithKey:self.key andModel:self];
 }
 
-
-- (id)toDic {
+- (id) parsingData {
     id data;
     switch (self.type) {
         case BaseJsonViewStepModelType_Dictionary: {
@@ -154,7 +153,7 @@
                 if ([obj isKindOfClass:BaseJsonViewStepModel.class]) {
                     BaseJsonViewStepModel *model = obj;
                     if (model.key > 0) {
-                        dicM[model.key] =  [model toDic];
+                        dicM[model.key] =  [model parsingData];
                     }
                 }
             }];
@@ -189,10 +188,15 @@
             data = self.data;
             break;
     }
-    
+    return data;
+}
+- (id)toDic {
+   
+    id data = [self parsingData];
     if (self.key) {
         NSMutableDictionary *dic = [NSMutableDictionary new];
-        return dic[self.key] = data;
+         dic[self.key] = data;
+        return dic;
     }else{
         return data;
     }
@@ -207,7 +211,7 @@
         [array enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             if ([obj isKindOfClass:BaseJsonViewStepModel.class]) {
                 BaseJsonViewStepModel *model = obj;
-                [arrayM addObject:[model toDic]];
+                [arrayM addObject:[model parsingData]];
             }
         }];
         value = arrayM.copy;
@@ -561,6 +565,9 @@
 + (NSString *)convertToJsonData:(id) value{
     NSError *error;
     if (!value) return nil;
+    if (![value isKindOfClass:NSDictionary.class]) {
+        return [NSString stringWithFormat:@"%@",value];
+    }
     id jsonData = [NSJSONSerialization dataWithJSONObject:value options:NSJSONWritingPrettyPrinted error:&error];
     
     NSString *jsonString;
