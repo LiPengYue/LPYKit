@@ -77,7 +77,9 @@ static inline UIColor * RGBHEX(long value) {
                                 NULL
                                 )
             .setUpFont(BaseFont.fontSCR(22))
-            );
+            )
+    .str;
+    
     self.textLabel2.attributedText =
     BaseAttributedStrHandler
     .handle(@"下划线")
