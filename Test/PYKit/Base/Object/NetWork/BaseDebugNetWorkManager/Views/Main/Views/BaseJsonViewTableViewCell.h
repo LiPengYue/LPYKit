@@ -30,6 +30,9 @@ static NSString *const kBaseJsonViewTableViewCell_doubleTapAction = @"kBaseJsonV
 @property (nonatomic,copy) void(^longAction)(BaseJsonViewTableViewCell *cell, NSIndexPath *indexPath);
 @property (nonatomic,copy) void(^doubleAction)(BaseJsonViewTableViewCell *cell, NSIndexPath *indexPath);
 @property (nonatomic,strong) NSIndexPath *indexPath;
+@property (nonatomic,assign) NSInteger currentLevel;
+
+@property (nonatomic,assign) CGFloat maxW;
 @end
 
 NS_ASSUME_NONNULL_END

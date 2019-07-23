@@ -51,21 +51,33 @@
     [self layoutLeftLabel];
     [self setupBackgroundColor];
     
+    CGFloat tagLabelW = 10;
+    
     switch (self.model.type) {
       
         case BaseJsonViewStepModelType_Dictionary:
+            tagLabelW = 10;
             [self setupWhenDic];
             break;
         case BaseJsonViewStepModelType_Array:
+            tagLabelW = 10;
             [self setupWhenArray];
             break;
         case BaseJsonViewStepModelType_Number:
+            tagLabelW = 0;
             [self setupWhenNumber];
             break;
         case BaseJsonViewStepModelType_String:
+            tagLabelW = 0;
             [self setupWhenString];
             break;
     }
+    
+    self.tagLabel.frame = CGRectMake(self.colonLabel.right, self.colonLabel.top, tagLabelW, 10);
+    self.tagLabel.hidden = tagLabelW <= 0;
+    
+    CGFloat rightLabelW = self.width - self.tagLabel.right - tableViewCellRightSpacing;
+    self.rightLabel.frame = CGRectMake(self.tagLabel.right, self.leftLabel.top, rightLabelW, self.leftLabel.height);
 }
 
 - (void) setUpBackgroundColorWithIsSearchResultColor: (BOOL)isSearchResult andIsCurrentSearchResult: (BOOL) isCurrentSearchResult {
@@ -94,17 +106,18 @@
 }
 
 - (void) layoutLeftLabel {
-    CGFloat leftLabelLeft = self.model.level * 10 + 10;
+    CGFloat leftLabelLeft = (self.model.level - self.currentLevel) * tableViewCellLevelSpacing + tableViewCellLeftSpacing;
     if (self.model.key.length > 0) {
         self.leftLabel.text = [NSString stringWithFormat:@"\"%@\"", self.model.key];
     }else{
         self.leftLabel.text = @"";
     }
     
-    CGFloat leftLabelH = self.height;
+    CGFloat leftLabelH = self.height - tableViewCellTopMinSpacing - tableViewCellBottomMinSpacing;
     CGFloat leftLabelW = BaseStringHandler.handler(self.leftLabel.text).getWidthWithHeightAndFont(leftLabelH,self.leftLabel.font);
+    
     leftLabelW = MIN(leftLabelW, self.width/2.0);
-    self.leftLabel.frame = CGRectMake(leftLabelLeft, 0, leftLabelW, leftLabelH);
+    self.leftLabel.frame = CGRectMake(leftLabelLeft, tableViewCellTopMinSpacing, leftLabelW, leftLabelH);
     
     CGFloat colonLabelW = 10;
     self.colonLabel.hidden = false;
@@ -112,7 +125,7 @@
         colonLabelW = 0;
         self.colonLabel.hidden = true;
     }
-     self.colonLabel.frame = CGRectMake(self.leftLabel.right, leftLabelH /2.0 - 4, colonLabelW, 10);
+     self.colonLabel.frame = CGRectMake(self.leftLabel.right, self.height /2.0 - 4, colonLabelW, 10);
     
 }
 
@@ -120,40 +133,24 @@
     self.rightLabel.text = [NSString stringWithFormat: @"Object{ %ld }",self.model.count];
     self.rightLabel.textColor = normalColor;
     self.tagLabel.text = self.model.isOpen ? @"-" : @"+";
-    
-    self.tagLabel.hidden = false;
-    self.tagLabel.frame = CGRectMake(self.colonLabel.right, self.colonLabel.top, 10, 10);
-    self.rightLabel.frame = CGRectMake(self.tagLabel.right, 0, self.width-self.tagLabel.right, self.height);
 }
 
 - (void) setupWhenArray {
     self.rightLabel.text = [NSString stringWithFormat: @"Array[ %ld ]",self.model.count];
     self.rightLabel.textColor = normalColor;
     self.tagLabel.text = self.model.isOpen ? @"-" : @"+";
-    
-    self.tagLabel.hidden = false;
-    self.tagLabel.frame = CGRectMake(self.colonLabel.right, self.colonLabel.top, 10, 10);
-    self.rightLabel.frame = CGRectMake(self.tagLabel.right, 0, self.width-self.tagLabel.right, self.height);
 }
 
 - (void) setupWhenString {
     self.rightLabel.text = [NSString stringWithFormat:@"\"%@\"",self.model.data];
     self.rightLabel.textColor = stringColor;
     self.tagLabel.text = @"";
-    
-    self.tagLabel.hidden = true;
-    self.tagLabel.frame = CGRectMake(self.colonLabel.right, self.colonLabel.top, 0, 10);
-    self.rightLabel.frame = CGRectMake(self.tagLabel.right, 0, self.width-self.tagLabel.right, self.height);
 }
 
 - (void) setupWhenNumber {
     self.rightLabel.text = [NSString stringWithFormat:@"%@",self.model.data];
     self.rightLabel.textColor = numberColor;
     self.tagLabel.text = @"";
-    
-    self.tagLabel.hidden = true;
-    self.tagLabel.frame = CGRectMake(self.colonLabel.right, self.colonLabel.top, 0, 10);
-    self.rightLabel.frame = CGRectMake(self.tagLabel.right, 0, self.width-self.tagLabel.right, self.height);
 }
 
 - (void) setupViews {
@@ -217,6 +214,17 @@
         _colonLabel.textColor = normalColor;
     }
     return _colonLabel;
+}
+
+- (CGFloat)maxW {
+    if (_maxW <= 0) {
+        _maxW = self.superview.width;
+    }
+    if (_maxW <= 0) {
+        [self.superview layoutSubviews];
+        _maxW = self.superview.width;
+    }
+    return _maxW;
 }
 
 /// tagLabel

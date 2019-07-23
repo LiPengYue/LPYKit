@@ -28,7 +28,6 @@
     self = [super initWithFrame:frame];
     if (self) {
         [self setupSubViewsFunc];
-        self.tableView.frame = self.bounds;
     }
     return self;
 }
@@ -89,7 +88,7 @@
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-//
+    self.tableView.frame = self.bounds;
 }
 
 @end

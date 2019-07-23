@@ -65,7 +65,7 @@ UITableViewDataSource
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:0];
     [self reloadData];
     [self scrollToRowAtIndexPath:indexPath  atScrollPosition:UITableViewScrollPositionTop animated:true];
-   
+    
 }
 
 // MARK: - get && set
@@ -113,24 +113,30 @@ UITableViewDataSource
 
 #pragma mark - dataSource
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 46;
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-       return self.modelArray.count;
+    return self.modelArray.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     id cellAny = [tableView dequeueReusableCellWithIdentifier:kBaseJsonViewTableViewCellId forIndexPath:indexPath];
-    if ([cellAny isKindOfClass:BaseJsonViewTableViewCell.class]) {
-        BaseJsonViewTableViewCell *cell = cellAny;
-        cell.model = self.modelArray[indexPath.row];
-        cell.indexPath = indexPath;
-        BOOL isSearchReulst = [self.searchResultModelArray containsObject:self.modelArray[indexPath.row]];
-        BOOL isCurrentSearchResult = [cell.model isEqual:self.currentSearchModel];
-        [cell setUpBackgroundColorWithIsSearchResultColor:isSearchReulst andIsCurrentSearchResult: isCurrentSearchResult];
-        
-        [self registerCellEventsWithCell: cell];
-        
-    }
     return cellAny;
+}
+
+- (void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if ([cell isKindOfClass:BaseJsonViewTableViewCell.class]) {
+        BaseJsonViewTableViewCell *jsonCell = (BaseJsonViewTableViewCell *)cell;
+        jsonCell.model = self.modelArray[indexPath.row];
+        jsonCell.indexPath = indexPath;
+        BOOL isSearchReulst = [self.searchResultModelArray containsObject:self.modelArray[indexPath.row]];
+        BOOL isCurrentSearchResult = [jsonCell.model isEqual:self.currentSearchModel];
+        [jsonCell setUpBackgroundColorWithIsSearchResultColor:isSearchReulst andIsCurrentSearchResult: isCurrentSearchResult];
+        
+        [self registerCellEventsWithCell: jsonCell];
+    }
 }
 
 - (void) registerCellEventsWithCell: (BaseJsonViewTableViewCell *) cell {
@@ -167,14 +173,14 @@ UITableViewDataSource
     UITableViewRowAction *deleteAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"删除" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
         
         [self deleteWithModel:model];
-
+        
     }];
     
     editAction.backgroundColor = editActionBackgroundColor;
     copyAction.backgroundColor = copyActionBackgroundColor;
     copyStrAction.backgroundColor = copyStrActionBackgroundColor;
     deleteAction.backgroundColor = deleteActionBackgroundColor;
-
+    
     if (self.modelArray[indexPath.row].type == BaseJsonViewStepModelType_Number ||
         self.modelArray[indexPath.row].type == BaseJsonViewStepModelType_String) {
         return @[copyStrAction,copyAction,editAction,deleteAction];
@@ -198,7 +204,7 @@ UITableViewDataSource
     [model removeFromeSuper];
     
     BaseJsonViewStepModel *superPointModel = model.superPoint;
-   
+    
     [self beginUpdates];
     [self deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationFade];
     [self endUpdates];
@@ -215,11 +221,21 @@ UITableViewDataSource
     /// 展开 或 收起
     if ([message isKindOfClass:BaseJsonViewTableViewCell.class]) {
         BaseJsonViewTableViewCell *cell = message;
-        [self closeWithModel:cell.model andIsOpen:!cell.model.isOpen];
+        BOOL overflowMaxLevle = cell.model.level - self.levelOffset > tableViewCellMaxLevel;
+        BOOL isNeededOpen = [cell.model.data isKindOfClass:NSArray.class];
+        
+        if (overflowMaxLevle
+            && self.jumpNextLevelVc
+            && isNeededOpen) {
+            //跳转一个新的控制器
+            self.jumpNextLevelVc(cell.model);
+        }else{
+            [self closeWithModel:cell.model andIsOpen:!cell.model.isOpen andCell: (BaseJsonViewTableViewCell *)cell];
+        }
     }
 }
 
-- (void) closeWithModel: (BaseJsonViewStepModel *)model andIsOpen:(BOOL)isOpen {
+- (void) closeWithModel: (BaseJsonViewStepModel *)model andIsOpen:(BOOL)isOpen andCell: (BaseJsonViewTableViewCell *)cell{
     model.isOpen = isOpen;
     NSArray *array = [model faltSelfDataIfOpen];
     
@@ -232,7 +248,17 @@ UITableViewDataSource
         [indexPaths addObject:[NSIndexPath indexPathForRow:index + 1 + idx inSection:0]];
     }];
     
+    NSMutableArray *updataIndexArrayM = [NSMutableArray new];
+    NSIndexPath *cellIndex = [self indexPathForCell:cell];
+    if (cellIndex) {
+        [updataIndexArrayM addObject:cellIndex];
+        
+    }
+    if (cell.indexPath) {
+         [updataIndexArrayM addObject:cell.indexPath];
+    }
     if (isOpen) {
+        [self reloadRowsAtIndexPaths:updataIndexArrayM withRowAnimation:UITableViewRowAnimationNone];
         [self.modelArray insertObjects:array atIndexes:indexSet];
         [self beginUpdates];
         [self insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationFade];
@@ -248,6 +274,7 @@ UITableViewDataSource
             [model closeAll];
         }
         [self beginUpdates];
+        [self reloadRowsAtIndexPaths:updataIndexArrayM withRowAnimation:UITableViewRowAnimationNone];
         [self deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationFade];
         [self endUpdates];
     }

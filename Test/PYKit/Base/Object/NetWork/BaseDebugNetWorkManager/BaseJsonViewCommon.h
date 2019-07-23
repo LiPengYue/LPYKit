@@ -39,8 +39,13 @@ NS_ASSUME_NONNULL_BEGIN
 #define tableViewCellLevelSpacing 10
 #define tableViewCellLeftSpacing 10
 #define tableViewCellRightSpacing 10
+#define tableViewCellTopMinSpacing 5
+#define tableViewCellBottomMinSpacing 5
 
+/// 在第几层开始跳转到新的控制器进行显示
 #define tableViewCellMaxLevel 6
+
+#define kScreenW UIScreen.mainScreen.bounds.size.width
 
 #define jsonHandlerScrrenW
 

@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// 里面应该放的是字典 或者字符串
 @property (nonatomic,strong) BaseJsonViewStepModel *model;
 @property (nonatomic,assign) BOOL isAutoClose;
-
+@property (nonatomic,assign) NSInteger levelOffset;
 
 - (NSMutableArray <BaseJsonViewStepModel *>*) searchAndOpenAllWithKey: (NSString *)key;
 
@@ -24,6 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void) scrollToModel: (BaseJsonViewStepModel *)model;
 
 @property (nonatomic,copy) void(^doubleClickCellBlock)(BaseJsonViewStepModel *model);
+@property (nonatomic,copy) void (^jumpNextLevelVc)(BaseJsonViewStepModel *model);
 @end
 
 NS_ASSUME_NONNULL_END

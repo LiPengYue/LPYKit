@@ -32,10 +32,7 @@
     [self setupViews];
     [self reloadNaviTitle];
     [self registerEvents];
-    
-    self.searchView.bottom = self.navBarView.top;
-    self.mainView.top = self.navBarView.bottom;
-    self.mainView.height = BaseSize.screenH - self.mainView.top;
+    self.model = self.model;
 }
 // MARK: - init
 
@@ -85,6 +82,10 @@
 
 // MARK: handle views
 - (void) setupViews {
+    self.searchView.bottom = self.navBarView.top;
+    self.mainView.top = self.navBarView.bottom;
+    self.mainView.height = BaseSize.screenH - self.mainView.top;
+    self.mainView.width = self.view.width;
     [self.view addSubview: self.mainView];
     [self.view addSubview: self.searchView];
 }
@@ -236,7 +237,7 @@
 
 - (BaseJsonViewMainView *)mainView {
     if (!_mainView) {
-        _mainView = [[BaseJsonViewMainView alloc]initWithFrame:self.view.bounds];
+        _mainView = [[BaseJsonViewMainView alloc]initWithFrame:CGRectZero];
     }
     return _mainView;
 }

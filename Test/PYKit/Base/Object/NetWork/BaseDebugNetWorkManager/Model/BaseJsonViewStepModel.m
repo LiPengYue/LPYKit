@@ -27,7 +27,9 @@
 + (BaseJsonViewStepModel *(^)(id)) createWithID {
     return ^(id data) {
         BaseJsonViewStepModel *model;
-        
+        if ([data isKindOfClass:BaseJsonViewStepModel.class]) {
+            model = data;
+        }
         if ([data isKindOfClass:NSString.class]) {
             NSDictionary *dic = BaseJsonViewManager.convertToDicWithJson(data);
             if (dic) {
