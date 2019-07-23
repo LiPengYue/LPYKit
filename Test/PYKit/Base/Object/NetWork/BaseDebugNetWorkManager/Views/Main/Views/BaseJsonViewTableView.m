@@ -254,13 +254,11 @@ UITableViewDataSource
         [updataIndexArrayM addObject:cellIndex];
         
     }
-    if (cell.indexPath) {
-         [updataIndexArrayM addObject:cell.indexPath];
-    }
+ 
     if (isOpen) {
-        [self reloadRowsAtIndexPaths:updataIndexArrayM withRowAnimation:UITableViewRowAnimationNone];
         [self.modelArray insertObjects:array atIndexes:indexSet];
         [self beginUpdates];
+        [self reloadRowsAtIndexPaths:updataIndexArrayM withRowAnimation:UITableViewRowAnimationNone];
         [self insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationFade];
         [self endUpdates];
     }else{
