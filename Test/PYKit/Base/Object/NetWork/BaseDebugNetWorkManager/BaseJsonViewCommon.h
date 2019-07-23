@@ -25,6 +25,25 @@ NS_ASSUME_NONNULL_BEGIN
 #define cellLevelLabelColor BaseColorHandler.cHex(0xCCCC99)
 #define messageColor BaseColorHandler.cHex(0xdff0ea)
 
+#define editActionBackgroundColor [UIColor colorWithRed:0.8 green:0.9 blue:0.8 alpha:1]
+#define copyActionBackgroundColor [UIColor colorWithRed:0.6 green:0.7 blue:0.6 alpha:1]
+#define copyStrActionBackgroundColor [UIColor colorWithRed:0.4 green:0.5 blue:0.4 alpha:1]
+#define deleteActionBackgroundColor [UIColor colorWithRed:0.9 green:0.8 blue:0.8 alpha:1]
+
+#define tableViewCellLeftFont [UIFont fontWithName:@"PingFangSC-Medium" size:12]
+#define tableViewCellColonLabelFont BaseFont.fontSCM(10)
+#define tableViewCellTagFont BaseFont.fontSCL(10)
+#define tableViewCellRightFont [UIFont systemFontOfSize:12]
+#define tableViewCellLevelFont BaseFont.fontSCL(12)
+
+#define tableViewCellLevelSpacing 10
+#define tableViewCellLeftSpacing 10
+#define tableViewCellRightSpacing 10
+
+#define tableViewCellMaxLevel 6
+
+#define jsonHandlerScrrenW
+
 @interface BaseJsonViewCommon : NSObject
 
 @end

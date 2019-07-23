@@ -9,24 +9,51 @@
 #import "BaseJsonEditViewController.h"
 
 @interface BaseJsonEditViewController ()
-
+@property (nonatomic,strong) BaseJsonViewStepModel *editingModel;
 @end
 
 @implementation BaseJsonEditViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    [self loadNetWork];
+    [self setupViews];
+    [self registerEvents];
+}
+// MARK: - init
+
+
+#pragma mark - func
+
+// MARK: setupTable
+
+// MARK: network
+- (void) loadNetWork {
+    
+}
+// MARK: handle views
+- (void) setupViews {
+    
+}
+// MARK: handle event
+- (void) registerEvents {
+    
+}
+// MARK: lazy loads
+
+- (void)setOriginModel:(BaseJsonViewStepModel *)originModel {
+    _originModel = originModel;
+    self.editingModel = BaseJsonViewStepModel.createWithID([originModel conversionToDic]);
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (BaseJsonViewStepModel *) getChangedModel {
+    return self.editingModel;
 }
-*/
+
+// MARK: systom functions
+
+// MARK:life cycles
+
 
 @end
+

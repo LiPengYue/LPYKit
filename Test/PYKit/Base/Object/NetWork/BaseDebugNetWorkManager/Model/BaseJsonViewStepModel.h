@@ -39,6 +39,7 @@ typedef enum : NSUInteger {
 /// 当前需要显示item的个数
 @property (nonatomic,assign) NSInteger count;
 
+
 /**
  * 是否为打开状态
  */

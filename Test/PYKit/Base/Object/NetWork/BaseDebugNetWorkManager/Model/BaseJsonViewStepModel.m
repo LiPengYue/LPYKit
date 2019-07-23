@@ -140,7 +140,31 @@
 }
 
 - (void) removeFromeSuper {
-    [self.superPoint removeWithKey:self.key andModel:self];
+
+    if ([self.superPoint.originData isKindOfClass:NSArray.class]) {
+        NSArray *array = self.superPoint.originData;
+        NSMutableArray *arrayM = [[NSMutableArray alloc]initWithArray:array];
+        [arrayM removeObject:self.originData];
+        self.superPoint.originData = arrayM;
+    }
+    if ([self.superPoint.originData isKindOfClass:NSDictionary.class]) {
+        NSDictionary *dic = self.superPoint.originData;
+        NSMutableDictionary *dicM = [[NSMutableDictionary alloc]initWithDictionary:dic];
+        NSString *key = self.key;
+        if (key.length > 0) {
+            dicM[self.key] = nil;
+        }
+        self.superPoint.originData = dicM;
+    }
+    if ([self.superPoint.data isKindOfClass:NSArray.class]) {
+        NSArray *superPointData = self.superPoint.data;
+        NSMutableArray *superPointDataM = superPointData.mutableCopy;
+        [superPointDataM removeObject:self];
+        self.superPoint.data = superPointDataM;
+    }
+    self.superPoint.count = -1;
+    
+//    [self.superPoint reloadDataWitOriginDataProperty];
 }
 
 

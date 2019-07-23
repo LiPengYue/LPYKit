@@ -174,7 +174,7 @@
         _levelLabel.frame = CGRectMake(0,0,0,0);
         _levelLabel.backgroundColor = cellLevelLabelColor;
         _levelLabel.textAlignment = NSTextAlignmentLeft;
-        _levelLabel.font = BaseFont.fontSCL(12);
+        _levelLabel.font = tableViewCellLevelFont;
         _levelLabel.textColor = cellLevelLabelColor;
     }
     return _levelLabel;
@@ -186,7 +186,7 @@
         _leftLabel = [[UILabel alloc] init];
         _leftLabel.frame = CGRectMake(0,0,0,0);
         _leftLabel.textAlignment = NSTextAlignmentLeft;
-        _leftLabel.font = [UIFont fontWithName:@"PingFangSC-Medium" size:12];
+        _leftLabel.font = tableViewCellLeftFont;
         _leftLabel.textColor = leftTitleColor;
         _leftLabel.numberOfLines = 0;
     }
@@ -196,7 +196,7 @@
 - (UILabel *) rightLabel {
     if (!_rightLabel) {
         _rightLabel = [UILabel new];
-        _rightLabel.font = [UIFont systemFontOfSize:12];
+        _rightLabel.font = tableViewCellRightFont;
         _rightLabel.textAlignment = NSTextAlignmentLeft;
         CGFloat value = 50.0 / 255;
         _rightLabel.textColor = [UIColor colorWithRed: value green:value blue:value alpha:1];
@@ -213,7 +213,7 @@
         _colonLabel.frame = CGRectMake(0,0,0,0);
         _colonLabel.text = @":";
         _colonLabel.textAlignment = NSTextAlignmentCenter;
-        _colonLabel.font = BaseFont.fontSCM(10);
+        _colonLabel.font = tableViewCellColonLabelFont;
         _colonLabel.textColor = normalColor;
     }
     return _colonLabel;
@@ -226,7 +226,7 @@
         _tagLabel.frame = CGRectMake(0,0,0,0);
         _tagLabel.backgroundColor = UIColor.whiteColor;
         _tagLabel.textAlignment = NSTextAlignmentCenter;
-        _tagLabel.font = BaseFont.fontSCL(10);
+        _tagLabel.font = tableViewCellTagFont;
         _tagLabel.textColor = normalColor;
         _tagLabel.layer.borderColor = normalColor.CGColor;
         _tagLabel.layer.borderWidth = 0.5;

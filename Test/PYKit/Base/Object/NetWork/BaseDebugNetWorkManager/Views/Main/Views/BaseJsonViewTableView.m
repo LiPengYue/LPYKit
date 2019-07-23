@@ -166,11 +166,15 @@ UITableViewDataSource
     }];
     UITableViewRowAction *deleteAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"删除" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
         
+        [self deleteWithModel:model];
+
     }];
-    editAction.backgroundColor = [UIColor colorWithRed:0.8 green:0.9 blue:0.8 alpha:1];
-    copyAction.backgroundColor = [UIColor colorWithRed:0.6 green:0.7 blue:0.6 alpha:1];
-    copyStrAction.backgroundColor = [UIColor colorWithRed:0.4 green:0.5 blue:0.4 alpha:1];
-    deleteAction.backgroundColor = [UIColor colorWithRed:0.9 green:0.8 blue:0.8 alpha:1];
+    
+    editAction.backgroundColor = editActionBackgroundColor;
+    copyAction.backgroundColor = copyActionBackgroundColor;
+    copyStrAction.backgroundColor = copyStrActionBackgroundColor;
+    deleteAction.backgroundColor = deleteActionBackgroundColor;
+
     if (self.modelArray[indexPath.row].type == BaseJsonViewStepModelType_Number ||
         self.modelArray[indexPath.row].type == BaseJsonViewStepModelType_String) {
         return @[copyStrAction,copyAction,editAction,deleteAction];
@@ -178,6 +182,33 @@ UITableViewDataSource
     return @[copyAction, editAction,deleteAction];
 }
 
+- (void) deleteWithModel: (BaseJsonViewStepModel *)model {
+    NSMutableArray <NSIndexPath *>*indexPaths = [[NSMutableArray alloc]init];
+    NSMutableArray <BaseJsonViewStepModel *>*deleteModelArray = [[NSMutableArray alloc]init];
+    [deleteModelArray addObject:model];
+    [deleteModelArray addObjectsFromArray:[model faltSelfDataIfOpen]];
+    
+    [deleteModelArray enumerateObjectsUsingBlock:^(BaseJsonViewStepModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if ([self.modelArray containsObject:obj]) {  NSInteger index = [self.modelArray indexOfObject:obj];
+            [indexPaths addObject:[NSIndexPath indexPathForRow:index inSection:0]];
+        }
+    }];
+    
+    [self.modelArray removeObjectsInArray:deleteModelArray];
+    [model removeFromeSuper];
+    
+    BaseJsonViewStepModel *superPointModel = model.superPoint;
+   
+    [self beginUpdates];
+    [self deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationFade];
+    [self endUpdates];
+    
+    if ([superPointModel isKindOfClass:BaseJsonViewStepModel.class]) {
+        NSInteger row = [self.modelArray indexOfObject:superPointModel];
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:0];
+        [self reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+    }
+}
 
 // 单击功能
 - (void) handleSingleTapActionWithMessage: (id)message {
@@ -191,11 +222,21 @@ UITableViewDataSource
 - (void) closeWithModel: (BaseJsonViewStepModel *)model andIsOpen:(BOOL)isOpen {
     model.isOpen = isOpen;
     NSArray *array = [model faltSelfDataIfOpen];
+    
     NSInteger index = [self.modelArray indexOfObject:model];
+    NSRange range = NSMakeRange(index + 1, [array count]);
+    NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:range];
+    
+    NSMutableArray <NSIndexPath *>*indexPaths = [[NSMutableArray alloc]initWithCapacity:array.count];
+    [array enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        [indexPaths addObject:[NSIndexPath indexPathForRow:index + 1 + idx inSection:0]];
+    }];
+    
     if (isOpen) {
-        NSRange range = NSMakeRange(index + 1, [array count]);
-        NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:range];
         [self.modelArray insertObjects:array atIndexes:indexSet];
+        [self beginUpdates];
+        [self insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationFade];
+        [self endUpdates];
     }else{
         [array enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             if (self.isAutoClose) {
@@ -206,8 +247,10 @@ UITableViewDataSource
         if (self.isAutoClose) {
             [model closeAll];
         }
+        [self beginUpdates];
+        [self deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationFade];
+        [self endUpdates];
     }
-    [self reloadData];
 }
 
 - (void) handleLongActionWithCell:(BaseJsonViewTableViewCell *)cell andIndexPath: (NSIndexPath *)indexPath {
