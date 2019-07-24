@@ -257,6 +257,11 @@ UITextFieldDelegate
     return _currentLevelTreeLabel;
 }
 
+- (void) setPath:(NSString *)path {
+    _path = path;
+    [self setSearchResultCount:0];
+}
+
 - (void)setSearchResultCount:(NSInteger)searchResultCount {
     _searchResultCount = searchResultCount;
     NSString *str = @"";
@@ -270,6 +275,8 @@ UITextFieldDelegate
         .addInt(searchResultCount)
         .addObjc(@" 个结果")
         .getStr;
+    }else if (self.path.length > 0 && !self.searchTextView.editing){
+        str = self.path;
     }else{
         str = @"搜索...";
     }
@@ -304,20 +311,21 @@ UITextFieldDelegate
 }
 
 - (void) textFieldDidBeginEditing:(UITextField *)textField {
+    [self setSearchResultCount:0];
 }
 
 - (BOOL)textFieldShouldEndEditing:(UITextField *)textField {
     return YES;
 }
 
+- (void) textFieldDidEndEditing:(UITextField *)textField {
+    [self setSearchResultCount:self.searchResultCount];
+}
+
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     [self endEditing:false];
     [self delayDidChangeText];
     return YES;
-}
-
-- (void)textFieldDidEndEditing:(UITextField *)textField {
-    
 }
 
 /// accurateSearchButton;

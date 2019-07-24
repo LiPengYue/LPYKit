@@ -14,6 +14,11 @@
 #import "BaseViewHeaders.h"
 #import "BaseSize.h"
 
+typedef enum : NSUInteger {
+    BaseJsonViewController_popVc_none = 0,
+    BaseJsonViewController_popVc_searchVc = 1,
+    BaseJsonViewController_popVc_childrenPointVc,
+} BaseJsonViewController_popType;
 
 @interface BaseJsonViewController ()
 @property (nonatomic,strong) BaseJsonViewMainView *mainView;
@@ -25,6 +30,7 @@
 @property (nonatomic,strong) NSArray <BaseJsonViewStepModel *>*searchResultModelArray;
 
 @property (nonatomic,assign) NSInteger currentLevelOffset;
+@property (nonatomic,assign) BaseJsonViewController_popType popType;
 @end
 
 @implementation BaseJsonViewController
@@ -37,7 +43,19 @@
 }
 
 - (void)revertViewWillAppear {
-    [self.mainView reloadWithData:self.model];
+    switch (self.popType) {
+        case BaseJsonViewController_popVc_searchVc:
+             [self.mainView scrollToModel:self.searchView.currentSearchModel];
+            break;
+        case BaseJsonViewController_popVc_childrenPointVc:
+            [self.mainView reloadWithData:self.model];
+            break;
+        case BaseJsonViewController_popVc_none:
+            [self.mainView reloadWithData:self.model];
+            break;
+    }
+    self.popType = BaseJsonViewController_popVc_none;
+   
 }
 
 - (void) prisentWithOriginFrame: (CGRect) frame andImage: (UIImage *)image {
@@ -55,7 +73,7 @@
 - (void) reloadDataWithID: (id)data {
     [self.mainView reloadWithData:data];
     self.model = [self.mainView getCurrentModel];
-    
+    self.searchView.path = [self.model getTreeLayer];
 }
 
 - (void) registerEvents {
@@ -71,6 +89,7 @@
         vc.currentLevelOffset = model.level;
         vc.mainView.currentLevelOffset = vc.currentLevelOffset;
         [vc reloadDataWithID:model];
+        weakSelf.popType = BaseJsonViewController_popVc_childrenPointVc;
         [weakSelf.navigationController pushViewController:vc animated:true];
     }];
 }
@@ -106,7 +125,10 @@
 // MARK: handle views
 - (void) setupViews {
     self.searchView.bottom = self.navBarView.top;
+    self.searchView.width = self.view.width;
+    [self.searchView layoutWithWidth:self.searchView.width];
     self.mainView.top = self.navBarView.bottom;
+    
     self.mainView.height = BaseSize.screenH - self.mainView.top;
     self.mainView.width = self.view.width;
     [self.view addSubview: self.mainView];
@@ -166,6 +188,7 @@
         weakSelf.searchView.currentSearchModel = model;
         [weakSelf.mainView scrollToModel:model];
     }];
+    self.popType = BaseJsonViewController_popVc_searchVc;
     [self.navigationController pushViewController:vc animated:true];
 }
 
@@ -199,7 +222,6 @@
     .setDefaultIfNull(@"Json视图")
     .getStr;
     [self.navBarView.titleButton setTitle:title forState:UIControlStateNormal];
-    
     self.navBarView.addRightItemWithTitleAndImg(@"🔍",nil);
     
     __weak typeof (self)weakSelf = self;
@@ -232,6 +254,9 @@
 }
 
 - (void) showTopSearchView {
+    if (self.searchView.top == self.navBarView.bottom) {
+        return;
+    }
     [UIView animateWithDuration:0.25 animations:^{
         self.searchView.top = self.navBarView.bottom;
         self.mainView.top = self.searchView.bottom;
@@ -269,7 +294,7 @@
 
 - (BaseJsonViewSearchView *)searchView {
     if (!_searchView) {
-        _searchView = [[BaseJsonViewSearchView alloc]initWithFrame: CGRectMake(0, 0, self.view.width, 0)];
+        _searchView = [[BaseJsonViewSearchView alloc]initWithFrame: CGRectMake(0, 0, 0, 0)];
         
         [_searchView layoutWithWidth:self.view.width]; _searchView.layer.shadowPath = [UIBezierPath bezierPathWithRect:_searchView.bounds].CGPath;
         _searchView.layer.shadowColor = [UIColor colorWithWhite:0 alpha:0.1].CGColor;
