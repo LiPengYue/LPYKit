@@ -34,6 +34,10 @@ NS_ASSUME_NONNULL_BEGIN
 - (void) scrollToModel: (BaseJsonViewStepModel *)model;
 
 @property (nonatomic,copy) void(^doubleClickCellBlock)(BaseJsonViewStepModel *model);
+@property (nonatomic,copy) void (^jumpNextLevelVc)(BaseJsonViewStepModel *model);
+
+@property (nonatomic,assign) NSInteger currentLevelOffset;
+
 @end
 
 NS_ASSUME_NONNULL_END

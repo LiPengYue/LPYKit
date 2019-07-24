@@ -102,7 +102,11 @@ typedef enum : NSUInteger {
 /// 到self的视图结构
 - (NSString *) getTreeLayer;
 
+/// 到self的视图结构
 - (NSAttributedString *)getTreeLayerAttriStr;
+
+/// 返回一个父节点的key，如果父节点的key为nil，那么继续向上查找
+- (NSString *) getSuperPointKey;
 
 @end
 

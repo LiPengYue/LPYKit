@@ -38,13 +38,14 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
     self.gestureView.frame = self.contentView.bounds;
+    
 }
 
 - (void)setModel:(BaseJsonViewStepModel *)model {
     _model = model;
     [self relayoutSubViews];
     [self setupShapeLayerFrame];
-    [self setupLevelFrmae];
+//    [self setupLevelFrmae];
 }
 
 - (void) relayoutSubViews {
@@ -106,7 +107,7 @@
 }
 
 - (void) layoutLeftLabel {
-    CGFloat leftLabelLeft = (self.model.level - self.currentLevel) * tableViewCellLevelSpacing + tableViewCellLeftSpacing;
+    CGFloat leftLabelLeft = (self.model.level - self.levelOffset) * tableViewCellLevelSpacing + tableViewCellLeftSpacing;
     if (self.model.key.length > 0) {
         self.leftLabel.text = [NSString stringWithFormat:@"\"%@\"", self.model.key];
     }else{
@@ -216,17 +217,6 @@
     return _colonLabel;
 }
 
-- (CGFloat)maxW {
-    if (_maxW <= 0) {
-        _maxW = self.superview.width;
-    }
-    if (_maxW <= 0) {
-        [self.superview layoutSubviews];
-        _maxW = self.superview.width;
-    }
-    return _maxW;
-}
-
 /// tagLabel
 - (UILabel *) tagLabel {
     if (!_tagLabel) {
@@ -299,31 +289,45 @@
         _shapeLayer.lineWidth = 1;
         _shapeLayer.lineJoin = kCALineCapRound;
         _shapeLayer.lineDashPattern = @[@(1),@(1)];
-        
-        CGFloat y = 1;
-        CGFloat x = self.leftLabel.left - 2;
-        CGFloat w = 1;
-        CGFloat h = self.height - y*2;
-        UIBezierPath *path = [UIBezierPath bezierPath];
-        [path moveToPoint:CGPointMake(w/2.0, 0)];
-        [path addLineToPoint:CGPointMake(w/2.0, h)];
-        _shapeLayer.path = path.CGPath;
-        _shapeLayer.frame = CGRectMake(x, y, w, self.height - 2);
     }
     return _shapeLayer;
 }
 
 - (void) setupShapeLayerFrame {
-    CGRect frame = self.shapeLayer.frame;
-    frame.origin.x = self.leftLabel.left - 4;
-    self.shapeLayer.frame = frame;
+    CGFloat y = tableViewCellLeftLineTopBottomMinSpacing;
+    CGFloat x = self.leftLabel.left - 4;
+    CGFloat w = 1;
+    CGFloat h = self.height - y*2;
+    UIBezierPath *path = [UIBezierPath bezierPath];
+    [path moveToPoint:CGPointMake(w/2.0, 0)];
+    [path addLineToPoint:CGPointMake(w/2.0, h)];
+    self.shapeLayer.path = path.CGPath;
+    self.shapeLayer.frame = CGRectMake(x, y, w, self.height - 2);
 }
 
-- (void) setupLevelFrmae {
-    return;
-    CGFloat y = 1;
-    CGFloat x = self.leftLabel.left - 2;
-    CGFloat w = 1;
-    self.levelLabel.frame = CGRectMake(x, y, w, self.height - 2);
++ (CGFloat) getHeightWithModel: (BaseJsonViewStepModel *)model andLevelOffset: (NSInteger) levelOffset andLeftMaxW: (CGFloat) leftLabelMaxW{
+    NSString *right = nil;
+    if ([model.data isKindOfClass:NSString.class]) {
+        right = model.data;
+    }
+    if ([model.data isKindOfClass:NSNumber.class]) {
+        NSNumber *data = model.data;
+        right = data.stringValue;
+    }
+    CGFloat leftLabelLeft = (model.level - levelOffset) * tableViewCellLevelSpacing + tableViewCellLeftSpacing;
+    CGFloat leftLabelW = BaseStringHandler.handler(right).getWidthWithHeightAndFont(999,tableViewCellLeftFont);
+    
+    leftLabelW = leftLabelW > leftLabelMaxW ? leftLabelMaxW : leftLabelW;
+    leftLabelW += leftLabelLeft;
+
+    CGFloat h = 0.0 ;
+    if (right.length > 0) {
+        h =
+        BaseStringHandler
+        .handler(right)
+        .getHeightWithWidthAndFont(leftLabelW,tableViewCellRightFont);
+        
+    }
+    return MAX(h, 46);
 }
 @end

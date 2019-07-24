@@ -7,7 +7,8 @@
 //
 
 #import "BaseViewController.h"
-
+#import "BasePresentViewController.h"
+#import "BaseAnimaterHeaders.h"
 NS_ASSUME_NONNULL_BEGIN
 
 @interface BaseJsonViewController : BaseViewController
@@ -17,6 +18,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSString *) conversionToStr;
 
 - (NSDictionary *) conversionToDic;
+
+- (void) prisentWithOriginFrame: (CGRect) frame andImage: (UIImage *)image;
 
 @end
 

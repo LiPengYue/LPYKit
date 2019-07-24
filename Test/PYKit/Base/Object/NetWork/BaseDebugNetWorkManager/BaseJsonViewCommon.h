@@ -42,8 +42,10 @@ NS_ASSUME_NONNULL_BEGIN
 #define tableViewCellTopMinSpacing 5
 #define tableViewCellBottomMinSpacing 5
 
+#define tableViewCellLeftLineTopBottomMinSpacing 1
+
 /// 在第几层开始跳转到新的控制器进行显示
-#define tableViewCellMaxLevel 6
+#define tableViewCellMaxLevel 2
 
 #define kScreenW UIScreen.mainScreen.bounds.size.width
 

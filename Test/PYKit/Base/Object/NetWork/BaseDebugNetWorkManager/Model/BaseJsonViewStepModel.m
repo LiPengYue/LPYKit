@@ -573,6 +573,20 @@
     return handler.str;
 }
 
+- (NSString *)getSuperPointKey {
+    BaseJsonViewStepModel *modelTemp = self.superPoint;
+    
+    NSString *key = @"";
+    while (1) {
+        key = modelTemp.key;
+        if (key.length > 0 || modelTemp.superPoint == nil) {
+            break;
+        }
+        modelTemp = modelTemp.superPoint;
+    }
+    return key;
+}
+
 - (NSString *) conversionToJson {
     NSDictionary *dic = [self toDic];
     NSMutableDictionary *dicM = [NSMutableDictionary new];

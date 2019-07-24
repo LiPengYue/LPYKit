@@ -114,7 +114,7 @@ UITableViewDataSource
 #pragma mark - dataSource
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 46;
+    return  [BaseJsonViewTableViewCell getHeightWithModel:self.modelArray[indexPath.row] andLevelOffset:self.levelOffset andLeftMaxW:self.width/2.0] + tableViewCellTopMinSpacing + tableViewCellBottomMinSpacing;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -129,6 +129,7 @@ UITableViewDataSource
 - (void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
     if ([cell isKindOfClass:BaseJsonViewTableViewCell.class]) {
         BaseJsonViewTableViewCell *jsonCell = (BaseJsonViewTableViewCell *)cell;
+        jsonCell.levelOffset = self.levelOffset;
         jsonCell.model = self.modelArray[indexPath.row];
         jsonCell.indexPath = indexPath;
         BOOL isSearchReulst = [self.searchResultModelArray containsObject:self.modelArray[indexPath.row]];

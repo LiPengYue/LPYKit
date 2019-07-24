@@ -38,10 +38,18 @@
 // MARK: handle views
 - (void) setupSubViewsFunc {
     [self addSubview:self.tableView];
+    self.tableView.levelOffset = self.currentLevelOffset;
+    [self registerEventsFunc];
 }
 
 // MARK: handle event
 - (void) registerEventsFunc {
+    __weak typeof (self)weakSelf = self;
+    [self.tableView setJumpNextLevelVc:^(BaseJsonViewStepModel * _Nonnull model) {
+        if (weakSelf.jumpNextLevelVc) {
+            weakSelf.jumpNextLevelVc(model);
+        }
+    }];
     
 }
 
@@ -84,6 +92,11 @@
 - (void)setDoubleClickCellBlock:(void (^)(BaseJsonViewStepModel * _Nonnull))doubleClickCellBlock {
     _doubleClickCellBlock = doubleClickCellBlock;
     self.tableView.doubleClickCellBlock = doubleClickCellBlock;
+}
+
+- (void)setCurrentLevelOffset:(NSInteger)currentLevelOffset {
+    _currentLevelOffset = currentLevelOffset;
+    self.tableView.levelOffset = currentLevelOffset;
 }
 
 - (void)layoutSubviews {

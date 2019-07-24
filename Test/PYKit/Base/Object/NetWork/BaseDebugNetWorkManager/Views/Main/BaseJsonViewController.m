@@ -23,6 +23,8 @@
 @property (nonatomic,copy) NSString *searchKey;
 @property (nonatomic,assign) BOOL isChanged;
 @property (nonatomic,strong) NSArray <BaseJsonViewStepModel *>*searchResultModelArray;
+
+@property (nonatomic,assign) NSInteger currentLevelOffset;
 @end
 
 @implementation BaseJsonViewController
@@ -32,8 +34,16 @@
     [self setupViews];
     [self reloadNaviTitle];
     [self registerEvents];
-    self.model = self.model;
 }
+
+- (void)revertViewWillAppear {
+    [self.mainView reloadWithData:self.model];
+}
+
+- (void) prisentWithOriginFrame: (CGRect) frame andImage: (UIImage *)image {
+    
+}
+
 // MARK: - init
 
 
@@ -45,11 +55,24 @@
 - (void) reloadDataWithID: (id)data {
     [self.mainView reloadWithData:data];
     self.model = [self.mainView getCurrentModel];
+    
 }
 
 - (void) registerEvents {
     [self registerSearchViewEvent];
     [self registerPanHandlerEvent];
+    [self registeMainViewEvent];
+}
+
+- (void) registeMainViewEvent {
+    __weak typeof(self)weakSelf = self;
+    [self.mainView setJumpNextLevelVc:^(BaseJsonViewStepModel * _Nonnull model) {
+        BaseJsonViewController *vc = [BaseJsonViewController new];
+        vc.currentLevelOffset = model.level;
+        vc.mainView.currentLevelOffset = vc.currentLevelOffset;
+        [vc reloadDataWithID:model];
+        [weakSelf.navigationController pushViewController:vc animated:true];
+    }];
 }
 
 - (void) registerPanHandlerEvent {
@@ -172,7 +195,8 @@
     NSString *title =
     BaseStringHandler
     .handler(self.model.key)
-    .setDefaultIfNull(@"网络数据")
+    .setDefaultIfNull([self.model getSuperPointKey])
+    .setDefaultIfNull(@"Json视图")
     .getStr;
     [self.navBarView.titleButton setTitle:title forState:UIControlStateNormal];
     
@@ -211,7 +235,8 @@
     [UIView animateWithDuration:0.25 animations:^{
         self.searchView.top = self.navBarView.bottom;
         self.mainView.top = self.searchView.bottom;
-        self.mainView.height = BaseSize.screenH - self.mainView.top;
+        self.mainView.height = self.view.height - self.mainView.top;
+        self.mainView.tableView.height = self.mainView.height;
     }];
 }
 
