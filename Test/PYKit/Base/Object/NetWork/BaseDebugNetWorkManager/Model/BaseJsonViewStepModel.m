@@ -158,17 +158,99 @@
         }
         self.superPoint.originData = dicM;
     }
-    if ([self.superPoint.data isKindOfClass:NSArray.class]) {
-        NSArray *superPointData = self.superPoint.data;
-        NSMutableArray *superPointDataM = superPointData.mutableCopy;
-        [superPointDataM removeObject:self];
-        self.superPoint.data = superPointDataM;
-    }
-    self.superPoint.count = -1;
     
-//    [self.superPoint reloadDataWitOriginDataProperty];
+    [self.superPoint reloadDataWitOriginDataProperty];
 }
 
+- (BaseJsonViewStepErrorModel *) insertWithKey: (NSString *)key
+         andOriginData: (id) originData
+              andIndex: (NSInteger) index {
+    
+    BaseJsonViewStepModel *model = BaseJsonViewStepModel.createWithID(originData);
+    if (model.key.length <= 0) {
+        model.key = key;
+    }
+    BaseJsonViewStepErrorModel *error = [self insertWithKey:model.key andModel:model andIndex:index];
+    return error;
+}
+
+- (BaseJsonViewStepErrorModel *) insertWithKey: (NSString *)key
+              andModel: (BaseJsonViewStepModel *) model
+              andIndex:(NSInteger) index {
+    
+    BaseJsonViewStepErrorModel *error = [BaseJsonViewStepErrorModel new];
+    switch (self.type) {
+            
+        case BaseJsonViewStepModelType_Dictionary:
+            error = [self dictionaryInsertWithKey:key andModel:model andIndex:index];
+            break;
+        case BaseJsonViewStepModelType_Array:
+            
+            error = [self arrayInsertWithKey:key andModel:model andIndex:index];
+            break;
+        case BaseJsonViewStepModelType_Number:
+            error.errorMessage = @"🌶 类型错误，标记为《BaseJsonViewStepModelType_Number》类型的数据，不能插入数据";
+            error.code = BaseJsonViewStepTypeErrorCode404;
+            break;
+        case BaseJsonViewStepModelType_String:
+            error.errorMessage = @"🌶 类型错误，标记为《BaseJsonViewStepModelType_String》类型的数据，不能插入数据";
+            error.code = BaseJsonViewStepTypeErrorCode404;
+            break;
+    }
+    [self reloadDataWitOriginDataProperty];
+    return error;
+}
+
+- (BaseJsonViewStepErrorModel *) arrayInsertWithKey: (NSString *)key andModel: (BaseJsonViewStepModel *) model andIndex:(NSInteger) index {
+    
+    BaseJsonViewStepErrorModel *error = [BaseJsonViewStepErrorModel new];
+    NSString *originDataClassStr = NSStringFromClass([self.originData class]);
+    if (model.key.length > 0) {
+        error.errorMessage = @"🌶：数组内部 插入的第一层子对象不能含有key";
+        error.code = BaseJsonViewStepTypeErrorCode404;
+        return error;
+    }
+    if ([self.originData isKindOfClass:NSArray.class] && [self.data isKindOfClass:NSArray.class]) {
+        id dataAny = model.originData;
+        if (dataAny) {
+            NSMutableArray *dataArrayM = ((NSArray *)self.originData).mutableCopy;
+            [dataArrayM insertObject:dataAny atIndex:index];
+            self.originData = dataArrayM.copy;
+        }
+    }else {
+        error.errorMessage = [NSString stringWithFormat: @"🌶 类型错误，标记为《BaseJsonViewStepModelType_Array》类型的数据实际为：%@",originDataClassStr];
+        error.code = BaseJsonViewStepTypeErrorCode404;
+    }
+    return error;
+}
+
+- (BaseJsonViewStepErrorModel *) dictionaryInsertWithKey: (NSString *)key andModel: (BaseJsonViewStepModel *) model andIndex:(NSInteger) index {
+    
+    BaseJsonViewStepErrorModel *error = [BaseJsonViewStepErrorModel new];
+    NSString *originDataClassStr = NSStringFromClass([self.originData class]);
+    if (key.length <= 0) {
+        error.code = BaseJsonViewStepTypeErrorCode404;
+        error.errorMessage = @"🌶：字典内部必须插入字典，传入的key不能为nil";
+        return error;
+    }
+    if([self.originData isKindOfClass:NSDictionary.class]) {
+        NSMutableDictionary *originData = ((NSDictionary *)self.originData).mutableCopy;
+        id value = model.originData;
+        value = value ? value :[BaseJsonViewStepNilModel new];
+        if ([originData valueForKey:model.key]) {
+            error.errorMessage = [NSString stringWithFormat: @"🌶: 已有【%@】,不能强行覆盖",model.key];
+            error.code = BaseJsonViewStepErrorCode500;
+        }else{
+            [originData setValue: value forKey:model.key];
+            self.originData = originData;
+        }
+    }else{
+        
+        error.errorMessage = [NSString stringWithFormat: @"🌶 类型错误，标记为《BaseJsonViewStepModelType_Dictionary》类型的数据实际为：%@",originDataClassStr];
+        error.code = BaseJsonViewStepTypeErrorCode404;
+    }
+    return error;
+}
 
 - (id)toDic {
     id data;
@@ -298,8 +380,12 @@
     return dic;
 }
 
-
 - (void) reloadDataWitOriginDataProperty {
+    [self reloadDataWitOriginData];
+    _count = [self getCount:0];
+}
+
+- (void) reloadDataWitOriginData {
     
     NSInteger level = self.level;
     id obj = self.originData;
@@ -341,7 +427,7 @@
         self.type = BaseJsonViewStepModelType_String;
         
     } else {
-        _data = [BaseJsonViewStepModel nullData];
+//        _data = [BaseJsonViewStepModel nullData];
     }
 }
 
@@ -360,18 +446,22 @@
     return model1;
 }
 
+- (BaseJsonViewStepModelType)type {
+    [self setupType];
+    return _type;
+}
+
 - (void) setupType {
     id obj = self.originData;
     if ([obj isKindOfClass:NSArray.class]) {
-        self.type = BaseJsonViewStepModelType_Array;
+        _type = BaseJsonViewStepModelType_Array;
     } else if ([obj isKindOfClass:NSDictionary.class]){
-        self.type = BaseJsonViewStepModelType_Dictionary;
+        _type = BaseJsonViewStepModelType_Dictionary;
     }else if ([obj isKindOfClass:NSNumber.class]){
-        self.type = BaseJsonViewStepModelType_Number;
+        _type = BaseJsonViewStepModelType_Number;
         
     }else if ([obj isKindOfClass:NSString.class]) {
-        self.type = BaseJsonViewStepModelType_String;
-        
+        _type = BaseJsonViewStepModelType_String;
     }
 }
 
@@ -384,6 +474,11 @@
 - (void)faltSelfDataIfOpenWithModelArray: (NSMutableArray <BaseJsonViewStepModel *>*) modelArray{
     if (!self.data) {
         [self reloadDataWitOriginDataProperty];
+    }
+    if ([self.data isKindOfClass:NSArray.class]) {
+        if (((NSArray *)self.data).count <= 0) {
+            [self reloadDataWitOriginDataProperty];
+        }
     }
     
     if ([self.data isKindOfClass:NSArray.class]) {
@@ -408,7 +503,7 @@
 // MARK: get && set
 - (id)data {
     if (!_data && self.originData) {
-        [self reloadDataWitOriginDataProperty];
+        [self reloadDataWitOriginData];
     }
     return _data;
 }
@@ -588,8 +683,13 @@
 }
 
 - (NSString *) conversionToJson {
-    NSDictionary *dic = [self toDic];
+    id dic = [self toDic];
     NSMutableDictionary *dicM = [NSMutableDictionary new];
+    
+    if (!dic) {
+        dic = @"";
+    }
+    
     if (![dic isKindOfClass:NSDictionary.class]) {
         if (self.key.length > 0) {
             dicM[self.key] = dic;
@@ -597,8 +697,13 @@
             return [NSString stringWithFormat:@"%@",dic];
         }
     }else{
-        dicM = dic.mutableCopy;
+        if (self.key.length > 0) {
+            dicM[self.key] = dic;
+        }else{
+            dicM = ((NSDictionary *)dic).mutableCopy;
+        }
     }
+    
     return [BaseJsonViewStepModel convertToJsonData:dicM];
 }
 
@@ -627,4 +732,25 @@
     return mutStr;
 }
 
+- (BOOL) isEqualToKeyAndOriginDataWithModel: (BaseJsonViewStepModel *)model {
+    BOOL isEqual_Key = false;
+    BOOL isEqual_Data = false;
+    if (self.key.length <= 0 && model.key.length <= 0) {
+        isEqual_Key = true;
+    }else {
+        isEqual_Key = [self.key isEqualToString:model.key];
+    }
+    if (!self.originData && !model.originData) {
+        isEqual_Data = true;
+    }else{
+        isEqual_Data = [self.originData isEqual:model.originData];
+    }
+    return isEqual_Data && isEqual_Key;
+}
+
+
+- (void)dealloc
+{
+    NSLog(@"🌶 销毁！！！！！---- %@",self.key);
+}
 @end

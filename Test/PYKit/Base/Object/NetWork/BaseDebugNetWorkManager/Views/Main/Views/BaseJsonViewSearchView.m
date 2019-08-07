@@ -14,7 +14,8 @@
 
 @interface BaseJsonViewSearchView ()
 <
-UITextFieldDelegate
+UITextFieldDelegate,
+UIScrollViewDelegate
 >
 
 @property (nonatomic,strong) UITextField *searchTextView;
@@ -25,6 +26,7 @@ UITextFieldDelegate
 @property (nonatomic,strong) UIButton *scrollToFront;
 @property (nonatomic,strong) UIButton *accurateSearchButton;
 @property (nonatomic,strong) UILabel *currentLevelTreeLabel;
+@property (nonatomic,strong) UIScrollView *currentLevelTreeLabelBackgroundScrollView;
 @end
 
 @implementation BaseJsonViewSearchView
@@ -40,12 +42,15 @@ UITextFieldDelegate
         [self addSubview:self.scrollToNext];
         [self addSubview:self.scrollToFront];
         [self addSubview:self.accurateSearchButton];
-        [self addSubview:self.currentLevelTreeLabel];
+        [self addSubview: self.currentLevelTreeLabelBackgroundScrollView];
+        [self.currentLevelTreeLabelBackgroundScrollView addSubview:self.currentLevelTreeLabel];
+        
     }
     return self;
 }
 
 - (void) layoutWithWidth: (CGFloat) w {
+    self.width = w;
     [self setupViews];
 }
 
@@ -76,10 +81,11 @@ UITextFieldDelegate
     self.accurateSearchButton.top = self.scrollToNext.top;
     self.accurateSearchButton.right = self.showResultVc.right;
     
-    self.currentLevelTreeLabel.left = self.textFildBottomButton.left;
-    self.currentLevelTreeLabel.width = self.textFildBottomButton.width;
-    self.currentLevelTreeLabel.top = self.textFildBottomButton.bottom;
-    self.currentLevelTreeLabel.height = self.scrollToNext.bottom - self.currentLevelTreeLabel.top;
+    self.currentLevelTreeLabelBackgroundScrollView.left = self.textFildBottomButton.left;
+    self.currentLevelTreeLabelBackgroundScrollView.width = self.textFildBottomButton.width;
+    self.currentLevelTreeLabelBackgroundScrollView.top = self.textFildBottomButton.bottom;
+    self.currentLevelTreeLabelBackgroundScrollView.height = self.scrollToNext.bottom - self.currentLevelTreeLabelBackgroundScrollView.top;
+    
     self.height = self.scrollToNext.bottom + 10;
 }
 
@@ -91,38 +97,49 @@ UITextFieldDelegate
     self.layer.shadowOffset = CGSizeMake(0, 3);
     self.layer.shadowOpacity = 1;
     self.layer.shadowRadius = 10;
-    
 }
 
-- (void)setCurrentSearchModel:(BaseJsonViewStepModel *)currentSearchModel {
-    _currentSearchModel = currentSearchModel;
+- (void)setCurrentPathModel:(BaseJsonViewStepModel *)currentPathModel {
+    _currentPathModel = currentPathModel;
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(hiddenErrorMessage) object:nil];
+    if (self.currentLevelTreeLabel.alpha < 1) {
+        [UIView animateWithDuration:0.2 animations:^{
+            self.currentLevelTreeLabel.alpha = 1;
+        }];
+    }
     self.currentLevelTreeLabel.textColor = normalColor;
-    self.currentLevelTreeLabel.text = [currentSearchModel getTreeLayer];
+    self.currentLevelTreeLabel.text = [currentPathModel getTreeLayer];
     [self layoutCurrentLevelTreeLabelH];
     
 }
 
 - (void) layoutCurrentLevelTreeLabelH {
-    self.currentLevelTreeLabel.height = BaseStringHandler.handler(self.currentLevelTreeLabel.text).getHeightWithWidthAndFont(self.currentLevelTreeLabel.width,self.currentLevelTreeLabel.font);
-    CGFloat maxH = self.scrollToNext.bottom - self.currentLevelTreeLabel.top;
-    CGFloat currentH = self.currentLevelTreeLabel.height;
-    self.self.currentLevelTreeLabel.height = MIN(maxH, currentH);
+    [self.currentLevelTreeLabelBackgroundScrollView setZoomScale:1 animated:true];
+    self.currentLevelTreeLabel.height = BaseStringHandler.handler(self.currentLevelTreeLabel.text).getHeightWithWidthAndFont(self.currentLevelTreeLabelBackgroundScrollView.width,self.currentLevelTreeLabel.font);
+    self.currentLevelTreeLabel.width = self.currentLevelTreeLabelBackgroundScrollView.width;
+    self.currentLevelTreeLabelBackgroundScrollView.contentSize = CGSizeMake(0, self.currentLevelTreeLabel.height);
 }
 
-- (void)setMassageStr:(NSString *)massageStr {
-    _massageStr = massageStr;
-
-    [self errorMassage:massageStr];
+- (void)setMessageStr:(NSString *)messageStr {
+    _messageStr = messageStr;
+    [self errorMassage:messageStr];
 }
 
 - (void) errorMassage:(NSString *)str {
     self.currentLevelTreeLabel.textColor = errorColor;
     self.currentLevelTreeLabel.text = str;
     [self layoutCurrentLevelTreeLabelH];
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        self.currentLevelTreeLabel.textColor = normalColor;
-        self.currentSearchModel = self.currentSearchModel;
-    });
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(hiddenErrorMessage) object:nil];
+    [self performSelector:@selector(hiddenErrorMessage) withObject:nil afterDelay:3];
+}
+
+- (void) hiddenErrorMessage {
+    [UIView animateWithDuration:0.5 animations:^{
+        self.currentLevelTreeLabel.alpha = 0;
+    } completion:^(BOOL finished) {
+        self.currentLevelTreeLabel.alpha = 1;
+        self.currentPathModel = self.currentPathModel;
+    }];
 }
 
 - (UITextField *)searchTextView {
@@ -328,6 +345,10 @@ UITextFieldDelegate
     return YES;
 }
 
+- (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView {
+    return self.currentLevelTreeLabel;
+}
+
 /// accurateSearchButton;
 - (UIButton *) accurateSearchButton {
     if (!_accurateSearchButton) {
@@ -357,6 +378,16 @@ UITextFieldDelegate
             self.searchBlock(self.searchTextView.text);
         }
     }
+}
+
+- (UIScrollView *)currentLevelTreeLabelBackgroundScrollView {
+    if (!_currentLevelTreeLabelBackgroundScrollView) {
+        _currentLevelTreeLabelBackgroundScrollView = [[UIScrollView alloc]init];
+        _currentLevelTreeLabelBackgroundScrollView.delegate = self;
+        _currentLevelTreeLabelBackgroundScrollView.minimumZoomScale = 1;
+        _currentLevelTreeLabelBackgroundScrollView.maximumZoomScale = 3;
+    }
+    return _currentLevelTreeLabelBackgroundScrollView;
 }
 
 @end

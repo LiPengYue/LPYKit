@@ -13,10 +13,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface BaseJsonViewSearchView : UIView
 
-@property (nonatomic,copy) NSString *massageStr;
+@property (nonatomic,copy) NSString *messageStr;
 
 @property (nonatomic,assign) NSInteger searchResultCount;
-@property (nonatomic,strong) BaseJsonViewStepModel *currentSearchModel;
+@property (nonatomic,strong) BaseJsonViewStepModel *currentPathModel;
 - (void) layoutWithWidth: (CGFloat) w;
 
 @property (nonatomic,copy) void(^clickNext)(void);

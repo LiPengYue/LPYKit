@@ -10,7 +10,7 @@
 #import "BaseJsonViewTableViewCell.h"
 #import "BaseObjectHeaders.h"
 #import "BaseViewHeaders.h"
-
+#import "BaseJsonViewCommon.h"
 
 @interface BaseJsonViewTableViewCell()
 @property (nonatomic,strong) NSIndexPath *touchBeginIndex;
@@ -23,6 +23,8 @@
 @property (nonatomic,strong) UILabel * tagLabel;
 
 @property (nonatomic,strong) UIView *gestureView;
+@property (nonatomic,strong) UIButton *bottomFoldLineButton;
+@property (nonatomic,strong) CAGradientLayer *gradientLayer;
 @end
 
 @implementation BaseJsonViewTableViewCell
@@ -38,11 +40,28 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
     self.gestureView.frame = self.contentView.bounds;
-    
+    CGFloat labelH = self.height - tableViewCellBottomMinSpacing - tableViewCellTopMinSpacing;
+    if (self.model.isShowFoldLineButton) {
+        labelH -= tableViewCellBottomFoldLineButtonH;
+    }
+    self.leftLabel.height = labelH;
+    self.rightLabel.height = labelH;
+    self.colonLabel.top = self.leftLabel.bottom /2.0 - 3;
+    self.tagLabel.top = self.colonLabel.top;
+    self.bottomFoldLineButton.top = self.rightLabel.bottom + 2;
+    [self setupShapeLayerFrame];
+    self.bottomFoldLineButton.selected = self.model.isOpenFoldLine;
+//    CGRect frame = self.gradientLayer.frame;
+//    frame.size.width = self.rightLabel.width;
+//    frame.origin.x = self.rightLabel.left;
+//    frame.origin.y = self.rightLabel.bottom - frame.size.height;
+//    self.gradientLayer.frame = frame;
+//    [self.contentView.layer addSublayer:self.gradientLayer];
 }
 
 - (void)setModel:(BaseJsonViewStepModel *)model {
     _model = model;
+    
     [self relayoutSubViews];
     [self setupShapeLayerFrame];
 //    [self setupLevelFrmae];
@@ -79,6 +98,13 @@
     
     CGFloat rightLabelW = self.width - self.tagLabel.right - tableViewCellRightSpacing;
     self.rightLabel.frame = CGRectMake(self.tagLabel.right, self.leftLabel.top, rightLabelW, self.leftLabel.height);
+    
+    self.bottomFoldLineButton.hidden = !self.model.isShowFoldLineButton;
+    self.bottomFoldLineButton.top = self.rightLabel.bottom;
+    self.bottomFoldLineButton.left = self.rightLabel.left;
+    self.bottomFoldLineButton.width = self.rightLabel.width;
+    self.bottomFoldLineButton.height = self.height - self.rightLabel.bottom - tableViewCellBottomMinSpacing;
+    
 }
 
 - (void) setUpBackgroundColorWithIsSearchResultColor: (BOOL)isSearchResult andIsCurrentSearchResult: (BOOL) isCurrentSearchResult {
@@ -115,6 +141,9 @@
     }
     
     CGFloat leftLabelH = self.height - tableViewCellTopMinSpacing - tableViewCellBottomMinSpacing;
+    if (self.model.isShowFoldLineButton) {
+        leftLabelH -= tableViewCellBottomFoldLineButtonH;
+    }
     CGFloat leftLabelW = BaseStringHandler.handler(self.leftLabel.text).getWidthWithHeightAndFont(leftLabelH,self.leftLabel.font);
     
     leftLabelW = MIN(leftLabelW, self.width/2.0);
@@ -126,7 +155,7 @@
         colonLabelW = 0;
         self.colonLabel.hidden = true;
     }
-     self.colonLabel.frame = CGRectMake(self.leftLabel.right, self.height /2.0 - 4, colonLabelW, 10);
+     self.colonLabel.frame = CGRectMake(self.leftLabel.right, self.leftLabel.bottom /2.0 - 3, colonLabelW, 10);
     
 }
 
@@ -161,6 +190,7 @@
     [self.contentView addSubview: self.colonLabel];
     [self.contentView addSubview: self.gestureView];
     [self.contentView addSubview: self.levelLabel];
+    [self.contentView addSubview: self.bottomFoldLineButton];
     [self.contentView.layer addSublayer: self.shapeLayer];
     self.gestureView.frame = self.bounds;
 }
@@ -234,6 +264,32 @@
     return _tagLabel;
 }
 
+- (UIButton *)bottomFoldLineButton {
+    if (!_bottomFoldLineButton) {
+        _bottomFoldLineButton = [[UIButton alloc]initWithFrame:CGRectZero];
+        _bottomFoldLineButton.layer.cornerRadius = 2;
+//        _bottomFoldLineButton.layer.borderColor = leftTitleColor.CGColor;
+//        _bottomFoldLineButton.layer.borderWidth = 0.3;
+        _bottomFoldLineButton.layer.shadowColor = [UIColor colorWithWhite:1 alpha:0.5].CGColor;
+        _bottomFoldLineButton.layer.shadowOpacity = 1;
+        _bottomFoldLineButton.layer.shadowOffset = CGSizeMake(0, -10);
+        _bottomFoldLineButton.layer.shadowRadius = 8;
+        [_bottomFoldLineButton setTitle:@"∨" forState:UIControlStateNormal];
+        [_bottomFoldLineButton setTitle:@"∧" forState:UIControlStateSelected];
+        [_bottomFoldLineButton setTitleColor:leftTitleColor forState:UIControlStateNormal];
+        _bottomFoldLineButton.titleLabel.font = tableViewCellBottomFoldLineButtonFont;
+        _bottomFoldLineButton.hidden = true;
+        [_bottomFoldLineButton addTarget:self action:@selector(clickBottomFoldLineButton) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _bottomFoldLineButton;
+}
+
+- (void) clickBottomFoldLineButton {
+    if (self.clickBottomFoldLineButtonBlock) {
+        self.clickBottomFoldLineButtonBlock(self);
+    }
+}
+
 - (UIView *)gestureView {
     if (!_gestureView) {
         _gestureView = [UIView new];
@@ -265,11 +321,13 @@
 }
 
 - (void) longAction:(UILongPressGestureRecognizer *)longGesture {
-    UIView *view = longGesture.view;
-    if (!([view isEqual:self.gestureView])) return;
-    if (self.longAction) {
-        self.longAction(self, self.touchBeginIndex);
-    }
+    if (longGesture.state == UIGestureRecognizerStateBegan) {
+        UIView *view = longGesture.view;
+        if (!([view isEqual:self.gestureView])) return;
+        if (self.longAction) {
+            self.longAction(self, self.touchBeginIndex);
+        }
+      }
 }
 
 - (void) doubleAction: (UITapGestureRecognizer *)doubleGesture {
@@ -293,6 +351,22 @@
     return _shapeLayer;
 }
 
+- (CAGradientLayer *)gradientLayer {
+    if (!_gradientLayer) {
+        _gradientLayer = [CAGradientLayer new];
+        _gradientLayer.startPoint = CGPointMake(0.5, 1);
+        _gradientLayer.endPoint = CGPointMake(0.5, 0);
+        _gradientLayer.locations = @[@0.0,@0.3,@1.0];
+        _gradientLayer.colors = @[
+                                 (id)[UIColor.whiteColor colorWithAlphaComponent:1].CGColor,
+                                 (id)[UIColor.whiteColor colorWithAlphaComponent:0].CGColor,
+                                 ];;
+        
+        _gradientLayer.frame = CGRectMake(0, 0, 0, tableViewCellBottomFoldLineButtonH);
+    }
+    return _gradientLayer;
+}
+
 - (void) setupShapeLayerFrame {
     CGFloat y = tableViewCellLeftLineTopBottomMinSpacing;
     CGFloat x = self.leftLabel.left - 4;
@@ -305,29 +379,73 @@
     self.shapeLayer.frame = CGRectMake(x, y, w, self.height - 2);
 }
 
-+ (CGFloat) getHeightWithModel: (BaseJsonViewStepModel *)model andLevelOffset: (NSInteger) levelOffset andLeftMaxW: (CGFloat) leftLabelMaxW{
++ (CGFloat) getHeightWithModel: (BaseJsonViewStepModel *)model andLevelOffset: (NSInteger) levelOffset andLeftMaxW: (CGFloat) leftLabelMaxW andCellWidth: (CGFloat) cellW{
+    NSString *leftStr = nil;
+    if (model.key.length > 0) {
+        leftStr = [NSString stringWithFormat:@"\"%@\"", model.key];
+    }else{
+        leftStr = @"";
+    }
     NSString *right = nil;
     if ([model.data isKindOfClass:NSString.class]) {
-        right = model.data;
+        right = [NSString stringWithFormat:@"\"%@\"",model.data];
     }
     if ([model.data isKindOfClass:NSNumber.class]) {
         NSNumber *data = model.data;
         right = data.stringValue;
     }
+    
     CGFloat leftLabelLeft = (model.level - levelOffset) * tableViewCellLevelSpacing + tableViewCellLeftSpacing;
-    CGFloat leftLabelW = BaseStringHandler.handler(right).getWidthWithHeightAndFont(999,tableViewCellLeftFont);
+    CGFloat leftLabelW = BaseStringHandler.handler(leftStr).getWidthWithHeightAndFont(999,tableViewCellLeftFont);
     
     leftLabelW = leftLabelW > leftLabelMaxW ? leftLabelMaxW : leftLabelW;
+    
     leftLabelW += leftLabelLeft;
-
-    CGFloat h = 0.0 ;
-    if (right.length > 0) {
-        h =
-        BaseStringHandler
-        .handler(right)
-        .getHeightWithWidthAndFont(leftLabelW,tableViewCellRightFont);
-        
+    
+    CGFloat rightLabelLeft = leftLabelW;
+    CGFloat tagLabelW = 10;
+    
+    switch (model.type) {
+            
+        case BaseJsonViewStepModelType_Dictionary:
+            tagLabelW = 10;
+            break;
+        case BaseJsonViewStepModelType_Array:
+            tagLabelW = 10;
+            break;
+        case BaseJsonViewStepModelType_Number:
+            tagLabelW = 0;
+            break;
+        case BaseJsonViewStepModelType_String:
+            tagLabelW = 0;
+            break;
     }
-    return MAX(h, 46);
+    
+    CGFloat colonLabelW = 10;
+    if(model.key.length <= 0) {
+        colonLabelW = 0;
+    }
+    
+    rightLabelLeft += colonLabelW;
+    rightLabelLeft += tagLabelW;
+    
+    CGFloat h = 0.0 ;
+    CGFloat rightw = cellW - rightLabelLeft - tableViewCellRightSpacing;
+    if (right.length > 0) {
+        h = [BaseJsonViewCommon getHeightLineWithString:right withWidth:rightw withFont:tableViewCellRightFont];
+    }
+    return h;
+}
+
+
++ (CGFloat)getHeightLineWithString:(NSString *)string withWidth:(CGFloat)width withFont:(UIFont *)font {
+    
+    CGSize size = CGSizeMake(width, 999);
+
+    NSDictionary *dic = @{NSFontAttributeName:font};
+
+    CGFloat height = [string boundingRectWithSize:size options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:dic context:nil].size.height;
+    
+    return height;
 }
 @end

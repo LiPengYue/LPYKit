@@ -14,8 +14,10 @@
 #import "BaseObjectHeaders.h"
 #import "BaseViewHeaders.h"
 #import "BaseSize.h"
+#import "BaseJsonEditingTableViewCell.h"
 
 static NSString *const kBaseJsonViewTableViewCellId = @"kBaseJsonViewTableViewCellId";
+static NSString *const kBaseJsonEditingTableViewCell = @"kBaseJsonEditingTableViewCell";
 
 @interface BaseJsonViewTableView()
 <
@@ -44,6 +46,7 @@ UITableViewDataSource
     self.dataSource = self;
     self.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self registerClass:BaseJsonViewTableViewCell.class forCellReuseIdentifier:kBaseJsonViewTableViewCellId];
+    [self registerNib:[UINib nibWithNibName:@"BaseJsonEditingTableViewCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:kBaseJsonEditingTableViewCell];
 }
 
 - (NSMutableArray<BaseJsonViewStepModel *> *)modelArray {
@@ -71,7 +74,18 @@ UITableViewDataSource
 // MARK: - get && set
 - (void)setModel:(BaseJsonViewStepModel *)model {
     _model = model;
-    self.modelArray = [model faltSelfDataIfOpen].mutableCopy;
+    switch (model.type) {
+        case BaseJsonViewStepModelType_Dictionary:
+        case BaseJsonViewStepModelType_Array:
+              self.modelArray = [model faltSelfDataIfOpen].mutableCopy;
+            break;
+        case BaseJsonViewStepModelType_Number:
+        case BaseJsonViewStepModelType_String:
+            [self.modelArray removeAllObjects];
+            [self.modelArray addObject:model];
+            break;
+    }
+
     [self reloadData];
 }
 
@@ -114,7 +128,27 @@ UITableViewDataSource
 #pragma mark - dataSource
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return  [BaseJsonViewTableViewCell getHeightWithModel:self.modelArray[indexPath.row] andLevelOffset:self.levelOffset andLeftMaxW:self.width/2.0] + tableViewCellTopMinSpacing + tableViewCellBottomMinSpacing;
+    BaseJsonViewStepModel *model = self.modelArray[indexPath.row];
+    if (model.status != BaseJsonViewStepCellStatus_Normal) {
+        return [BaseJsonEditingTableViewCell getHeithWithModel:model];
+    }
+    CGFloat h = 0;
+    CGFloat normalH = tableViewCellFoldLineMaxHeight;
+    
+    h = [BaseJsonViewTableViewCell getHeightWithModel:model andLevelOffset:self.levelOffset andLeftMaxW:self.width/2.0 andCellWidth:self.width] + tableViewCellTopMinSpacing + tableViewCellBottomMinSpacing;
+    
+    model.isShowFoldLineButton = h > normalH;
+    
+    if (model.isShowFoldLineButton) {
+        normalH += tableViewCellBottomFoldLineButtonH;
+        h += tableViewCellBottomFoldLineButtonH;
+    }
+    
+    if (model.isOpenFoldLine) {
+       return MAX(h,normalH);
+    }else{
+        return normalH;
+    }
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -122,7 +156,12 @@ UITableViewDataSource
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    id cellAny = [tableView dequeueReusableCellWithIdentifier:kBaseJsonViewTableViewCellId forIndexPath:indexPath];
+    NSString *str = kBaseJsonViewTableViewCellId;
+    if (self.modelArray[indexPath.row].status != BaseJsonViewStepCellStatus_Normal) {
+        str = kBaseJsonEditingTableViewCell;
+    }
+    UITableViewCell *cellAny = [tableView dequeueReusableCellWithIdentifier:str forIndexPath:indexPath];
+    cellAny.selectionStyle = UITableViewCellSelectionStyleNone;
     return cellAny;
 }
 
@@ -138,6 +177,41 @@ UITableViewDataSource
         
         [self registerCellEventsWithCell: jsonCell];
     }
+    if ([cell isKindOfClass:BaseJsonEditingTableViewCell.class]) {
+        BaseJsonEditingTableViewCell *editCell = (BaseJsonEditingTableViewCell *)cell;
+        editCell.editingModel = self.modelArray[indexPath.row];
+        NSInteger row = [self.modelArray indexOfObject:editCell.editingModel.superPoint];
+        NSIndexPath *superPointIndex = [NSIndexPath indexPathForRow:row inSection:0];
+        editCell.superPointIndexPath = superPointIndex;
+        editCell.indexPath = indexPath;
+        
+        [self registerEditingCellEventWith:editCell];
+    }
+}
+
+- (void) registerEditingCellEventWith:(BaseJsonEditingTableViewCell *)editCell {
+    __weak typeof (self)weakSelf = self;
+    __weak typeof(editCell)weakEditCell = editCell;
+    
+    [editCell setClickInsertDownBlock:^{
+        NSIndexPath *index = [weakSelf indexPathForCell:weakEditCell];
+        
+        [weakSelf.modelArray replaceObjectAtIndex:index.row withObject:weakEditCell.editingModel];
+
+        NSInteger row = [weakSelf.modelArray indexOfObject:weakEditCell.editingModel.superPoint];
+        NSIndexPath *superPointIndex = [NSIndexPath indexPathForRow:row inSection:0];
+        [weakSelf reloadRowsAtIndexPaths:@[index,superPointIndex] withRowAnimation:UITableViewRowAnimationFade];
+    }];
+    
+    [editCell setClickCancellButtonBlock:^{
+        NSIndexPath *index = [weakSelf indexPathForCell:weakEditCell];
+        
+        [weakSelf.modelArray replaceObjectAtIndex:index.row withObject:weakEditCell.editingModel];
+        
+        NSInteger row = [weakSelf.modelArray indexOfObject:weakEditCell.editingModel.superPoint];
+        NSIndexPath *superPointIndex = [NSIndexPath indexPathForRow:row inSection:0];
+        [weakSelf reloadRowsAtIndexPaths:@[index,superPointIndex] withRowAnimation:UITableViewRowAnimationFade];
+    }];
 }
 
 - (void) registerCellEventsWithCell: (BaseJsonViewTableViewCell *) cell {
@@ -150,6 +224,14 @@ UITableViewDataSource
     }];
     [cell setDoubleAction:^(BaseJsonViewTableViewCell * _Nonnull cell, NSIndexPath * _Nonnull indexPath) {
         [weakSelf handleDoubleActionWithCell:cell andIndexPath: indexPath];
+    }];
+    
+    [cell setClickBottomFoldLineButtonBlock:^(BaseJsonViewTableViewCell * _Nonnull cell) {
+        BaseJsonViewStepModel *model = cell.model;
+        model.isOpenFoldLine = !model.isOpenFoldLine;
+        
+        [weakSelf beginUpdates];
+        [weakSelf endUpdates];
     }];
 }
 
@@ -169,8 +251,53 @@ UITableViewDataSource
     }];
     
     UITableViewRowAction *editAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"编辑" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
+        model.status = BaseJsonViewStepCellStatus_EditingSelf;
+        
+        if(model.isOpen) {
+            [self closeWithModel:model andIsOpen:false andIndex:indexPath];
+        }
+        
+        [self beginUpdates];
+        [self reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:[self.modelArray indexOfObject:model]  inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+        [self endUpdates];
+         
+    }];
+    
+    UITableViewRowAction *insertItemAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"父节点插入" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
+        
+        if (model.isOpen) {
+            [self closeWithModel:model andIsOpen:false andIndex:indexPath];
+        }
+        
+        BaseJsonViewStepModel *itemModel = [BaseJsonViewStepModel new];
+        itemModel.level = model.level;
+        itemModel.status = BaseJsonViewStepCellStatus_InsertItem;
+        [self.modelArray insertObject:itemModel atIndex:[self.modelArray indexOfObject:model] + 1];
+        itemModel.superPoint = model.superPoint;
+        
+        [self beginUpdates];
+        [self insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:[self.modelArray indexOfObject:model] + 1  inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
+        [self endUpdates];
         
     }];
+    
+    UITableViewRowAction *selfInsertAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"子节点插入" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
+        
+        model.isOpen = true;
+        
+        BaseJsonViewStepModel *itemModel = [BaseJsonViewStepModel new];
+        itemModel.level = model.level + 1;
+        itemModel.status = BaseJsonViewStepCellStatus_InsertItem;
+        [self.modelArray insertObject:itemModel atIndex:[self.modelArray indexOfObject:model] + 1];
+        itemModel.superPoint = model;
+        
+        [self beginUpdates];
+        [self insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:[self.modelArray indexOfObject:model] + 1  inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
+        [self endUpdates];
+    }];
+    
+    
+    
     UITableViewRowAction *deleteAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"删除" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
         
         [self deleteWithModel:model];
@@ -181,12 +308,28 @@ UITableViewDataSource
     copyAction.backgroundColor = copyActionBackgroundColor;
     copyStrAction.backgroundColor = copyStrActionBackgroundColor;
     deleteAction.backgroundColor = deleteActionBackgroundColor;
+    insertItemAction.backgroundColor = deleteActionBackgroundColor;
+    selfInsertAction.backgroundColor = deleteActionBackgroundColor;
     
-    if (self.modelArray[indexPath.row].type == BaseJsonViewStepModelType_Number ||
-        self.modelArray[indexPath.row].type == BaseJsonViewStepModelType_String) {
-        return @[copyStrAction,copyAction,editAction,deleteAction];
+    switch (model.type) {
+        
+        case BaseJsonViewStepModelType_Dictionary:
+        case BaseJsonViewStepModelType_Array:{
+            NSArray *data = (NSArray *)model.data;
+//            if (data.count <= 0) {
+            return @[copyAction, editAction,insertItemAction,selfInsertAction,deleteAction];
+//            }else{
+//                return @[copyAction, editAction,insertItemAction,deleteAction];
+//            }
+        }
+            break;
+        case BaseJsonViewStepModelType_Number:
+        case BaseJsonViewStepModelType_String:
+            return @[copyStrAction,copyAction,editAction,insertItemAction,deleteAction];
+            break;
     }
-    return @[copyAction, editAction,deleteAction];
+    
+    return @[copyAction, editAction,insertItemAction,deleteAction];
 }
 
 - (void) deleteWithModel: (BaseJsonViewStepModel *)model {
@@ -224,6 +367,15 @@ UITableViewDataSource
         BaseJsonViewTableViewCell *cell = message;
         BOOL overflowMaxLevle = cell.model.level - self.levelOffset > tableViewCellMaxLevel;
         BOOL isNeededOpen = [cell.model.data isKindOfClass:NSArray.class];
+        switch (cell.model.type) {
+            case BaseJsonViewStepModelType_Dictionary:
+            case BaseJsonViewStepModelType_Array:
+                break;
+            case BaseJsonViewStepModelType_Number:
+            case BaseJsonViewStepModelType_String:
+                return;
+                break;
+        }
         
         if (overflowMaxLevle
             && self.jumpNextLevelVc
@@ -231,14 +383,16 @@ UITableViewDataSource
             //跳转一个新的控制器
             self.jumpNextLevelVc(cell.model);
         }else{
-            [self closeWithModel:cell.model andIsOpen:!cell.model.isOpen andCell: (BaseJsonViewTableViewCell *)cell];
+            NSIndexPath *index = [self indexPathForCell:cell];
+            [self closeWithModel:cell.model andIsOpen:!cell.model.isOpen andIndex:index];
         }
     }
 }
 
-- (void) closeWithModel: (BaseJsonViewStepModel *)model andIsOpen:(BOOL)isOpen andCell: (BaseJsonViewTableViewCell *)cell{
-    model.isOpen = isOpen;
+- (void) closeWithModel: (BaseJsonViewStepModel *)model andIsOpen:(BOOL)isOpen andIndex: (NSIndexPath *)indexPath{
+    
     NSArray *array = [model faltSelfDataIfOpen];
+    model.isOpen = isOpen;
     
     NSInteger index = [self.modelArray indexOfObject:model];
     NSRange range = NSMakeRange(index + 1, [array count]);
@@ -250,10 +404,9 @@ UITableViewDataSource
     }];
     
     NSMutableArray *updataIndexArrayM = [NSMutableArray new];
-    NSIndexPath *cellIndex = [self indexPathForCell:cell];
+    NSIndexPath *cellIndex = indexPath;
     if (cellIndex) {
         [updataIndexArrayM addObject:cellIndex];
-        
     }
  
     if (isOpen) {
@@ -263,12 +416,15 @@ UITableViewDataSource
         [self insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationFade];
         [self endUpdates];
     }else{
+        
         [array enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             if (self.isAutoClose) {
                 [obj closeAll];
             }
-            [self.modelArray removeObject:obj];
         }];
+        
+        [self.modelArray removeObjectsAtIndexes:indexSet];
+        
         if (self.isAutoClose) {
             [model closeAll];
         }
@@ -280,6 +436,14 @@ UITableViewDataSource
 }
 
 - (void) handleLongActionWithCell:(BaseJsonViewTableViewCell *)cell andIndexPath: (NSIndexPath *)indexPath {
+    if (self.longClickCellBlock) {
+        if (@available(iOS 10.0, *)) {
+            UIImpactFeedbackGenerator *feedBackGenertor = [[UIImpactFeedbackGenerator alloc] initWithStyle:UIImpactFeedbackStyleMedium];
+            [feedBackGenertor impactOccurred];
+        } else {
+        }
+        self.longClickCellBlock([self.modelArray objectAtIndex:indexPath.row]);
+    }
 }
 
 - (void) handleDoubleActionWithCell:(BaseJsonViewTableViewCell *)cell andIndexPath: (NSIndexPath *)indexPath {

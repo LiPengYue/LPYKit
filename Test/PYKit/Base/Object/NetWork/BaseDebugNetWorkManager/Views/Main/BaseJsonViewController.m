@@ -9,10 +9,10 @@
 #import "BaseJsonViewController.h"
 #import "BaseJsonViewSearchResultViewController.h"
 #import "BaseJsonViewMainView.h"
-#import "BaseJsonViewSearchView.h"
 #import "BaseObjectHeaders.h"
 #import "BaseViewHeaders.h"
 #import "BaseSize.h"
+#import "BaseJsonHeaderView.h"
 
 typedef enum : NSUInteger {
     BaseJsonViewController_popVc_none = 0,
@@ -24,13 +24,14 @@ typedef enum : NSUInteger {
 @property (nonatomic,strong) BaseJsonViewMainView *mainView;
 @property (nonatomic,strong) BaseJsonViewStepModel *model;
 @property (nonatomic,strong) ScrollViewPanDirectionHandler *panHandler;
-@property (nonatomic,strong) BaseJsonViewSearchView *searchView;
+@property (nonatomic,strong) BaseJsonHeaderView *headerView;
 @property (nonatomic,copy) NSString *searchKey;
 @property (nonatomic,assign) BOOL isChanged;
 @property (nonatomic,strong) NSArray <BaseJsonViewStepModel *>*searchResultModelArray;
 
 @property (nonatomic,assign) NSInteger currentLevelOffset;
 @property (nonatomic,assign) BaseJsonViewController_popType popType;
+@property (nonatomic,assign) BOOL isHiddenHeaderView;
 @end
 
 @implementation BaseJsonViewController
@@ -45,7 +46,7 @@ typedef enum : NSUInteger {
 - (void)revertViewWillAppear {
     switch (self.popType) {
         case BaseJsonViewController_popVc_searchVc:
-             [self.mainView scrollToModel:self.searchView.currentSearchModel];
+             [self.mainView scrollToModel:self.headerView.currentPathModel];
             break;
         case BaseJsonViewController_popVc_childrenPointVc:
             [self.mainView reloadWithData:self.model];
@@ -64,7 +65,6 @@ typedef enum : NSUInteger {
 
 // MARK: - init
 
-
 #pragma mark - func
 
 // MARK: setupTable
@@ -73,11 +73,11 @@ typedef enum : NSUInteger {
 - (void) reloadDataWithID: (id)data {
     [self.mainView reloadWithData:data];
     self.model = [self.mainView getCurrentModel];
-    self.searchView.path = [self.model getTreeLayer];
+    self.headerView.path = [self.model getTreeLayer];
 }
 
 - (void) registerEvents {
-    [self registerSearchViewEvent];
+    [self registerheaderViewEvent];
     [self registerPanHandlerEvent];
     [self registeMainViewEvent];
 }
@@ -85,20 +85,25 @@ typedef enum : NSUInteger {
 - (void) registeMainViewEvent {
     __weak typeof(self)weakSelf = self;
     [self.mainView setJumpNextLevelVc:^(BaseJsonViewStepModel * _Nonnull model) {
-        BaseJsonViewController *vc = [BaseJsonViewController new];
-        vc.currentLevelOffset = model.level;
-        vc.mainView.currentLevelOffset = vc.currentLevelOffset;
-        [vc reloadDataWithID:model];
-        weakSelf.popType = BaseJsonViewController_popVc_childrenPointVc;
-        [weakSelf.navigationController pushViewController:vc animated:true];
+        [weakSelf pushChildrenVcWithModel:model];
     }];
+    [self regesterTableViewAction];
+}
+
+- (void) pushChildrenVcWithModel:(BaseJsonViewStepModel *)model {
+    BaseJsonViewController *vc = [BaseJsonViewController new];
+    vc.currentLevelOffset = model.level;
+    vc.mainView.currentLevelOffset = vc.currentLevelOffset;
+    [vc reloadDataWithID:model];
+    self.popType = BaseJsonViewController_popVc_childrenPointVc;
+    [self.navigationController pushViewController:vc animated:true];
 }
 
 - (void) registerPanHandlerEvent {
     __weak typeof (self) weakSelf = self;
     self.panHandler.up = ^{
         if (weakSelf.mainView.top != BaseSize.statusBarH || weakSelf.mainView.height != BaseSize.screenH -  BaseSize.statusBarH) {
-            [weakSelf hiddenTopSearchView];
+            [weakSelf hiddenTopheaderView];
             [UIView animateWithDuration:0.25 animations:^{
                 weakSelf.mainView.top = BaseSize.statusBarH;
                 weakSelf.mainView.height = BaseSize.screenH -  BaseSize.statusBarH;
@@ -108,15 +113,18 @@ typedef enum : NSUInteger {
         }
     };
     self.panHandler.down = ^{
-        
-        if (weakSelf.navBarView.rightItems.firstObject.isSelected) {
-            [weakSelf showTopSearchView];
+        __block BOOL isShowTopHeaderView = false;
+        [weakSelf.navBarView.rightItems enumerateObjectsUsingBlock:^(UIButton * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            isShowTopHeaderView = obj.isSelected;
+            *stop = isShowTopHeaderView;
+        }];
+        if (isShowTopHeaderView) {
+            [weakSelf showTopheaderView];
         }
-        
         [UIView animateWithDuration:0.25 animations:^{
             weakSelf.navBarView.top = weakSelf.view.top;
-            weakSelf.mainView.top = weakSelf.navBarView.rightItems.firstObject.selected ? weakSelf.searchView.bottom : weakSelf.navBarView.bottom;
-            weakSelf.mainView.height = BaseSize.screen_navH;
+            weakSelf.mainView.top = isShowTopHeaderView ? weakSelf.headerView.bottom : weakSelf.navBarView.bottom;
+            weakSelf.mainView.height = weakSelf.view.height - weakSelf.navBarView.bottom;
             weakSelf.mainView.tableView.height = weakSelf.mainView.height;
         }];
     };
@@ -124,68 +132,72 @@ typedef enum : NSUInteger {
 
 // MARK: handle views
 - (void) setupViews {
-    self.searchView.bottom = self.navBarView.top;
-    self.searchView.width = self.view.width;
-    [self.searchView layoutWithWidth:self.searchView.width];
+    self.headerView.bottom = self.navBarView.top;
+    self.headerView.width = self.view.width;
+    [self.headerView layoutWithWidth:self.headerView.width];
     self.mainView.top = self.navBarView.bottom;
     
     self.mainView.height = BaseSize.screenH - self.mainView.top;
     self.mainView.width = self.view.width;
     [self.view addSubview: self.mainView];
-    [self.view addSubview: self.searchView];
+    [self.view addSubview: self.headerView];
 }
 
-- (void) registerSearchViewEvent {
+- (void) registerheaderViewEvent {
     __weak typeof(self)weakSelf = self;
-    [self.searchView setSearchBlock:^(NSString * _Nonnull key) {
+    [self.headerView setSearchBlock:^(NSString * _Nonnull key) {
         weakSelf.searchKey = key;
         NSArray <BaseJsonViewStepModel *>*modelArray = [weakSelf.mainView.tableView searchAndOpenAllWithKey:key];
         weakSelf.searchResultModelArray = modelArray;
-        weakSelf.searchView.searchResultCount = modelArray.count;
-        weakSelf.searchView.currentSearchModel = modelArray.firstObject;
+        weakSelf.headerView.searchResultCount = modelArray.count;
+        weakSelf.headerView.currentPathModel = modelArray.firstObject;
         if (modelArray.count > 0) {
-            [weakSelf.mainView scrollToModel:weakSelf.searchView.currentSearchModel];
+            [weakSelf.mainView scrollToModel:weakSelf.headerView.currentPathModel];
         }
         
     }];
-    [self.searchView setClickAccurateSearchButton:^(BOOL isAccurateSearch) {
+    [self.headerView setClickAccurateSearchButton:^(BOOL isAccurateSearch) {
         weakSelf.mainView.isAccurateSearch = isAccurateSearch;
     }];
-    [self.searchView setClickNext:^{
+    [self.headerView setClickNext:^{
         [weakSelf scrollWtihIsNext:true];
     }];
-    [self.searchView setClickFront:^{
+    [self.headerView setClickFront:^{
         [weakSelf scrollWtihIsNext:false];
     }];
-    [self.searchView setClickJumpResultVc:^{
+    [self.headerView setClickJumpResultVc:^{
         [weakSelf jumpResultVc];
     }];
 }
 
 - (void) regesterTableViewAction {
+    __weak typeof(self)weakSelf = self;
     [self.mainView setDoubleClickCellBlock:^(BaseJsonViewStepModel * _Nonnull model) {
         
+    }];
+    [self.mainView setLongClickCellBlock:^(BaseJsonViewStepModel * _Nonnull model) {
+        [weakSelf pushChildrenVcWithModel:model];
     }];
 }
 
 - (void) jumpResultVc {
     if (self.searchKey.length <= 0) {
-        self.searchView.massageStr = @"🌶 请先输入搜索内容";
+        self.headerView.messageStr = @"🌶 请先输入搜索内容";
         return;
     }
     if (self.searchResultModelArray.count <= 0) {
-        self.searchView.massageStr = @"🌶 搜索数据为空";
+        self.headerView.messageStr = @"🌶 搜索数据为空";
         return;
     }
     BaseJsonViewSearchResultViewController *vc = [BaseJsonViewSearchResultViewController new];
-    vc.currentSearchModel = self.searchView.currentSearchModel;
+    vc.currentSearchModel = self.headerView.currentPathModel;
     vc.modelArray = self.searchResultModelArray;
     __weak typeof(self)weakSelf = self;
     __weak typeof(vc) weakVc = vc;
     vc.searchKey = self.searchKey;
     [vc setClickCellBlock:^(BaseJsonViewStepModel * _Nonnull model) {
         [weakVc.navigationController popViewControllerAnimated:true];
-        weakSelf.searchView.currentSearchModel = model;
+        weakSelf.headerView.currentPathModel = model;
         [weakSelf.mainView scrollToModel:model];
     }];
     self.popType = BaseJsonViewController_popVc_searchVc;
@@ -194,14 +206,14 @@ typedef enum : NSUInteger {
 
 - (void) scrollWtihIsNext: (BOOL) isNext {
     if (self.searchKey.length <= 0) {
-        self.searchView.massageStr = @"🌶 请先输入搜索内容";
+        self.headerView.messageStr = @"🌶 请先输入搜索内容";
         return;
     }
     if (self.searchResultModelArray.count <= 0) {
-        self.searchView.massageStr = @"🌶 搜索数据为空";
+        self.headerView.messageStr = @"🌶 搜索数据为空";
         return;
     }
-    NSInteger indexCurrent = [self.searchResultModelArray indexOfObject: self.searchView.currentSearchModel];
+    NSInteger indexCurrent = [self.searchResultModelArray indexOfObject: self.headerView.currentPathModel];
     NSInteger indexNext = isNext ? indexCurrent + 1 : indexCurrent - 1;
     if (indexNext < 0) {
         indexNext = self.searchResultModelArray.count -1;
@@ -209,9 +221,9 @@ typedef enum : NSUInteger {
     if (indexNext >= self.searchResultModelArray.count) {
         indexNext = 0;
     }//0x1c42850a0
-    self.searchView.currentSearchModel = [self.searchResultModelArray objectAtIndex:indexNext];
+    self.headerView.currentPathModel = [self.searchResultModelArray objectAtIndex:indexNext];
     
-    [self.mainView scrollToModel:self.searchView.currentSearchModel];
+    [self.mainView scrollToModel:self.headerView.currentPathModel];
 }
 
 - (void) reloadNaviTitle {
@@ -222,30 +234,52 @@ typedef enum : NSUInteger {
     .setDefaultIfNull(@"Json视图")
     .getStr;
     [self.navBarView.titleButton setTitle:title forState:UIControlStateNormal];
-    self.navBarView.addRightItemWithTitleAndImg(@"🔍",nil);
+    self.navBarView
+    .addRightItemWithTitleAndImg(@"🔍",nil)
+    .addRightItemWithTitleAndImg(@"🔨",nil);
     
     __weak typeof (self)weakSelf = self;
     [self.navBarView clickRightButtonFunc:^(UIButton *button, NSInteger index) {
-        [weakSelf clickTitle:button];
+        [weakSelf.navBarView.rightItems enumerateObjectsUsingBlock:^(UIButton * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            if(![obj isEqual:button]) {
+                obj.selected = false;
+            }
+        }];
+        if (index == 0) {
+            [weakSelf clickSearch:button];
+        }else{
+            [weakSelf clickEditing:button];
+        }
     }];
     [self.navBarView reloadView];
 }
 
-- (void) clickTitle:(UIButton *)titleButton {
-    titleButton.selected = !titleButton.selected;
-    if (titleButton.selected) {
-        [self showTopSearchView];
-    }else{
-        [self hiddenTopSearchView];
+- (void) clickSearch:(UIButton *)button {
+    button.selected = !button.selected;
+    [self.headerView getHWithEditModel:self.model andPathModel:self.headerView.currentPathModel andMaxW:self.view.width andIsSearch:true andAnimation:true];
+    if (!button.selected) {
+        [self hiddenTopheaderView];
+    } else {
+        [self showTopheaderView];
     }
+    self.headerView.isSearch = true;
 }
 
+- (void) clickEditing: (UIButton *)button {
+    button.selected = !button.selected;
+    [self.headerView getHWithEditModel:self.model andPathModel:self.headerView.currentPathModel andMaxW:self.view.width andIsSearch:false andAnimation:true];
+    if (!button.isSelected) {
+        [self hiddenTopheaderView];
+    } else {
+        [self showTopheaderView];
+    }
+    self.headerView.isSearch = false;
+}
 
-- (void) hiddenTopSearchView {
-    
+- (void) hiddenTopheaderView {
     [self.view endEditing:true];
     [UIView animateWithDuration:0.25 animations:^{
-        self.searchView.bottom = self.navBarView.top;
+        self.headerView.bottom = self.navBarView.top;
         if (self.mainView.top != self.navBarView.bottom) {
             self.mainView.top = self.navBarView.bottom;
             self.mainView.height = BaseSize.screenH - self.mainView.top;
@@ -253,13 +287,14 @@ typedef enum : NSUInteger {
     }];
 }
 
-- (void) showTopSearchView {
-    if (self.searchView.top == self.navBarView.bottom) {
+- (void) showTopheaderView {
+    self.isHiddenHeaderView = true;
+    if (self.headerView.top == self.navBarView.bottom && self.headerView.bottom == self.mainView.top) {
         return;
     }
     [UIView animateWithDuration:0.25 animations:^{
-        self.searchView.top = self.navBarView.bottom;
-        self.mainView.top = self.searchView.bottom;
+        self.headerView.top = self.navBarView.bottom;
+        self.mainView.top = self.headerView.bottom;
         self.mainView.height = self.view.height - self.mainView.top;
         self.mainView.tableView.height = self.mainView.height;
     }];
@@ -274,7 +309,6 @@ typedef enum : NSUInteger {
 }
 
 // MARK: handle event
-
 
 // MARK: get && set
 - (ScrollViewPanDirectionHandler *)panHandler {
@@ -292,17 +326,11 @@ typedef enum : NSUInteger {
     return _mainView;
 }
 
-- (BaseJsonViewSearchView *)searchView {
-    if (!_searchView) {
-        _searchView = [[BaseJsonViewSearchView alloc]initWithFrame: CGRectMake(0, 0, 0, 0)];
-        
-        [_searchView layoutWithWidth:self.view.width]; _searchView.layer.shadowPath = [UIBezierPath bezierPathWithRect:_searchView.bounds].CGPath;
-        _searchView.layer.shadowColor = [UIColor colorWithWhite:0 alpha:0.1].CGColor;
-        _searchView.layer.shadowOffset = CGSizeMake(0, 3);
-        _searchView.layer.shadowOpacity = 1;
-        _searchView.layer.shadowRadius = 3;
+- (BaseJsonHeaderView *)headerView {
+    if (!_headerView) {
+        _headerView = [BaseJsonHeaderView new];
     }
-    return _searchView;
+    return _headerView;
 }
 
 // MARK: systom functions

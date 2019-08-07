@@ -27,13 +27,18 @@ static NSString *const kBaseJsonViewTableViewCell_doubleTapAction = @"kBaseJsonV
 
 /// 单击事件
 @property (nonatomic,copy) void(^singleTapBlock)(BaseJsonViewTableViewCell *cell, NSIndexPath *indexPath);
+
 @property (nonatomic,copy) void(^longAction)(BaseJsonViewTableViewCell *cell, NSIndexPath *indexPath);
+
 @property (nonatomic,copy) void(^doubleAction)(BaseJsonViewTableViewCell *cell, NSIndexPath *indexPath);
+
+@property (nonatomic,copy) void(^clickBottomFoldLineButtonBlock)(BaseJsonViewTableViewCell *cell);
+
 @property (nonatomic,strong) NSIndexPath *indexPath;
 @property (nonatomic,assign) NSInteger levelOffset;
 
 
-+ (CGFloat) getHeightWithModel: (BaseJsonViewStepModel *)model andLevelOffset: (NSInteger) levelOffset andLeftMaxW: (CGFloat) leftLabelMaxW;
++ (CGFloat) getHeightWithModel: (BaseJsonViewStepModel *)model andLevelOffset: (NSInteger) levelOffset andLeftMaxW: (CGFloat) leftLabelMaxW andCellWidth: (CGFloat) cellW;
 @end
 
 NS_ASSUME_NONNULL_END

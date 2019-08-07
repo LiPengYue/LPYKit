@@ -94,6 +94,11 @@
     self.tableView.doubleClickCellBlock = doubleClickCellBlock;
 }
 
+- (void)setLongClickCellBlock:(void (^)(BaseJsonViewStepModel * _Nonnull))longClickCellBlock {
+    _longClickCellBlock = longClickCellBlock;
+    self.tableView.longClickCellBlock = longClickCellBlock;
+}
+
 - (void)setCurrentLevelOffset:(NSInteger)currentLevelOffset {
     _currentLevelOffset = currentLevelOffset;
     self.tableView.levelOffset = currentLevelOffset;

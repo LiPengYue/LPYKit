@@ -119,14 +119,14 @@ UITableViewDataSource
         _titleLabel.frame = CGRectMake(0,0,0,0);
         _titleLabel.textAlignment = NSTextAlignmentLeft;
         _titleLabel.textColor = normalColor;
-        _titleLabel.font = BaseFont.fontSCR(12);
+        _titleLabel.font = BaseJsonViewSearchResultListTableViewCellFont;
         _titleLabel.numberOfLines = 0;
     }
     return _titleLabel;
 }
 
 + (CGFloat) getHWithStr: (NSString *)str {
-    return BaseStringHandler.handler(str).getHeightWithWidthAndFont(BaseSize.screenW - 28,BaseFont.fontSCR(12)) + 40;
+    return [BaseJsonViewCommon getHeightLineWithString:str withWidth:kJsonHandlerScreenW-28 withFont:BaseJsonViewSearchResultListTableViewCellFont] + 40;
 }
 
 - (void)setIsCurrentSearch:(BOOL)isCurrentSearch {

@@ -7,6 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BaseJsonViewStepUIModel.h"
+#import "BaseJsonViewStepErrorModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
 typedef enum : NSUInteger {
@@ -16,6 +18,11 @@ typedef enum : NSUInteger {
     BaseJsonViewStepModelType_String,
 } BaseJsonViewStepModelType;
 
+typedef enum : NSUInteger {
+    BaseJsonViewStepCellStatus_Normal,
+    BaseJsonViewStepCellStatus_EditingSelf,
+    BaseJsonViewStepCellStatus_InsertItem,
+} BaseJsonViewStepCellStatus;
 
 @interface BaseJsonViewStepModel : NSObject
 /// 创建一个空的 model
@@ -38,7 +45,6 @@ typedef enum : NSUInteger {
 
 /// 当前需要显示item的个数
 @property (nonatomic,assign) NSInteger count;
-
 
 /**
  * 是否为打开状态
@@ -79,6 +85,14 @@ typedef enum : NSUInteger {
 
 - (void) removeFromeSuper;
 
+- (BaseJsonViewStepErrorModel *) insertWithKey: (NSString *)key
+         andOriginData: (id) originData
+              andIndex:(NSInteger) index;
+
+- (BaseJsonViewStepErrorModel *) insertWithKey: (NSString *)key
+              andModel: (BaseJsonViewStepModel *) model
+              andIndex:(NSInteger) index;
+
 /// 关闭所有子节点
 - (void) closeAll;
 
@@ -108,6 +122,16 @@ typedef enum : NSUInteger {
 /// 返回一个父节点的key，如果父节点的key为nil，那么继续向上查找
 - (NSString *) getSuperPointKey;
 
+/// 打开 right 折行 如果最大行高不足以显示right信息的时候
+@property (nonatomic,assign) BOOL isOpenFoldLine;
+/// 是否需要显示折行按钮
+@property (nonatomic,assign) BOOL isShowFoldLineButton;
+
+/// 编辑状态
+@property (nonatomic,assign) BaseJsonViewStepCellStatus status;
+
+///
+- (BOOL) isEqualToKeyAndOriginDataWithModel: (BaseJsonViewStepModel *)model;
 @end
 
 NS_ASSUME_NONNULL_END

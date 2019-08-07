@@ -43,6 +43,9 @@
 		E3619E852264483900F2E1E1 /* BaseObjectHeaders.m in Sources */ = {isa = PBXBuildFile; fileRef = E3619E842264483900F2E1E1 /* BaseObjectHeaders.m */; };
 		E3619E892264495700F2E1E1 /* MainView.m in Sources */ = {isa = PBXBuildFile; fileRef = E3619E882264495700F2E1E1 /* MainView.m */; };
 		E3619E8D226449C600F2E1E1 /* MainTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E3619E8C226449C600F2E1E1 /* MainTableViewCell.m */; };
+		E3660DE722E83964001BA585 /* BaseJsonViewStepUIModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E3660DE622E83964001BA585 /* BaseJsonViewStepUIModel.m */; };
+		E3660DEA22E86779001BA585 /* BaseJsonViewEditHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = E3660DE922E86779001BA585 /* BaseJsonViewEditHeaderView.m */; };
+		E3660DEC22E86D41001BA585 /* BaseJsonViewEditHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3660DEB22E86D41001BA585 /* BaseJsonViewEditHeaderView.xib */; };
 		E36C8B3E22C9A6DD0021A2CC /* BaseJsonViewMainView.m in Sources */ = {isa = PBXBuildFile; fileRef = E36C8B3D22C9A6DD0021A2CC /* BaseJsonViewMainView.m */; };
 		E36C8B4122CA18FF0021A2CC /* BaseJsonViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E36C8B4022CA18FF0021A2CC /* BaseJsonViewController.m */; };
 		E36C8B4A22CB0AA30021A2CC /* BaseJsonViewSearchResultTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = E36C8B4922CB0AA30021A2CC /* BaseJsonViewSearchResultTableView.m */; };
@@ -72,7 +75,11 @@
 		E36CF5852248B3B200C32DEC /* NSObject+T.m in Sources */ = {isa = PBXBuildFile; fileRef = E36CF5832248B3B200C32DEC /* NSObject+T.m */; };
 		E36CF5862248B3B200C32DEC /* NSObject+SignalHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = E36CF5842248B3B200C32DEC /* NSObject+SignalHandler.m */; };
 		E36CF5B82248D3FD00C32DEC /* BaseNavigationBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = E36CF5B62248D3FD00C32DEC /* BaseNavigationBarView.m */; };
+		E36F183F22EC3C6300CD7FA4 /* BaseJsonEditingTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E36F183E22EC3C6300CD7FA4 /* BaseJsonEditingTableViewCell.m */; };
+		E36F184122EC3FAD00CD7FA4 /* BaseJsonEditingTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E36F184022EC3FAD00CD7FA4 /* BaseJsonEditingTableViewCell.xib */; };
 		E37200F422CB42CC005638BB /* BaseJsonViewCommon.m in Sources */ = {isa = PBXBuildFile; fileRef = E37200F322CB42CC005638BB /* BaseJsonViewCommon.m */; };
+		E38A2EC322F7E2C5008609D7 /* BaseJsonViewStepErrorModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E38A2EC222F7E2C5008609D7 /* BaseJsonViewStepErrorModel.m */; };
+		E38A2EC622F81635008609D7 /* BaseJsonViewStepNilModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E38A2EC522F81635008609D7 /* BaseJsonViewStepNilModel.m */; };
 		E39D427522CE031C00E2A05B /* BaseJsonViewSearchView.m in Sources */ = {isa = PBXBuildFile; fileRef = E39D427422CE031C00E2A05B /* BaseJsonViewSearchView.m */; };
 		E39D427822CF306D00E2A05B /* BaseJsonViewSearchResultListTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = E39D427722CF306D00E2A05B /* BaseJsonViewSearchResultListTableView.m */; };
 		E39D427C22CF35EB00E2A05B /* BaseJsonViewSearchResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E39D427B22CF35EB00E2A05B /* BaseJsonViewSearchResultViewController.m */; };
@@ -100,6 +107,7 @@
 		E3EEDF42229E9E1B00DF3DEA /* PYCountDownViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3EEDF3C229E9E1B00DF3DEA /* PYCountDownViewController.m */; };
 		E3EEDF43229E9E1B00DF3DEA /* PYCountDownTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E3EEDF3F229E9E1B00DF3DEA /* PYCountDownTableViewCell.m */; };
 		E3EFF69B2297DD5E00142FDD /* ThumbnailImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3EFF69A2297DD5E00142FDD /* ThumbnailImageViewController.m */; };
+		E3F0770922E9A8D800675D21 /* BaseJsonHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = E3F0770822E9A8D800675D21 /* BaseJsonHeaderView.m */; };
 		E3F3707C22802C6400633B66 /* YYTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = E3F3704922802C6400633B66 /* YYTextView.m */; };
 		E3F3707D22802C6400633B66 /* YYTextMagnifier.m in Sources */ = {isa = PBXBuildFile; fileRef = E3F3704D22802C6400633B66 /* YYTextMagnifier.m */; };
 		E3F3707E22802C6400633B66 /* YYTextContainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = E3F3705022802C6400633B66 /* YYTextContainerView.m */; };
@@ -229,6 +237,11 @@
 		E3619E8B226449C600F2E1E1 /* MainTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainTableViewCell.h; sourceTree = "<group>"; };
 		E3619E8C226449C600F2E1E1 /* MainTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MainTableViewCell.m; sourceTree = "<group>"; };
 		E3619E8F22644DC300F2E1E1 /* BaseLog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseLog.h; sourceTree = "<group>"; };
+		E3660DE522E83964001BA585 /* BaseJsonViewStepUIModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseJsonViewStepUIModel.h; sourceTree = "<group>"; };
+		E3660DE622E83964001BA585 /* BaseJsonViewStepUIModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseJsonViewStepUIModel.m; sourceTree = "<group>"; };
+		E3660DE822E86779001BA585 /* BaseJsonViewEditHeaderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseJsonViewEditHeaderView.h; sourceTree = "<group>"; };
+		E3660DE922E86779001BA585 /* BaseJsonViewEditHeaderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseJsonViewEditHeaderView.m; sourceTree = "<group>"; };
+		E3660DEB22E86D41001BA585 /* BaseJsonViewEditHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BaseJsonViewEditHeaderView.xib; sourceTree = "<group>"; };
 		E36C8B3C22C9A6DD0021A2CC /* BaseJsonViewMainView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseJsonViewMainView.h; sourceTree = "<group>"; };
 		E36C8B3D22C9A6DD0021A2CC /* BaseJsonViewMainView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseJsonViewMainView.m; sourceTree = "<group>"; };
 		E36C8B3F22CA18FF0021A2CC /* BaseJsonViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseJsonViewController.h; sourceTree = "<group>"; };
@@ -289,8 +302,15 @@
 		E36CF5B32248B6A000C32DEC /* BaseFiltrateRulerHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseFiltrateRulerHeader.h; sourceTree = "<group>"; };
 		E36CF5B62248D3FD00C32DEC /* BaseNavigationBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseNavigationBarView.m; sourceTree = "<group>"; };
 		E36CF5B72248D3FD00C32DEC /* BaseNavigationBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseNavigationBarView.h; sourceTree = "<group>"; };
+		E36F183D22EC3C6300CD7FA4 /* BaseJsonEditingTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseJsonEditingTableViewCell.h; sourceTree = "<group>"; };
+		E36F183E22EC3C6300CD7FA4 /* BaseJsonEditingTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseJsonEditingTableViewCell.m; sourceTree = "<group>"; };
+		E36F184022EC3FAD00CD7FA4 /* BaseJsonEditingTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BaseJsonEditingTableViewCell.xib; sourceTree = "<group>"; };
 		E37200F222CB42CC005638BB /* BaseJsonViewCommon.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseJsonViewCommon.h; sourceTree = "<group>"; };
 		E37200F322CB42CC005638BB /* BaseJsonViewCommon.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseJsonViewCommon.m; sourceTree = "<group>"; };
+		E38A2EC122F7E2C5008609D7 /* BaseJsonViewStepErrorModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseJsonViewStepErrorModel.h; sourceTree = "<group>"; };
+		E38A2EC222F7E2C5008609D7 /* BaseJsonViewStepErrorModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseJsonViewStepErrorModel.m; sourceTree = "<group>"; };
+		E38A2EC422F81635008609D7 /* BaseJsonViewStepNilModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseJsonViewStepNilModel.h; sourceTree = "<group>"; };
+		E38A2EC522F81635008609D7 /* BaseJsonViewStepNilModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseJsonViewStepNilModel.m; sourceTree = "<group>"; };
 		E39D427322CE031C00E2A05B /* BaseJsonViewSearchView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseJsonViewSearchView.h; sourceTree = "<group>"; };
 		E39D427422CE031C00E2A05B /* BaseJsonViewSearchView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseJsonViewSearchView.m; sourceTree = "<group>"; };
 		E39D427622CF306D00E2A05B /* BaseJsonViewSearchResultListTableView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseJsonViewSearchResultListTableView.h; sourceTree = "<group>"; };
@@ -345,6 +365,8 @@
 		E3EEDF40229E9E1B00DF3DEA /* PYCountDownViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYCountDownViewController.h; sourceTree = "<group>"; };
 		E3EFF6992297DD5E00142FDD /* ThumbnailImageViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ThumbnailImageViewController.h; sourceTree = "<group>"; };
 		E3EFF69A2297DD5E00142FDD /* ThumbnailImageViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ThumbnailImageViewController.m; sourceTree = "<group>"; };
+		E3F0770722E9A8D800675D21 /* BaseJsonHeaderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseJsonHeaderView.h; sourceTree = "<group>"; };
+		E3F0770822E9A8D800675D21 /* BaseJsonHeaderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseJsonHeaderView.m; sourceTree = "<group>"; };
 		E3F3704822802C6400633B66 /* YYText.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYText.h; sourceTree = "<group>"; };
 		E3F3704922802C6400633B66 /* YYTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYTextView.m; sourceTree = "<group>"; };
 		E3F3704B22802C6400633B66 /* YYTextSelectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYTextSelectionView.h; sourceTree = "<group>"; };
@@ -943,8 +965,14 @@
 		E37200F122CB303D005638BB /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				E38A2EC122F7E2C5008609D7 /* BaseJsonViewStepErrorModel.h */,
+				E38A2EC222F7E2C5008609D7 /* BaseJsonViewStepErrorModel.m */,
+				E38A2EC422F81635008609D7 /* BaseJsonViewStepNilModel.h */,
+				E38A2EC522F81635008609D7 /* BaseJsonViewStepNilModel.m */,
 				E311E47722C71358000FF903 /* BaseJsonViewStepModel.h */,
 				E311E47822C71358000FF903 /* BaseJsonViewStepModel.m */,
+				E3660DE522E83964001BA585 /* BaseJsonViewStepUIModel.h */,
+				E3660DE622E83964001BA585 /* BaseJsonViewStepUIModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -985,8 +1013,16 @@
 				E3A9A9F6224B99D000CEC939 /* BaseJsonViewTableView.m */,
 				E3A9A9F8224B9A8200CEC939 /* BaseJsonViewTableViewCell.h */,
 				E3A9A9F9224B9A8200CEC939 /* BaseJsonViewTableViewCell.m */,
+				E36F183D22EC3C6300CD7FA4 /* BaseJsonEditingTableViewCell.h */,
+				E36F183E22EC3C6300CD7FA4 /* BaseJsonEditingTableViewCell.m */,
+				E36F184022EC3FAD00CD7FA4 /* BaseJsonEditingTableViewCell.xib */,
 				E36C8B3C22C9A6DD0021A2CC /* BaseJsonViewMainView.h */,
 				E36C8B3D22C9A6DD0021A2CC /* BaseJsonViewMainView.m */,
+				E3F0770722E9A8D800675D21 /* BaseJsonHeaderView.h */,
+				E3F0770822E9A8D800675D21 /* BaseJsonHeaderView.m */,
+				E3660DE822E86779001BA585 /* BaseJsonViewEditHeaderView.h */,
+				E3660DE922E86779001BA585 /* BaseJsonViewEditHeaderView.m */,
+				E3660DEB22E86D41001BA585 /* BaseJsonViewEditHeaderView.xib */,
 				E39D427322CE031C00E2A05B /* BaseJsonViewSearchView.h */,
 				E39D427422CE031C00E2A05B /* BaseJsonViewSearchView.m */,
 			);
@@ -1417,8 +1453,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				E33551DF22447ED300AE6C3B /* LaunchScreen.storyboard in Resources */,
+				E3660DEC22E86D41001BA585 /* BaseJsonViewEditHeaderView.xib in Resources */,
 				E301CCFC2265CBAD000F024F /* BaseTableTestCell3.xib in Resources */,
 				E33551DC22447ED300AE6C3B /* Assets.xcassets in Resources */,
+				E36F184122EC3FAD00CD7FA4 /* BaseJsonEditingTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1464,6 +1502,8 @@
 				E301CCE42265C220000F024F /* BaseTableTestCell2.m in Sources */,
 				E301CCEF2265C4DC000F024F /* BasetableTestHeserFooterView2.m in Sources */,
 				E3AA41412295458A0051875E /* DeleteCollectionViewCell.m in Sources */,
+				E38A2EC322F7E2C5008609D7 /* BaseJsonViewStepErrorModel.m in Sources */,
+				E36F183F22EC3C6300CD7FA4 /* BaseJsonEditingTableViewCell.m in Sources */,
 				E3FFC1712293D2AD00069463 /* BaseModalShadowAnimationConfig.m in Sources */,
 				E3F3709222802C6400633B66 /* YYTextAsyncLayer.m in Sources */,
 				E3A9A9E8224B743800CEC939 /* BaseNavigationController.m in Sources */,
@@ -1504,6 +1544,7 @@
 				E3F3708E22802C6400633B66 /* NSAttributedString+YYText.m in Sources */,
 				E3F3709322802C6400633B66 /* YYTextWeakProxy.m in Sources */,
 				E3EEDF42229E9E1B00DF3DEA /* PYCountDownViewController.m in Sources */,
+				E3660DEA22E86779001BA585 /* BaseJsonViewEditHeaderView.m in Sources */,
 				E3F3709722802CDD00633B66 /* BaseTextViewController.m in Sources */,
 				E3F3708D22802C6400633B66 /* NSParagraphStyle+YYText.m in Sources */,
 				E311E47D22C73CD1000FF903 /* UIView+ChangeFrame.m in Sources */,
@@ -1533,6 +1574,7 @@
 				E3EC0F24229D356300219EFD /* PresentAnimationVC.m in Sources */,
 				E3A9A9F7224B99D000CEC939 /* BaseJsonViewTableView.m in Sources */,
 				E3249343225F42C60061AED6 /* PresentViewController.m in Sources */,
+				E38A2EC622F81635008609D7 /* BaseJsonViewStepNilModel.m in Sources */,
 				E301CCFB2265CBAD000F024F /* BaseTableTestCell3.m in Sources */,
 				E36C8B4D22CB0C220021A2CC /* BaseJsonViewSearchResultTableViewHeaderView.m in Sources */,
 				E3EEDF43229E9E1B00DF3DEA /* PYCountDownTableViewCell.m in Sources */,
@@ -1552,12 +1594,14 @@
 				E3619E8D226449C600F2E1E1 /* MainTableViewCell.m in Sources */,
 				E37200F422CB42CC005638BB /* BaseJsonViewCommon.m in Sources */,
 				E3F3708922802C6400633B66 /* YYTextAttribute.m in Sources */,
+				E3660DE722E83964001BA585 /* BaseJsonViewStepUIModel.m in Sources */,
 				E36C8B4A22CB0AA30021A2CC /* BaseJsonViewSearchResultTableView.m in Sources */,
 				E3F3707E22802C6400633B66 /* YYTextContainerView.m in Sources */,
 				E311E47322C70557000FF903 /* BaseDebugNetWorkModelHandler.m in Sources */,
 				E3DE08F8226438E300904AC7 /* BaseTableViewDelegate.m in Sources */,
 				E3EEDF36229E814200DF3DEA /* PresentDemoViewController.m in Sources */,
 				E3FFC16F2293D2AD00069463 /* BasePresentViewController.m in Sources */,
+				E3F0770922E9A8D800675D21 /* BaseJsonHeaderView.m in Sources */,
 				E3EC0F20229D2DC700219EFD /* DemoTextViewController.m in Sources */,
 				E301CCDE2265C01A000F024F /* BaseTableViewCell.m in Sources */,
 				E3FFC16B2293D2AD00069463 /* BasePresentAnimationHandler.m in Sources */,
