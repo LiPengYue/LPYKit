@@ -1,10 +1,14 @@
 //
-//  BaseJsonViewCommon.h
-//  PYkit
+//  BaseJsonViewManager.h
+//  PYKit
 //
-//  Created by 衣二三 on 2019/7/2.
-//  Copyright © 2019 衣二三. All rights reserved.
+//  Created by 李鹏跃 on 2019/9/11.
+//  Copyright © 2019年 13lipengyue. All rights reserved.
 //
+
+
+
+
 
 #import <Foundation/Foundation.h>
 #import "BaseViewHeaders.h"
@@ -59,7 +63,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 #define kJsonHandlerScreenW UIScreen.mainScreen.bounds.size.width
 
-#define jsonHandlerScrrenW
+#ifdef DEBUG
+#    define BaseJsonViewCommonDLog(...) NSLog(__VA_ARGS__)
+#else
+#    define BaseJsonViewCommonDLog(...)
+#endif
 
 @interface BaseJsonViewCommon : NSObject
 + (CGFloat)getHeightLineWithString:(NSString *)string withWidth:(CGFloat)width withFont:(UIFont *)font;

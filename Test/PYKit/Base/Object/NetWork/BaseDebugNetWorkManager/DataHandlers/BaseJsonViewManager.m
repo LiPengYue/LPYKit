@@ -1,13 +1,15 @@
 //
-//  BaseJsonViewManager.m
+//  BaseJsonViewManager.h
 //  PYKit
 //
-//  Created by 李鹏跃 on 2018/9/11.
-//  Copyright © 2018年 13lipengyue. All rights reserved.
+//  Created by 李鹏跃 on 2019/9/11.
+//  Copyright © 2019年 13lipengyue. All rights reserved.
 //
+
 
 #import "BaseJsonViewManager.h"
 #import "BaseJsonViewStepModel.h"
+#import "BaseJsonViewCommon.h"
 
 @implementation BaseJsonViewManager
 /// id 转成 step model
@@ -56,7 +58,7 @@
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dict options:NSJSONWritingPrettyPrinted error:&error];
     NSString *jsonString;
     if (!jsonData) {
-        NSLog(@"%@",error);
+        BaseJsonViewCommonDLog(@"%@",error);
     }else{
         jsonString = [[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
     }
@@ -87,7 +89,7 @@
                                                           error:&err];
     if(err)
     {
-        NSLog(@"json解析失败：%@",err);
+        BaseJsonViewCommonDLog(@"   🌶🌶🌶\n   json解析失败：\n %@\n\n",err);
         return nil;
     }
     return dic;

@@ -1,10 +1,11 @@
 //
-//  BaseJsonViewEditHeaderView.h
-//  PYkit
+//  BaseJsonViewManager.h
+//  PYKit
 //
-//  Created by 衣二三 on 2019/7/24.
-//  Copyright © 2019 衣二三. All rights reserved.
+//  Created by 李鹏跃 on 2019/9/11.
+//  Copyright © 2019年 13lipengyue. All rights reserved.
 //
+
 
 #import <UIKit/UIKit.h>
 #import "BaseJsonViewStepModel.h"

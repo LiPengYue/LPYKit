@@ -23,11 +23,6 @@
 @implementation BaseViewController
 
 // MARK: systom functions
-//- (void)loadView {
-//    self.view = self.baseVCBackgroundView;
-//
-//}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = UIColor.whiteColor;
