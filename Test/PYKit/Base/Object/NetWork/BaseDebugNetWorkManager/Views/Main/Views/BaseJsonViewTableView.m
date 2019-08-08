@@ -9,11 +9,7 @@
 
 #import "BaseJsonViewTableView.h"
 #import "BaseJsonViewTableViewCell.h"
-#import "BaseObjectHeaders.h"
 #import "BaseJsonViewSearchView.h"
-#import "BaseObjectHeaders.h"
-#import "BaseViewHeaders.h"
-#import "BaseSize.h"
 #import "BaseJsonEditingTableViewCell.h"
 
 static NSString *const kBaseJsonViewTableViewCellId = @"kBaseJsonViewTableViewCellId";
@@ -42,7 +38,7 @@ UITableViewDataSource
 - (instancetype)initWithFrame:(CGRect)frame style:(UITableViewStyle)style {
     if (self = [super initWithFrame:frame style:style]) {
         self.isAutoClose = true;
-        [self addNoticeForKeyboard];
+//        [self addNoticeForKeyboard];
         [self setupViews];
     }
     return self;
@@ -339,17 +335,16 @@ UITableViewDataSource
     insertFormSuperAction.backgroundColor = insertFormSuperPointActionBackgroundColor;
     insertChildAction.backgroundColor = insertFormChildPointActionBackgroundColor;
     
+    if(model.status != BaseJsonViewStepCellStatus_Normal) {
+        return @[deleteAction];
+    }
+    
     switch (model.type) {
         
         case BaseJsonViewStepModelType_Dictionary:
         case BaseJsonViewStepModelType_Array:{
-//            NSArray *data = (NSArray *)model.data;
-//            if (data.count <= 0) {
             return @[copyAction, editAction,
                      insertChildAction,insertFormSuperAction,deleteAction];
-//            }else{
-//                return @[copyAction, editAction,insertItemAction,deleteAction];
-//            }
         }
             break;
         case BaseJsonViewStepModelType_Number:

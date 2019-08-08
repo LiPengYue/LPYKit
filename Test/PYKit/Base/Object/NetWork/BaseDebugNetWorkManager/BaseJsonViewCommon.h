@@ -54,7 +54,7 @@ NS_ASSUME_NONNULL_BEGIN
 #define tableViewCellBottomFoldLineButtonH 20
 #define tableViewCellLeftLineTopBottomMinSpacing 1
 
-/// 在第几层开始跳转到新的控制器进行显示
+/// 在第几层开始跳转到新的控制器进行显示 推荐使用 6
 #define tableViewCellMaxLevel 6
 
 #define kJsonHandlerScreenW UIScreen.mainScreen.bounds.size.width

@@ -59,10 +59,6 @@ typedef enum : NSUInteger {
    
 }
 
-- (void) prisentWithOriginFrame: (CGRect) frame andImage: (UIImage *)image {
-    
-}
-
 // MARK: - init
 
 #pragma mark - func
