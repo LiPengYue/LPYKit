@@ -34,7 +34,7 @@ static NSString * const productList;
     [self reloadDataWithID:productList];
 
     
-    [self reloadDataWithID:[self conversionToStr]];
+//    [self reloadDataWithID:[self conversionToStr]];
     
 }
 // MARK: handle views

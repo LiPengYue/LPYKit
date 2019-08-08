@@ -29,6 +29,8 @@ typedef enum : NSUInteger {
 @property (nonatomic,copy) void(^clickInsertJsonBlock)(void);
 @property (nonatomic,copy) void(^clickShowIndexBlock)(BOOL isShow);
 
+@property (nonatomic,copy) BOOL(^textViewShouldBeginEditingBlock)(BaseJsonEditingTableViewCell *cell);
+
 /// style
 @property (nonatomic,assign) BaseJsonViewStepCellStatus status;
 @property (nonatomic,strong) BaseJsonViewStepModel *editingModel;

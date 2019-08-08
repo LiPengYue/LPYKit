@@ -276,6 +276,7 @@
                 <outlet property="insertStringButton" destination="gsG-uY-LDu" id="SZf-Yd-bbX"/>
                 <outlet property="insertTypeBackgroundH" destination="3FM-ea-1sp" id="0EB-cO-m0w"/>
                 <outlet property="insertTypeBackgroundView" destination="4K1-f1-BAJ" id="mLm-ih-VTD"/>
+                <outlet property="keyBackgroundView" destination="9DQ-LL-dm9" id="Wxe-nu-YuZ"/>
                 <outlet property="keyBackgroundViewH" destination="MUR-9q-nGA" id="YDr-qK-Nhv"/>
                 <outlet property="keyLabel" destination="Q7C-QL-qdQ" id="6xq-St-G5m"/>
                 <outlet property="keyTextView" destination="Fat-Cg-ZAw" id="AW1-aZ-vHe"/>

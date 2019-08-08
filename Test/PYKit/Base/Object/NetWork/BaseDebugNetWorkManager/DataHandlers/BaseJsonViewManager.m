@@ -31,7 +31,7 @@
         BaseJsonViewStepModel *model = [BaseJsonViewStepModel new];
         model.originData = dic;
         model.level = 0;
-        [model reloadDataWitOriginDataProperty];
+        [model data];
         return model;
     };
 }

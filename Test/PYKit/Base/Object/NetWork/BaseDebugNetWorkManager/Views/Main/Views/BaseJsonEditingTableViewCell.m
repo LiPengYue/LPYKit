@@ -19,6 +19,7 @@ UITextViewDelegate
 >
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *keyBackgroundViewH;//55
+@property (weak, nonatomic) IBOutlet UIView *keyBackgroundView;
 @property (weak, nonatomic) IBOutlet UIScrollView *massageBackgroundScrollview;
 @property (weak, nonatomic) IBOutlet UIButton *massageButton;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *massageButtonH;
@@ -199,6 +200,8 @@ UITextViewDelegate
 - (void) isHiddenKayBackgroundView:(BOOL) isHidden {
     [UIView animateWithDuration:0.2 animations:^{
         self.keyBackgroundViewH.constant = isHidden ? 0 : 55;
+        self.keyBackgroundView.alpha = !isHidden;
+        self.valueBackgroundView.alpha = isHidden;
         [self layoutIfNeeded];
     }];
 }
@@ -314,7 +317,6 @@ failedCode: {
         [dataArray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             if ([obj isKindOfClass:BaseJsonViewStepModel.class]) {
                 BaseJsonViewStepModel *model = obj;
-                
                 
                 if([self.editingModel isEqualToKeyAndOriginDataWithModel:model]) {
                     self.editingModel = model;
@@ -504,6 +506,9 @@ failedCode: {
     NSString *title = @"";
     if (self.currentSelectedInsertButton == self.insertJsonButton) {
         isHiddenValue = false;
+        if (isInsertItem) {
+            isHiddenKey = true;
+        }
         if (isEditingSelf) {
             title = @"⚠️：转成Dictionary类型，并清空子节点";
         }
@@ -590,6 +595,14 @@ failedCode: {
     textview.layer.cornerRadius = 4;
     textview.layer.borderColor = messageColor.CGColor;
     textview.layer.borderWidth = 1;
+    textview.delegate = self;
+}
+
+- (BOOL)textViewShouldBeginEditing:(UITextView *)textView {
+    if (self.textViewShouldBeginEditingBlock) {
+        self.textViewShouldBeginEditingBlock(self);
+    }
+    return true;
 }
 
 + (CGFloat) getHeithWithModel: (BaseJsonViewStepModel *)model {

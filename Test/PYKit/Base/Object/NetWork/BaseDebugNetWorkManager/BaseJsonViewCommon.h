@@ -31,6 +31,8 @@ NS_ASSUME_NONNULL_BEGIN
 #define editActionBackgroundColor [UIColor colorWithRed:0.8 green:0.9 blue:0.8 alpha:1]
 #define copyActionBackgroundColor [UIColor colorWithRed:0.6 green:0.7 blue:0.6 alpha:1]
 #define copyStrActionBackgroundColor [UIColor colorWithRed:0.4 green:0.5 blue:0.4 alpha:1]
+#define insertFormChildPointActionBackgroundColor [UIColor colorWithRed:0.7 green:0.6 blue:0.6 alpha:1]
+#define insertFormSuperPointActionBackgroundColor [UIColor colorWithRed:0.8 green:0.7 blue:0.7 alpha:1]
 #define deleteActionBackgroundColor [UIColor colorWithRed:0.9 green:0.8 blue:0.8 alpha:1]
 
 #define tableViewCellLeftFont [UIFont fontWithName:@"PingFangSC-Medium" size:12]

@@ -48,7 +48,7 @@
     BaseJsonViewStepModel *model = [BaseJsonViewStepModel new];
     model.originData = data;
     model.key = key;
-    [model reloadDataWitOriginDataProperty];
+//    [model reloadDataWitOriginDataProperty];
     return model;
 }
 
@@ -106,16 +106,16 @@
 - (NSInteger) getCount: (NSInteger) count {
     __block NSInteger tempCount = count;
     
-    if ([self.data isKindOfClass:NSArray.class]) {
-        NSArray *array = self.data;
+    if ([_data isKindOfClass:NSArray.class]) {
+        NSArray *array = _data;
         [array enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             if ([obj isKindOfClass:BaseJsonViewStepModel.class]) {
                 tempCount+=1;
             }
         }];
-    } else if([self.data isKindOfClass:BaseJsonViewStepModel.class]) {
+    } else if([_data isKindOfClass:BaseJsonViewStepModel.class]) {
         tempCount+=1;
-    }else if ([self.data isKindOfClass:NSString.class]) {
+    }else if ([_data isKindOfClass:NSString.class]) {
     }else {
     }
     return tempCount;
@@ -210,18 +210,37 @@
         error.code = BaseJsonViewStepTypeErrorCode404;
         return error;
     }
-    if ([self.originData isKindOfClass:NSArray.class] && [self.data isKindOfClass:NSArray.class]) {
-        id dataAny = model.originData;
-        if (dataAny) {
-            NSMutableArray *dataArrayM = ((NSArray *)self.originData).mutableCopy;
-            [dataArrayM insertObject:dataAny atIndex:index];
-            self.originData = dataArrayM.copy;
+    if ([self.originData isKindOfClass:NSArray.class]) {
+        id modelDataAny = model.originData;
+        if (modelDataAny) {
+            NSMutableArray *selfDataArrayM = ((NSMutableArray *)self.originData);
+            if (![selfDataArrayM isKindOfClass:NSMutableArray.class]) {
+                selfDataArrayM = ((NSArray *)self.originData).mutableCopy;
+            }
+            [selfDataArrayM insertObject:modelDataAny atIndex:index];
+            self.originData = selfDataArrayM;
         }
     }else {
         error.errorMessage = [NSString stringWithFormat: @"🌶 类型错误，标记为《BaseJsonViewStepModelType_Array》类型的数据实际为：%@",originDataClassStr];
         error.code = BaseJsonViewStepTypeErrorCode404;
     }
     return error;
+}
+
+- (void) insertDataIfNeededWithIndex:(NSInteger)idx andModel:(BaseJsonViewStepModel *)model {
+    NSArray *data = self.data;
+    if ([data isKindOfClass:NSArray.class]) {
+        NSMutableArray *dataM = (NSMutableArray *)data;
+        if (![data isKindOfClass:NSMutableArray.class]) {
+            dataM = data.copy;
+        }
+        if (dataM.count > idx) {
+            [dataM insertObject:model atIndex:idx];
+        }else{
+            [dataM addObject:model];
+        }
+        _data = dataM;
+    }
 }
 
 - (BaseJsonViewStepErrorModel *) dictionaryInsertWithKey: (NSString *)key andModel: (BaseJsonViewStepModel *) model andIndex:(NSInteger) index {
@@ -234,7 +253,10 @@
         return error;
     }
     if([self.originData isKindOfClass:NSDictionary.class]) {
-        NSMutableDictionary *originData = ((NSDictionary *)self.originData).mutableCopy;
+        NSMutableDictionary *originData = ((NSMutableDictionary *)self.originData);
+        if(![originData isKindOfClass:NSMutableDictionary.class]) {
+            originData = originData.mutableCopy;
+        }
         id value = model.originData;
         value = value ? value :[BaseJsonViewStepNilModel new];
         if ([originData valueForKey:model.key]) {
@@ -381,8 +403,8 @@
 }
 
 - (void) reloadDataWitOriginDataProperty {
-    [self reloadDataWitOriginData];
-    _count = [self getCount:0];
+    self.data = nil;
+    [self data];
 }
 
 - (void) reloadDataWitOriginData {
@@ -391,28 +413,25 @@
     id obj = self.originData;
     
     if ([obj isKindOfClass:NSArray.class]) {
-        self.type = BaseJsonViewStepModelType_Array;
+
         NSArray *array = obj;
         NSMutableArray *arrayM = [[NSMutableArray alloc]initWithCapacity:array.count];
+        
         [array enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            BaseJsonViewStepModel *model = [BaseJsonViewStepModel new];
+            BaseJsonViewStepModel *model = [BaseJsonViewStepModel createStepModelWithId:obj andKey:@""];
             model.superPoint = self;
-            model.originData = obj;
-            [model setupType];
             model.level = level+1;
             [arrayM addObject:model];
         }];
         _data = arrayM;
         
     } else if ([obj isKindOfClass:NSDictionary.class]){
+        
         NSDictionary *dic = obj;
         NSMutableArray *arrayM = [[NSMutableArray alloc] initWithCapacity:dic.count];
         [dic enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
-            BaseJsonViewStepModel *model = [BaseJsonViewStepModel new];
-            model.originData = obj;
+            BaseJsonViewStepModel *model = [BaseJsonViewStepModel createStepModelWithId:obj andKey:key];
             model.superPoint = self;
-            model.key = key;
-            [model setupType];
             model.level = level+1;
             [arrayM addObject:model];
         }];
@@ -420,15 +439,61 @@
         
     }else if ([obj isKindOfClass:NSNumber.class]){
         _data = [NSString stringWithFormat:@"%@",obj];
-        self.type = BaseJsonViewStepModelType_Number;
-        
     }else if ([obj isKindOfClass:NSString.class]) {
         _data = [NSString stringWithFormat:@"%@",obj];
-        self.type = BaseJsonViewStepModelType_String;
-        
     } else {
 //        _data = [BaseJsonViewStepModel nullData];
     }
+}
+
+
+- (void) deleteDataIfNeededWithBehindCount:(NSInteger) count {
+    if ([_data isKindOfClass:NSArray.class]) {
+        NSMutableArray *arrayM = _data;
+        if (arrayM.count > count) {
+            if (![arrayM isKindOfClass:NSMutableArray.class]) {
+                arrayM = arrayM.mutableCopy;
+            }
+             arrayM = [arrayM subarrayWithRange:NSMakeRange(count-1, arrayM.count - count)].mutableCopy;
+        }
+        
+    }
+}
+
+- (BaseJsonViewStepModel *) createItemModelIfNeededWithIndex:(NSInteger) idx {
+//    return [BaseJsonViewStepModel new];
+    BaseJsonViewStepModel *model;
+    switch (self.type) {
+        case BaseJsonViewStepModelType_Dictionary:
+        case BaseJsonViewStepModelType_Array: {
+            
+            if(!_data) {
+                _data = [NSMutableArray new];
+            }
+            NSArray *dataArray = nil;
+            if([_data isKindOfClass:NSArray.class]) {
+                dataArray = _data;
+            }
+            if(dataArray.count > idx && [dataArray[idx] isKindOfClass: BaseJsonViewStepModel.class]) {
+                model = dataArray[idx];
+            }else{
+                model = [BaseJsonViewStepModel new];
+                NSMutableArray *dataArrayM = dataArray.mutableCopy;
+                if (![dataArray isKindOfClass:NSMutableArray.class]) {
+                     dataArrayM = dataArray.mutableCopy;
+                }
+//                model = [BaseJsonViewStepModel new];
+                [dataArrayM addObject:model];
+                _data = dataArrayM;
+            }
+        }
+            break;
+        case BaseJsonViewStepModelType_Number:
+        case BaseJsonViewStepModelType_String: {
+        }
+            break;
+    }
+    return model;
 }
 
 - (BaseJsonViewStepModel *) createWithDic: (NSDictionary *) dic {
@@ -475,13 +540,13 @@
     if (!self.data) {
         [self reloadDataWitOriginDataProperty];
     }
+
     if ([self.data isKindOfClass:NSArray.class]) {
+        
         if (((NSArray *)self.data).count <= 0) {
             [self reloadDataWitOriginDataProperty];
         }
-    }
-    
-    if ([self.data isKindOfClass:NSArray.class]) {
+        
         NSArray *array = self.data;
         [array enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             if([obj isKindOfClass:BaseJsonViewStepModel.class]){
@@ -504,6 +569,7 @@
 - (id)data {
     if (!_data && self.originData) {
         [self reloadDataWitOriginData];
+        _count = [self getCount:0];
     }
     return _data;
 }
@@ -747,7 +813,6 @@
     }
     return isEqual_Data && isEqual_Key;
 }
-
 
 - (void)dealloc
 {

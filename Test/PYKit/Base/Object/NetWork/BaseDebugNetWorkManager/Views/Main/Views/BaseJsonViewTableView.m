@@ -30,12 +30,19 @@ UITableViewDataSource
 @property (nonatomic,strong) NSMutableArray <BaseJsonViewStepModel*>* searchResultModelArray;
 /// 剪切板
 @property (nonatomic,strong) UIPasteboard *pasteboard;
+@property (nonatomic,strong) BaseJsonEditingTableViewCell *currentEdtingCell;
+
 @end
 
 @implementation BaseJsonViewTableView
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 - (instancetype)initWithFrame:(CGRect)frame style:(UITableViewStyle)style {
     if (self = [super initWithFrame:frame style:style]) {
         self.isAutoClose = true;
+        [self addNoticeForKeyboard];
         [self setupViews];
     }
     return self;
@@ -212,6 +219,11 @@ UITableViewDataSource
         NSIndexPath *superPointIndex = [NSIndexPath indexPathForRow:row inSection:0];
         [weakSelf reloadRowsAtIndexPaths:@[index,superPointIndex] withRowAnimation:UITableViewRowAnimationFade];
     }];
+    
+    [editCell setTextViewShouldBeginEditingBlock:^BOOL(BaseJsonEditingTableViewCell * _Nonnull cell) {
+        weakSelf.currentEdtingCell = cell;
+        return true;
+    }];
 }
 
 - (void) registerCellEventsWithCell: (BaseJsonViewTableViewCell *) cell {
@@ -263,7 +275,7 @@ UITableViewDataSource
          
     }];
     
-    UITableViewRowAction *insertItemAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"父节点插入" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
+    UITableViewRowAction *insertFormSuperAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"父节点插入" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
         
         if (model.isOpen) {
             [self closeWithModel:model andIsOpen:false andIndex:indexPath];
@@ -281,9 +293,10 @@ UITableViewDataSource
         
     }];
     
-    UITableViewRowAction *selfInsertAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"子节点插入" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
-        
-        model.isOpen = true;
+    UITableViewRowAction *insertChildAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"插入子节点" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
+        if(!model.isOpen) {
+            [self closeWithModel:model andIsOpen:true andIndex:indexPath];
+        }
         
         BaseJsonViewStepModel *itemModel = [BaseJsonViewStepModel new];
         itemModel.level = model.level + 1;
@@ -296,8 +309,6 @@ UITableViewDataSource
         [self endUpdates];
     }];
     
-    
-    
     UITableViewRowAction *deleteAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"删除" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
         
         [self deleteWithModel:model];
@@ -308,16 +319,18 @@ UITableViewDataSource
     copyAction.backgroundColor = copyActionBackgroundColor;
     copyStrAction.backgroundColor = copyStrActionBackgroundColor;
     deleteAction.backgroundColor = deleteActionBackgroundColor;
-    insertItemAction.backgroundColor = deleteActionBackgroundColor;
-    selfInsertAction.backgroundColor = deleteActionBackgroundColor;
+    
+    insertFormSuperAction.backgroundColor = insertFormSuperPointActionBackgroundColor;
+    insertChildAction.backgroundColor = insertFormChildPointActionBackgroundColor;
     
     switch (model.type) {
         
         case BaseJsonViewStepModelType_Dictionary:
         case BaseJsonViewStepModelType_Array:{
-            NSArray *data = (NSArray *)model.data;
+//            NSArray *data = (NSArray *)model.data;
 //            if (data.count <= 0) {
-            return @[copyAction, editAction,insertItemAction,selfInsertAction,deleteAction];
+            return @[copyAction, editAction,
+                     insertChildAction,insertFormSuperAction,deleteAction];
 //            }else{
 //                return @[copyAction, editAction,insertItemAction,deleteAction];
 //            }
@@ -325,11 +338,11 @@ UITableViewDataSource
             break;
         case BaseJsonViewStepModelType_Number:
         case BaseJsonViewStepModelType_String:
-            return @[copyStrAction,copyAction,editAction,insertItemAction,deleteAction];
+            return @[copyStrAction,copyAction,editAction,insertFormSuperAction,deleteAction];
             break;
     }
     
-    return @[copyAction, editAction,insertItemAction,deleteAction];
+    return @[copyAction, editAction,insertChildAction,insertFormSuperAction,deleteAction];
 }
 
 - (void) deleteWithModel: (BaseJsonViewStepModel *)model {
@@ -458,6 +471,60 @@ UITableViewDataSource
     }
     return _pasteboard;
 }
+
+
+- (void)addNoticeForKeyboard {
+    
+    //注册键盘出现的通知
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillShow:)
+                                                 name:UIKeyboardWillShowNotification object:nil];
+    //注册键盘消失的通知
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillHide:)
+                                                 name:UIKeyboardWillHideNotification object:nil];
+}
+
+
+///键盘显示事件
+- (void) keyboardWillShow:(NSNotification *)notification {
+    //获取键盘高度，在不同设备上，以及中英文下是不同的
+    CGFloat kbHeight = [[notification.userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size.height;
+    
+    //计算出键盘顶端到inputTextView panel底端的距离(加上自定义的缓冲距离INTERVAL_KEYBOARD)
+    CGFloat offsetY = self.contentOffset.y - self.currentEdtingCell.bottom;
+    CGFloat offsetH = kbHeight - offsetY;
+//    CGFloat offset = (self.frame.origin.y+textView.frame.size.height) - (self.view.frame.size.height - kbHeight);
+    CGRect rect = [self convertRect:self.currentEdtingCell.frame toView:[self superview]];
+    offsetH = self.height - CGRectGetMaxY(rect);
+    offsetH = kbHeight - offsetH;
+    
+    //cell在window中的位置
+    // 取得键盘的动画时间，这样可以在视图上移的时候更连贯
+    double duration = [[notification.userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+    
+    //将视图上移计算好的偏移
+    if(offsetH > 0) {
+        [UIView animateWithDuration:duration animations:^{
+            self.frame = CGRectMake(0, -offsetH, self.frame.size.width, self.frame.size.height);
+        }];
+    }
+}
+
+///键盘消失事件
+- (void) keyboardWillHide:(NSNotification *)notify {
+    // 键盘动画时间
+    double duration = [[notify.userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+    
+    //视图下沉恢复原状
+    [UIView animateWithDuration:duration animations:^{
+        self.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
+    }];
+
+}
+
+/// 获取tableview 当前正在编辑的cell
+
 #pragma mark - delegate
 
 @end
