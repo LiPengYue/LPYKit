@@ -45,9 +45,13 @@
         [weakSelf.navigationController popViewControllerAnimated:true];
     }];
     
+    CGRect statusBarRect = [[UIApplication sharedApplication] statusBarFrame];
+    CGRect navRect = self.navigationController.navigationBar.frame;
+    CGFloat h = statusBarRect.size.height+navRect.size.height;
+
     [self.view addSubview:self.navBarView];
     CGFloat w = [UIScreen mainScreen].bounds.size.width;
-    self.navBarView.frame = CGRectMake(0, 0, w, 64);
+    self.navBarView.frame = CGRectMake(0, 0, w, h);
     [self.navBarView reloadView];
 }
 

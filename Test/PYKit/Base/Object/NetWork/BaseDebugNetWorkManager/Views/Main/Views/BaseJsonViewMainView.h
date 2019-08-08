@@ -39,6 +39,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic,assign) NSInteger currentLevelOffset;
 
+- (void) openAll;
+- (void) closeAll;
 @end
 
 NS_ASSUME_NONNULL_END

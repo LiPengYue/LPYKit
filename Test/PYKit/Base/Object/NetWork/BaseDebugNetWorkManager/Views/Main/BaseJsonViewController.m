@@ -231,17 +231,22 @@ typedef enum : NSUInteger {
     .getStr;
     [self.navBarView.titleButton setTitle:title forState:UIControlStateNormal];
     self.navBarView
-    .addRightItemWithTitleAndImg(@"🔍",nil);
-//    .addRightItemWithTitleAndImg(@"🔨",nil);
+    .addRightItemWithTitleAndImg(@"🔍",nil)
+    .addRightItemWithTitleAndImg(@"👀",nil);
+    
+    UIButton * button = self.navBarView.rightItems.lastObject;
+    [button setTitle:@"👀all" forState:UIControlStateNormal];
+    [button setTitle:@"🦆..." forState:UIControlStateSelected];
     
     __weak typeof (self)weakSelf = self;
     [self.navBarView clickRightButtonFunc:^(UIButton *button, NSInteger index) {
         [weakSelf.navBarView.rightItems enumerateObjectsUsingBlock:^(UIButton * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            if(![obj isEqual:button]) {
-                obj.selected = false;
-            }
+//            if(![obj isEqual:button]) {
+//                obj.selected = false;
+//            }
         }];
         if (index == 0) {
+            
             [weakSelf clickSearch:button];
         }else{
             [weakSelf clickEditing:button];
@@ -262,6 +267,13 @@ typedef enum : NSUInteger {
 }
 
 - (void) clickEditing: (UIButton *)button {
+    button.selected = !button.selected;
+    if(button.selected) {
+        [self.mainView openAll];
+    }else{
+        [self.mainView closeAll];
+    }
+    return;
     button.selected = !button.selected;
     [self.headerView getHWithEditModel:self.model andPathModel:self.headerView.currentPathModel andMaxW:self.view.width andIsSearch:false andAnimation:true];
     if (!button.isSelected) {
@@ -328,10 +340,5 @@ typedef enum : NSUInteger {
     }
     return _headerView;
 }
-
-// MARK: systom functions
-
-// MARK:life cycles
-
 @end
 

@@ -534,6 +534,18 @@ UITableViewDataSource
 
 }
 
+- (void) openAll {
+    [self.model openAll];
+    self.modelArray = [self.model faltSelfDataIfOpen].mutableCopy;
+    [self reloadData];
+}
+
+- (void) closeAll {
+    [self.model closeAll];
+    self.modelArray = [self.model faltSelfDataIfOpen].mutableCopy;
+    [self reloadData];
+}
+
 /// 获取tableview 当前正在编辑的cell
 
 #pragma mark - delegate

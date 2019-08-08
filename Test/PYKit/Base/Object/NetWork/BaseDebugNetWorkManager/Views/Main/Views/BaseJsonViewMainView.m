@@ -104,6 +104,14 @@
     self.tableView.levelOffset = currentLevelOffset;
 }
 
+- (void) openAll {
+    [self.tableView openAll];
+}
+
+- (void) closeAll {
+    [self.tableView closeAll];
+}
+
 - (void)layoutSubviews {
     [super layoutSubviews];
     self.tableView.frame = self.bounds;

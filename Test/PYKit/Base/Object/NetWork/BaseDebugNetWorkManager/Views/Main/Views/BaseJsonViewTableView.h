@@ -27,6 +27,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,copy) void(^longClickCellBlock)(BaseJsonViewStepModel *model);
 @property (nonatomic,copy) void (^jumpNextLevelVc)(BaseJsonViewStepModel *model);
 @property (nonatomic,copy) void(^clickBottomFoldLineButtonBlock)(BaseJsonViewStepModel *model);
+- (void) openAll;
+- (void) closeAll;
 @end
 
 NS_ASSUME_NONNULL_END
