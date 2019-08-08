@@ -212,12 +212,28 @@ UITableViewDataSource
     
     [editCell setClickCancellButtonBlock:^{
         NSIndexPath *index = [weakSelf indexPathForCell:weakEditCell];
-        
-        [weakSelf.modelArray replaceObjectAtIndex:index.row withObject:weakEditCell.editingModel];
-        
-        NSInteger row = [weakSelf.modelArray indexOfObject:weakEditCell.editingModel.superPoint];
-        NSIndexPath *superPointIndex = [NSIndexPath indexPathForRow:row inSection:0];
-        [weakSelf reloadRowsAtIndexPaths:@[index,superPointIndex] withRowAnimation:UITableViewRowAnimationFade];
+        switch(weakEditCell.editingModel.status) {
+            case BaseJsonViewStepCellStatus_Normal:
+                break;
+            case BaseJsonViewStepCellStatus_EditingSelf: {
+                weakEditCell.editingModel.status = BaseJsonViewStepCellStatus_Normal;
+                [weakSelf.modelArray replaceObjectAtIndex:index.row withObject:weakEditCell.editingModel];
+                NSInteger row = [weakSelf.modelArray indexOfObject:weakEditCell.editingModel.superPoint];
+                NSIndexPath *superPointIndex = [NSIndexPath indexPathForRow:row inSection:0];
+                [weakSelf beginUpdates];
+                [weakSelf reloadRowsAtIndexPaths:@[index,superPointIndex] withRowAnimation:UITableViewRowAnimationFade];
+                [weakSelf endUpdates];
+            }
+                break;
+            case BaseJsonViewStepCellStatus_InsertItem:{
+                weakEditCell.editingModel.status = BaseJsonViewStepCellStatus_Normal;
+                [weakSelf.modelArray removeObjectAtIndex:index.row];
+                [weakSelf beginUpdates];
+                [weakSelf deleteRowsAtIndexPaths:@[index] withRowAnimation:UITableViewRowAnimationFade];
+                [weakSelf endUpdates];
+            }
+                break;
+        }
     }];
     
     [editCell setTextViewShouldBeginEditingBlock:^BOOL(BaseJsonEditingTableViewCell * _Nonnull cell) {

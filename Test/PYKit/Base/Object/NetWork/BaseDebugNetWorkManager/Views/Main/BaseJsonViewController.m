@@ -235,8 +235,8 @@ typedef enum : NSUInteger {
     .getStr;
     [self.navBarView.titleButton setTitle:title forState:UIControlStateNormal];
     self.navBarView
-    .addRightItemWithTitleAndImg(@"🔍",nil)
-    .addRightItemWithTitleAndImg(@"🔨",nil);
+    .addRightItemWithTitleAndImg(@"🔍",nil);
+//    .addRightItemWithTitleAndImg(@"🔨",nil);
     
     __weak typeof (self)weakSelf = self;
     [self.navBarView clickRightButtonFunc:^(UIButton *button, NSInteger index) {

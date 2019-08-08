@@ -462,7 +462,7 @@ failedCode: {
     self.editingModel.type = self.originType;
     self.editingModel.key = self.originKey;
     [self.editingModel reloadDataWitOriginDataProperty];
-    self.editingModel.status = BaseJsonViewStepModelType_Number;
+
     if (self.clickCancellButtonBlock) {
         self.clickCancellButtonBlock();
     }
