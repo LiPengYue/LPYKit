@@ -814,8 +814,6 @@
     return isEqual_Data && isEqual_Key;
 }
 
-- (void)dealloc
-{
-    BaseJsonViewCommonDLog(@"✅BaseJsonViewStepModel销毁： %@",self.key);
+- (void)dealloc { BaseJsonViewCommonDLog(@"✅BaseJsonViewStepModel销毁： %@",self.key);
 }
 @end
