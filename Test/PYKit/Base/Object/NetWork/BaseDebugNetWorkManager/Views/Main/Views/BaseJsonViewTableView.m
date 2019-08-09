@@ -10,10 +10,10 @@
 #import "BaseJsonViewTableView.h"
 #import "BaseJsonViewTableViewCell.h"
 #import "BaseJsonViewSearchView.h"
-#import "BaseJsonEditingTableViewCell.h"
+#import "BaseJsonEditingStatusTableViewCell.h"
 
 static NSString *const kBaseJsonViewTableViewCellId = @"kBaseJsonViewTableViewCellId";
-static NSString *const kBaseJsonEditingTableViewCell = @"kBaseJsonEditingTableViewCell";
+static NSString *const kBaseJsonEditingStatusTableViewCell = @"kBaseJsonEditingStatusTableViewCell";
 
 @interface BaseJsonViewTableView()
 <
@@ -26,8 +26,9 @@ UITableViewDataSource
 @property (nonatomic,strong) NSMutableArray <BaseJsonViewStepModel*>* searchResultModelArray;
 /// 剪切板
 @property (nonatomic,strong) UIPasteboard *pasteboard;
-@property (nonatomic,strong) BaseJsonEditingTableViewCell *currentEdtingCell;
-
+@property (nonatomic,strong) BaseJsonEditingStatusTableViewCell *currentEdtingCell;
+@property (nonatomic,strong) NSMutableArray *editingModelArray;
+@property (nonatomic,assign) BOOL isSetupKeybordOffset;
 @end
 
 @implementation BaseJsonViewTableView
@@ -38,8 +39,10 @@ UITableViewDataSource
 - (instancetype)initWithFrame:(CGRect)frame style:(UITableViewStyle)style {
     if (self = [super initWithFrame:frame style:style]) {
         self.isAutoClose = true;
-//        [self addNoticeForKeyboard];
+        [self addNoticeForKeyboard];
         [self setupViews];
+        self.isSetupKeybordOffset = true;
+        self.contentInset = UIEdgeInsetsMake(0, 0, 10, 0);
     }
     return self;
 }
@@ -49,7 +52,7 @@ UITableViewDataSource
     self.dataSource = self;
     self.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self registerClass:BaseJsonViewTableViewCell.class forCellReuseIdentifier:kBaseJsonViewTableViewCellId];
-    [self registerNib:[UINib nibWithNibName:@"BaseJsonEditingTableViewCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:kBaseJsonEditingTableViewCell];
+    [self registerNib:[UINib nibWithNibName:@"BaseJsonEditingStatusTableViewCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:kBaseJsonEditingStatusTableViewCell];
 }
 
 - (NSMutableArray<BaseJsonViewStepModel *> *)modelArray {
@@ -92,24 +95,17 @@ UITableViewDataSource
     [self reloadData];
 }
 
+
 - (NSMutableArray <BaseJsonViewStepModel *>*) searchAndOpenAllWithKey: (NSString *)key {
     
     [self.model openAll];
     self.model = self.model;
     NSMutableArray <BaseJsonViewStepModel *>*arrayM = [NSMutableArray new];
-    if (key.length > 0) {
+    if (key.length > 0 || self.isEditingStatusSearch) {
         [self.modelArray enumerateObjectsUsingBlock:^(BaseJsonViewStepModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            BOOL isTrue = self.isAccurateSearch ? [obj.key isEqualToString:key]: [obj.key containsString:key];
-            if (isTrue) {
+            BOOL isSearchModel = [self isSearchDataWithModel:obj andKey:key];
+            if (isSearchModel) {
                 [arrayM addObject:obj];
-            }else{
-                if ([obj.data isKindOfClass:NSString.class]) {
-                    NSString *data = obj.data;
-                    BOOL isTrue = self.isAccurateSearch ? [data isEqualToString:key]: [data containsString:key];
-                    if (isTrue) {
-                        [arrayM addObject:obj];
-                    }
-                }
             }
         }];
     }
@@ -128,12 +124,39 @@ UITableViewDataSource
     return arrayM;
 }
 
+- (BOOL) isSearchDataWithModel: (BaseJsonViewStepModel *) obj andKey: (NSString *)key {
+    
+    BOOL isTrue = self.isAccurateSearch ? [obj.key isEqualToString:key]: [obj.key containsString:key];
+    if (!isTrue && [obj.data isKindOfClass:NSString.class]) {
+        NSString *data = obj.data;
+        isTrue = self.isAccurateSearch ? [data isEqualToString:key]: [data containsString:key];
+    }
+    
+    if (self.isEditingStatusSearch) {
+        switch (obj.status) {
+            case BaseJsonViewStepCellStatus_Normal:
+                isTrue = false;
+                break;
+            case BaseJsonViewStepCellStatus_EditingSelf:
+            case BaseJsonViewStepCellStatus_InsertItem:
+                if (key.length <= 0) {
+                    isTrue = true;
+                }else{
+                    isTrue = isTrue;
+                }
+                break;
+        }
+    }
+    return isTrue;
+}
+
+
 #pragma mark - dataSource
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     BaseJsonViewStepModel *model = self.modelArray[indexPath.row];
     if (model.status != BaseJsonViewStepCellStatus_Normal) {
-        return [BaseJsonEditingTableViewCell getHeithWithModel:model];
+        return [BaseJsonEditingStatusTableViewCell getHeithWithModel:model];
     }
     CGFloat h = 0;
     CGFloat normalH = tableViewCellFoldLineMaxHeight;
@@ -161,7 +184,7 @@ UITableViewDataSource
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     NSString *str = kBaseJsonViewTableViewCellId;
     if (self.modelArray[indexPath.row].status != BaseJsonViewStepCellStatus_Normal) {
-        str = kBaseJsonEditingTableViewCell;
+        str = kBaseJsonEditingStatusTableViewCell;
     }
     UITableViewCell *cellAny = [tableView dequeueReusableCellWithIdentifier:str forIndexPath:indexPath];
     cellAny.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -180,8 +203,8 @@ UITableViewDataSource
         
         [self registerCellEventsWithCell: jsonCell];
     }
-    if ([cell isKindOfClass:BaseJsonEditingTableViewCell.class]) {
-        BaseJsonEditingTableViewCell *editCell = (BaseJsonEditingTableViewCell *)cell;
+    if ([cell isKindOfClass:BaseJsonEditingStatusTableViewCell.class]) {
+        BaseJsonEditingStatusTableViewCell *editCell = (BaseJsonEditingStatusTableViewCell *)cell;
         editCell.editingModel = self.modelArray[indexPath.row];
         NSInteger row = [self.modelArray indexOfObject:editCell.editingModel.superPoint];
         NSIndexPath *superPointIndex = [NSIndexPath indexPathForRow:row inSection:0];
@@ -192,11 +215,14 @@ UITableViewDataSource
     }
 }
 
-- (void) registerEditingCellEventWith:(BaseJsonEditingTableViewCell *)editCell {
+- (void) registerEditingCellEventWith:(BaseJsonEditingStatusTableViewCell *)editCell {
     __weak typeof (self)weakSelf = self;
     __weak typeof(editCell)weakEditCell = editCell;
     
     [editCell setClickInsertDownBlock:^{
+        
+        [weakSelf.editingModelArray removeObject: weakEditCell.editingModel];
+        
         NSIndexPath *index = [weakSelf indexPathForCell:weakEditCell];
         
         [weakSelf.modelArray replaceObjectAtIndex:index.row withObject:weakEditCell.editingModel];
@@ -207,6 +233,9 @@ UITableViewDataSource
     }];
     
     [editCell setClickCancellButtonBlock:^{
+        
+        [weakSelf.editingModelArray removeObject: weakEditCell.editingModel];
+        
         NSIndexPath *index = [weakSelf indexPathForCell:weakEditCell];
         switch(weakEditCell.editingModel.status) {
             case BaseJsonViewStepCellStatus_Normal:
@@ -232,7 +261,7 @@ UITableViewDataSource
         }
     }];
     
-    [editCell setTextViewShouldBeginEditingBlock:^BOOL(BaseJsonEditingTableViewCell * _Nonnull cell) {
+    [editCell setTextViewShouldBeginEditingBlock:^BOOL(BaseJsonEditingStatusTableViewCell * _Nonnull cell) {
         weakSelf.currentEdtingCell = cell;
         return true;
     }];
@@ -280,7 +309,7 @@ UITableViewDataSource
         if(model.isOpen) {
             [self closeWithModel:model andIsOpen:false andIndex:indexPath];
         }
-        
+        [self.editingModelArray addObject:model];
         [self beginUpdates];
         [self reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:[self.modelArray indexOfObject:model]  inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
         [self endUpdates];
@@ -296,6 +325,9 @@ UITableViewDataSource
         BaseJsonViewStepModel *itemModel = [BaseJsonViewStepModel new];
         itemModel.level = model.level;
         itemModel.status = BaseJsonViewStepCellStatus_InsertItem;
+        
+        [self.editingModelArray addObject:itemModel];
+        
         [self.modelArray insertObject:itemModel atIndex:[self.modelArray indexOfObject:model] + 1];
         itemModel.superPoint = model.superPoint;
         
@@ -315,7 +347,7 @@ UITableViewDataSource
         itemModel.status = BaseJsonViewStepCellStatus_InsertItem;
         [self.modelArray insertObject:itemModel atIndex:[self.modelArray indexOfObject:model] + 1];
         itemModel.superPoint = model;
-        
+        [self.editingModelArray addObject:itemModel];
         [self beginUpdates];
         [self insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:[self.modelArray indexOfObject:model] + 1  inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
         [self endUpdates];
@@ -357,6 +389,10 @@ UITableViewDataSource
 }
 
 - (void) deleteWithModel: (BaseJsonViewStepModel *)model {
+    if (!model) return;
+    
+    [self.editingModelArray removeObject:model];
+    
     NSMutableArray <NSIndexPath *>*indexPaths = [[NSMutableArray alloc]init];
     NSMutableArray <BaseJsonViewStepModel *>*deleteModelArray = [[NSMutableArray alloc]init];
     [deleteModelArray addObject:model];
@@ -499,25 +535,32 @@ UITableViewDataSource
 
 ///键盘显示事件
 - (void) keyboardWillShow:(NSNotification *)notification {
+   
     //获取键盘高度，在不同设备上，以及中英文下是不同的
     CGFloat kbHeight = [[notification.userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size.height;
     
     //计算出键盘顶端到inputTextView panel底端的距离(加上自定义的缓冲距离INTERVAL_KEYBOARD)
-    CGFloat offsetY = self.contentOffset.y - self.currentEdtingCell.bottom;
-    CGFloat offsetH = kbHeight - offsetY;
+    CGFloat offsetY = self.contentOffset.y + self.height + kbHeight - self.currentEdtingCell.bottom;
+    CGFloat offsetH = offsetY;
 //    CGFloat offset = (self.frame.origin.y+textView.frame.size.height) - (self.view.frame.size.height - kbHeight);
     CGRect rect = [self convertRect:self.currentEdtingCell.frame toView:[self superview]];
     offsetH = self.height - CGRectGetMaxY(rect);
     offsetH = kbHeight - offsetH;
     
+    self.contentInset = UIEdgeInsetsMake(0, 0, kbHeight, 0);
+    
     //cell在window中的位置
     // 取得键盘的动画时间，这样可以在视图上移的时候更连贯
     double duration = [[notification.userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
-    
+    if (self.isSetupKeybordOffset) {
+        self.isSetupKeybordOffset = false;
+    }else{
+//        return;
+    }
     //将视图上移计算好的偏移
     if(offsetH > 0) {
         [UIView animateWithDuration:duration animations:^{
-            self.frame = CGRectMake(0, -offsetH, self.frame.size.width, self.frame.size.height);
+            self.contentOffset = CGPointMake(0, self.contentOffset.y + offsetH);
         }];
     }
 }
@@ -525,17 +568,28 @@ UITableViewDataSource
 ///键盘消失事件
 - (void) keyboardWillHide:(NSNotification *)notify {
     // 键盘动画时间
-    double duration = [[notify.userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
-    
-    //视图下沉恢复原状
-    [UIView animateWithDuration:duration animations:^{
-        self.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
-    }];
+    self.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
+    self.isSetupKeybordOffset = true;
+//    double duration = [[notify.userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+//    [UIView animateWithDuration:duration animations:^{
+//        self.contentOffset = CGPointMake(0, self.contentOffset.y + offsetH);
+//    }];
+//    //视图下沉恢复原状
+//    [UIView animateWithDuration:duration animations:^{
+//        self.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
+//    }];
 
 }
 
+- (NSMutableArray *)editingModelArray {
+    if (!_editingModelArray) {
+        _editingModelArray = [NSMutableArray new];
+    }
+    return _editingModelArray;
+}
+
 - (void) openAll {
-    [self.model openAll];
+    [self.model openAllNormalStatus];
     self.modelArray = [self.model faltSelfDataIfOpen].mutableCopy;
     [self reloadData];
 }

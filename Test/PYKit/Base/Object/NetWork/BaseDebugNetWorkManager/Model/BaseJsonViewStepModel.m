@@ -79,6 +79,35 @@
     }
 }
 
+- (void) openAllNormalStatus {
+    self.isOpen = true;
+    switch (self.status) {
+
+        case BaseJsonViewStepCellStatus_Normal:
+            self.isOpen = true;
+            break;
+        case BaseJsonViewStepCellStatus_EditingSelf:
+            self.isOpen = false;
+            break;
+        case BaseJsonViewStepCellStatus_InsertItem:
+            self.isOpen = false;
+            break;
+    }
+    if ([self.data isKindOfClass:NSArray.class]) {
+        NSArray *array = self.data;
+        [array enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            if ([obj isKindOfClass:BaseJsonViewStepModel.class]) {
+                [obj openAllNormalStatus];
+            }
+        }];
+    } else if([self.data isKindOfClass:BaseJsonViewStepModel.class]) {
+        BaseJsonViewStepModel *model = self.data;
+        [model openAllNormalStatus];
+    }else if ([self.data isKindOfClass:NSString.class]) {
+    }else {
+    }
+}
+
 - (void)openAll {
     self.isOpen = true;
     if ([self.data isKindOfClass:NSArray.class]) {

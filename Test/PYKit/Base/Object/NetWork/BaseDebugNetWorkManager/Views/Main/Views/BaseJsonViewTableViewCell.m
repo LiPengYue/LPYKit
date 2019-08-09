@@ -438,6 +438,7 @@
 }
 
 
+
 + (CGFloat)getHeightLineWithString:(NSString *)string withWidth:(CGFloat)width withFont:(UIFont *)font {
     
     CGSize size = CGSizeMake(width, 999);

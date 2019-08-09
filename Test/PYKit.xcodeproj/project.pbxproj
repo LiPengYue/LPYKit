@@ -75,8 +75,6 @@
 		E36CF5852248B3B200C32DEC /* NSObject+T.m in Sources */ = {isa = PBXBuildFile; fileRef = E36CF5832248B3B200C32DEC /* NSObject+T.m */; };
 		E36CF5862248B3B200C32DEC /* NSObject+SignalHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = E36CF5842248B3B200C32DEC /* NSObject+SignalHandler.m */; };
 		E36CF5B82248D3FD00C32DEC /* BaseNavigationBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = E36CF5B62248D3FD00C32DEC /* BaseNavigationBarView.m */; };
-		E36F183F22EC3C6300CD7FA4 /* BaseJsonEditingTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E36F183E22EC3C6300CD7FA4 /* BaseJsonEditingTableViewCell.m */; };
-		E36F184122EC3FAD00CD7FA4 /* BaseJsonEditingTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E36F184022EC3FAD00CD7FA4 /* BaseJsonEditingTableViewCell.xib */; };
 		E37200F422CB42CC005638BB /* BaseJsonViewCommon.m in Sources */ = {isa = PBXBuildFile; fileRef = E37200F322CB42CC005638BB /* BaseJsonViewCommon.m */; };
 		E38A2EC322F7E2C5008609D7 /* BaseJsonViewStepErrorModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E38A2EC222F7E2C5008609D7 /* BaseJsonViewStepErrorModel.m */; };
 		E38A2EC622F81635008609D7 /* BaseJsonViewStepNilModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E38A2EC522F81635008609D7 /* BaseJsonViewStepNilModel.m */; };
@@ -94,6 +92,8 @@
 		E3AA413B2293F9610051875E /* DeleteCollectionCellViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3AA413A2293F9610051875E /* DeleteCollectionCellViewController.m */; };
 		E3AA41412295458A0051875E /* DeleteCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E3AA41402295458A0051875E /* DeleteCollectionViewCell.m */; };
 		E3AA414422954FF30051875E /* DelegateModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E3AA414322954FF30051875E /* DelegateModel.m */; };
+		E3D8A79922FC26AA00912BF6 /* BaseJsonEditingStatusTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E3D8A79722FC26AA00912BF6 /* BaseJsonEditingStatusTableViewCell.m */; };
+		E3D8A79A22FC26AA00912BF6 /* BaseJsonEditingStatusTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3D8A79822FC26AA00912BF6 /* BaseJsonEditingStatusTableViewCell.xib */; };
 		E3DA111922A104A900BB525C /* CountDownHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = E3DA111522A104A900BB525C /* CountDownHandler.m */; };
 		E3DA111A22A104A900BB525C /* PYDateManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E3DA111822A104A900BB525C /* PYDateManager.m */; };
 		E3DE08F52264276500904AC7 /* BaseTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = E3DE08F42264276500904AC7 /* BaseTableView.m */; };
@@ -302,9 +302,6 @@
 		E36CF5B32248B6A000C32DEC /* BaseFiltrateRulerHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseFiltrateRulerHeader.h; sourceTree = "<group>"; };
 		E36CF5B62248D3FD00C32DEC /* BaseNavigationBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseNavigationBarView.m; sourceTree = "<group>"; };
 		E36CF5B72248D3FD00C32DEC /* BaseNavigationBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseNavigationBarView.h; sourceTree = "<group>"; };
-		E36F183D22EC3C6300CD7FA4 /* BaseJsonEditingTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseJsonEditingTableViewCell.h; sourceTree = "<group>"; };
-		E36F183E22EC3C6300CD7FA4 /* BaseJsonEditingTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseJsonEditingTableViewCell.m; sourceTree = "<group>"; };
-		E36F184022EC3FAD00CD7FA4 /* BaseJsonEditingTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BaseJsonEditingTableViewCell.xib; sourceTree = "<group>"; };
 		E37200F222CB42CC005638BB /* BaseJsonViewCommon.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseJsonViewCommon.h; sourceTree = "<group>"; };
 		E37200F322CB42CC005638BB /* BaseJsonViewCommon.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseJsonViewCommon.m; sourceTree = "<group>"; };
 		E38A2EC122F7E2C5008609D7 /* BaseJsonViewStepErrorModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseJsonViewStepErrorModel.h; sourceTree = "<group>"; };
@@ -339,6 +336,9 @@
 		E3AA41402295458A0051875E /* DeleteCollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DeleteCollectionViewCell.m; sourceTree = "<group>"; };
 		E3AA414222954FF30051875E /* DelegateModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DelegateModel.h; sourceTree = "<group>"; };
 		E3AA414322954FF30051875E /* DelegateModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DelegateModel.m; sourceTree = "<group>"; };
+		E3D8A79622FC26AA00912BF6 /* BaseJsonEditingStatusTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseJsonEditingStatusTableViewCell.h; sourceTree = "<group>"; };
+		E3D8A79722FC26AA00912BF6 /* BaseJsonEditingStatusTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseJsonEditingStatusTableViewCell.m; sourceTree = "<group>"; };
+		E3D8A79822FC26AA00912BF6 /* BaseJsonEditingStatusTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BaseJsonEditingStatusTableViewCell.xib; sourceTree = "<group>"; };
 		E3DA111522A104A900BB525C /* CountDownHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CountDownHandler.m; sourceTree = "<group>"; };
 		E3DA111622A104A900BB525C /* PYDateManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYDateManager.h; sourceTree = "<group>"; };
 		E3DA111722A104A900BB525C /* CountDownHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CountDownHandler.h; sourceTree = "<group>"; };
@@ -1013,9 +1013,9 @@
 				E3A9A9F6224B99D000CEC939 /* BaseJsonViewTableView.m */,
 				E3A9A9F8224B9A8200CEC939 /* BaseJsonViewTableViewCell.h */,
 				E3A9A9F9224B9A8200CEC939 /* BaseJsonViewTableViewCell.m */,
-				E36F183D22EC3C6300CD7FA4 /* BaseJsonEditingTableViewCell.h */,
-				E36F183E22EC3C6300CD7FA4 /* BaseJsonEditingTableViewCell.m */,
-				E36F184022EC3FAD00CD7FA4 /* BaseJsonEditingTableViewCell.xib */,
+				E3D8A79622FC26AA00912BF6 /* BaseJsonEditingStatusTableViewCell.h */,
+				E3D8A79722FC26AA00912BF6 /* BaseJsonEditingStatusTableViewCell.m */,
+				E3D8A79822FC26AA00912BF6 /* BaseJsonEditingStatusTableViewCell.xib */,
 				E36C8B3C22C9A6DD0021A2CC /* BaseJsonViewMainView.h */,
 				E36C8B3D22C9A6DD0021A2CC /* BaseJsonViewMainView.m */,
 				E3F0770722E9A8D800675D21 /* BaseJsonHeaderView.h */,
@@ -1453,10 +1453,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				E33551DF22447ED300AE6C3B /* LaunchScreen.storyboard in Resources */,
+				E3D8A79A22FC26AA00912BF6 /* BaseJsonEditingStatusTableViewCell.xib in Resources */,
 				E3660DEC22E86D41001BA585 /* BaseJsonViewEditHeaderView.xib in Resources */,
 				E301CCFC2265CBAD000F024F /* BaseTableTestCell3.xib in Resources */,
 				E33551DC22447ED300AE6C3B /* Assets.xcassets in Resources */,
-				E36F184122EC3FAD00CD7FA4 /* BaseJsonEditingTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1503,7 +1503,6 @@
 				E301CCEF2265C4DC000F024F /* BasetableTestHeserFooterView2.m in Sources */,
 				E3AA41412295458A0051875E /* DeleteCollectionViewCell.m in Sources */,
 				E38A2EC322F7E2C5008609D7 /* BaseJsonViewStepErrorModel.m in Sources */,
-				E36F183F22EC3C6300CD7FA4 /* BaseJsonEditingTableViewCell.m in Sources */,
 				E3FFC1712293D2AD00069463 /* BaseModalShadowAnimationConfig.m in Sources */,
 				E3F3709222802C6400633B66 /* YYTextAsyncLayer.m in Sources */,
 				E3A9A9E8224B743800CEC939 /* BaseNavigationController.m in Sources */,
@@ -1568,6 +1567,7 @@
 				E3EC0F6D229E56C100219EFD /* TreeModel.m in Sources */,
 				E36CF57E2248B2C000C32DEC /* BaseImageHandler.m in Sources */,
 				E36CF55322489F7600C32DEC /* BaseParagraphStyleHandler+Handler.m in Sources */,
+				E3D8A79922FC26AA00912BF6 /* BaseJsonEditingStatusTableViewCell.m in Sources */,
 				E3A9A9EC224B81E100CEC939 /* ScrollViewPanDirectionHandler.m in Sources */,
 				E33551E222447ED300AE6C3B /* main.m in Sources */,
 				E301CCCD22645CF1000F024F /* BaseTableViewDataSource.m in Sources */,

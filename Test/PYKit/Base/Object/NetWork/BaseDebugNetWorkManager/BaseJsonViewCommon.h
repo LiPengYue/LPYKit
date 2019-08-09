@@ -32,6 +32,9 @@ NS_ASSUME_NONNULL_BEGIN
 #define cellLevelLabelColor BaseColorHandler.cHex(0xCCCC99)
 #define messageColor BaseColorHandler.cHex(0xdff0ea)
 
+
+#define messageColor2 BaseColorHandler.cHex(0x809FBB)
+
 #define editActionBackgroundColor [UIColor colorWithRed:0.8 green:0.9 blue:0.8 alpha:1]
 #define copyActionBackgroundColor [UIColor colorWithRed:0.6 green:0.7 blue:0.6 alpha:1]
 #define copyStrActionBackgroundColor [UIColor colorWithRed:0.4 green:0.5 blue:0.4 alpha:1]
@@ -68,6 +71,9 @@ NS_ASSUME_NONNULL_BEGIN
 #else
 #    define BaseJsonViewCommonDLog(...)
 #endif
+
+static NSString *const BaseJsonViewCommon_searchEditingKey = @"编辑中——BaseJsonViewCommon_searchEditingKey";
+
 
 @interface BaseJsonViewCommon : NSObject
 + (CGFloat)getHeightLineWithString:(NSString *)string withWidth:(CGFloat)width withFont:(UIFont *)font;

@@ -8,16 +8,12 @@
 
 
 #import <UIKit/UIKit.h>
+#import "BaseJsonEditingStatusTableViewCell.h"
 #import "BaseJsonViewStepModel.h"
 
-
 NS_ASSUME_NONNULL_BEGIN
-typedef enum : NSUInteger {
-    BaseJsonEditingTableViewCell_editing = 1,
-    BaseJsonEditingTableViewCell_selecteEditType,
-} BaseJsonEditingTableViewCell_style;
 
-@interface BaseJsonEditingTableViewCell : UITableViewCell
+@interface BaseJsonEditingStatusTableViewCell : UITableViewCell
 
 @property (nonatomic,strong) NSIndexPath *indexPath;
 @property (nonatomic,strong) NSIndexPath *superPointIndexPath;
@@ -30,7 +26,7 @@ typedef enum : NSUInteger {
 @property (nonatomic,copy) void(^clickInsertJsonBlock)(void);
 @property (nonatomic,copy) void(^clickShowIndexBlock)(BOOL isShow);
 
-@property (nonatomic,copy) BOOL(^textViewShouldBeginEditingBlock)(BaseJsonEditingTableViewCell *cell);
+@property (nonatomic,copy) BOOL(^textViewShouldBeginEditingBlock)(BaseJsonEditingStatusTableViewCell *cell);
 
 /// style
 @property (nonatomic,assign) BaseJsonViewStepCellStatus status;

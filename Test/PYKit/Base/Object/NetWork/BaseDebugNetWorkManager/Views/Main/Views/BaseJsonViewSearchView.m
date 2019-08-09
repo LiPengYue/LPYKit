@@ -26,6 +26,7 @@ UIScrollViewDelegate
 @property (nonatomic,strong) UIButton *scrollToNext;
 @property (nonatomic,strong) UIButton *scrollToFront;
 @property (nonatomic,strong) UIButton *accurateSearchButton;
+@property (nonatomic,strong) UIButton *searchEditingButton;
 @property (nonatomic,strong) UILabel *currentLevelTreeLabel;
 @property (nonatomic,strong) UIScrollView *currentLevelTreeLabelBackgroundScrollView;
 @end
@@ -43,6 +44,7 @@ UIScrollViewDelegate
         [self addSubview:self.scrollToNext];
         [self addSubview:self.scrollToFront];
         [self addSubview:self.accurateSearchButton];
+        [self addSubview:self.searchEditingButton];
         [self addSubview: self.currentLevelTreeLabelBackgroundScrollView];
         [self.currentLevelTreeLabelBackgroundScrollView addSubview:self.currentLevelTreeLabel];
         
@@ -79,8 +81,10 @@ UIScrollViewDelegate
     self.showResultVc.top = self.scrollToFront.top;
     self.textFildBottomButton.width = self.showResultVc.left - self.textFildBottomButton.left - 12;
     
-    self.accurateSearchButton.top = self.scrollToNext.top;
+    self.accurateSearchButton.top = self.showResultVc.bottom + 5;
     self.accurateSearchButton.right = self.showResultVc.right;
+    self.searchEditingButton.bottom = self.scrollToNext.bottom;
+    self.searchEditingButton.right = self.accurateSearchButton.right;
     
     self.currentLevelTreeLabelBackgroundScrollView.left = self.textFildBottomButton.left;
     self.currentLevelTreeLabelBackgroundScrollView.width = self.textFildBottomButton.width;
@@ -182,8 +186,8 @@ UIScrollViewDelegate
 - (UIButton *) showResultVc {
     if (!_showResultVc) {
         _showResultVc = [UIButton new];
-        _showResultVc.height = 40;
-        _showResultVc.width = 60;
+        _showResultVc.height = 26;
+        _showResultVc.width = 70;
         _showResultVc.layer.borderColor = normalColor.CGColor;
         
         [_showResultVc setTitle:@"在上级页面显示结果" forState:UIControlStateNormal];
@@ -192,7 +196,7 @@ UIScrollViewDelegate
         
         [_showResultVc addTarget:self action:@selector(click_showResultWithTreeAction:) forControlEvents:UIControlEventTouchUpInside];
         
-        _showResultVc.layer.cornerRadius = 6;
+        _showResultVc.layer.cornerRadius = 13;
         _showResultVc.layer.borderColor = messageColor.CGColor;
         _showResultVc.layer.borderWidth = 1;
         
@@ -219,7 +223,7 @@ UIScrollViewDelegate
         [_scrollToNext setTitleColor:normalColor forState:UIControlStateNormal];
         
         [_scrollToNext addTarget:self action:@selector(click_scrollToNextAction:) forControlEvents:UIControlEventTouchUpInside];
-        _scrollToNext.layer.cornerRadius = 20;
+        _scrollToNext.layer.cornerRadius = 6;
         _scrollToNext.layer.borderColor = messageColor.CGColor;
         _scrollToNext.layer.borderWidth = 1;
         
@@ -246,7 +250,7 @@ UIScrollViewDelegate
         [_scrollToFront setTitleColor:normalColor forState:UIControlStateNormal];
         
         [_scrollToFront addTarget:self action:@selector(click_scrollToFrontAction:) forControlEvents:UIControlEventTouchUpInside];
-        _scrollToFront.layer.cornerRadius = 20;
+        _scrollToFront.layer.cornerRadius = 6;
         _scrollToFront.layer.borderColor = messageColor.CGColor;
         _scrollToFront.layer.borderWidth = 1;
         _scrollToFront.titleLabel.font = BaseFont.fontSCL(12);
@@ -268,9 +272,6 @@ UIScrollViewDelegate
         _currentLevelTreeLabel.font = BaseFont.fontSCL(9);
         _currentLevelTreeLabel.textColor = normalColor;
         _currentLevelTreeLabel.numberOfLines = 0;
-//        _currentLevelTreeLabel.layer.cornerRadius = 6;
-//        _currentLevelTreeLabel.layer.borderColor = messageColor.CGColor;
-//        _currentLevelTreeLabel.layer.borderWidth = 0.3;
     }
     return _currentLevelTreeLabel;
 }
@@ -280,17 +281,19 @@ UIScrollViewDelegate
     [self setSearchResultCount:0];
 }
 
-- (void)setSearchResultCount:(NSInteger)searchResultCount {
-    _searchResultCount = searchResultCount;
+- (void) setupMessage {
     NSString *str = @"";
-    
-    if (self.searchTextView.text.length > 0) {
+    NSString *searchKey = self.searchTextView.text;
+    if (self.searchEditingButton.selected) {
+        searchKey = @"编辑中状态的数据";
+    }
+    if (searchKey.length > 0) {
         str =
         BaseStringHandler
         .handler(@"搜索：“")
-        .addObjc(self.searchTextView.text)
+        .addObjc(searchKey)
         .addObjc(@"”共 ")
-        .addInt(searchResultCount)
+        .addInt(self.searchResultCount)
         .addObjc(@" 个结果")
         .getStr;
     }else if (self.path.length > 0 && !self.searchTextView.editing){
@@ -299,7 +302,11 @@ UIScrollViewDelegate
         str = @"搜索...";
     }
     [self.textFildBottomButton setTitle:str forState:UIControlStateNormal];
-    
+}
+
+- (void)setSearchResultCount:(NSInteger)searchResultCount {
+    _searchResultCount = searchResultCount;
+    [self setupMessage];
 }
 
 // MARK: - delegate
@@ -357,12 +364,12 @@ UIScrollViewDelegate
         [_accurateSearchButton setTitle:@"精准搜索" forState:UIControlStateNormal];
         [_accurateSearchButton setTitleColor:normalColor forState:UIControlStateNormal];
         
-        _accurateSearchButton.layer.cornerRadius = 6;
+        _accurateSearchButton.layer.cornerRadius = 13;
         _accurateSearchButton.layer.borderColor = messageColor.CGColor;
         _accurateSearchButton.layer.borderWidth = 1;
         _accurateSearchButton.titleLabel.font = BaseFont.fontSCL(12);
-        _accurateSearchButton.width = 60;
-        _accurateSearchButton.height = 40;
+        _accurateSearchButton.width = 70;
+        _accurateSearchButton.height = 26;
         
         [_accurateSearchButton addTarget:self action:@selector(click_accurateSearchButtonAction:) forControlEvents:UIControlEventTouchUpInside];
     }
@@ -381,6 +388,42 @@ UIScrollViewDelegate
     }
 }
 
+- (UIButton *)searchEditingButton {
+    if (!_searchEditingButton) {
+        _searchEditingButton = [UIButton new];
+        [_searchEditingButton setTitle:@"搜Editing" forState:UIControlStateNormal];
+        [_searchEditingButton setTitleColor:normalColor forState:UIControlStateNormal];
+        
+        _searchEditingButton.layer.cornerRadius = 13;
+        _searchEditingButton.layer.borderColor = messageColor.CGColor;
+        _searchEditingButton.layer.borderWidth = 1;
+        _searchEditingButton.titleLabel.font = BaseFont.fontSCL(12);
+        _searchEditingButton.width = 70;
+        _searchEditingButton.height = 26;
+        
+        [_searchEditingButton addTarget:self action:@selector(click_searchEditingButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _searchEditingButton;
+}
+
+- (void) click_searchEditingButtonAction:(UIButton *)button {
+    button.selected = !button.selected;
+    button.backgroundColor = button.selected ? messageColor : UIColor.whiteColor;
+    [self endEditing:true];
+
+    NSString *key = @"";
+    if (button.selected) {
+        key = BaseJsonViewCommon_searchEditingKey;
+        
+    }
+    if (self.searchEditingBlock) {
+        self.searchEditingBlock(key);
+    }
+    if (self.searchBlock) {
+        self.searchBlock(self.searchTextView.text);
+    }
+}
+
 - (UIScrollView *)currentLevelTreeLabelBackgroundScrollView {
     if (!_currentLevelTreeLabelBackgroundScrollView) {
         _currentLevelTreeLabelBackgroundScrollView = [[UIScrollView alloc]init];
@@ -390,5 +433,4 @@ UIScrollViewDelegate
     }
     return _currentLevelTreeLabelBackgroundScrollView;
 }
-
 @end

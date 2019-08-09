@@ -150,6 +150,12 @@
     self.searchView.searchBlock = searchBlock;
     
 }
+
+- (void) setSearchEditingBlock:(void (^)(NSString * _Nonnull))searchEditingBlock {
+    _searchEditingBlock = searchEditingBlock;
+    self.searchView.searchEditingBlock = searchEditingBlock;
+}
+
 - (void)setPath:(NSString *)path {
     _path = path;
     self.searchView.path = path;

@@ -1,18 +1,19 @@
 //
-//  BaseJsonViewManager.h
-//  PYKit
+//  BaseJsonEditingStatusTableViewCell.m
+//  PYkit
 //
-//  Created by 李鹏跃 on 2019/9/11.
-//  Copyright © 2019年 13lipengyue. All rights reserved.
+//  Created by 衣二三 on 2019/8/8.
+//  Copyright © 2019 衣二三. All rights reserved.
 //
 
-#import "BaseJsonEditingTableViewCell.h"
+#import "BaseJsonEditingStatusTableViewCell.h"
 #import "BaseJsonViewCommon.h"
 
 
 static NSString * const dicMessgae = @"插入Dictionary：如果value没有值，则会插入一个空的Dictionary，否则";
 
-@interface BaseJsonEditingTableViewCell()
+
+@interface BaseJsonEditingStatusTableViewCell()
 <
 UITextFieldDelegate,
 UITextViewDelegate
@@ -51,13 +52,15 @@ UITextViewDelegate
 @property (nonatomic,assign) BaseJsonViewStepModelType originType;
 @end
 
-@implementation BaseJsonEditingTableViewCell
+@implementation BaseJsonEditingStatusTableViewCell
 
 
 #pragma mark - func
 // MARK: reload data
 - (void)awakeFromNib {
     [super awakeFromNib];
+    self.contentView.layer.borderColor = messageColor.CGColor;
+    self.contentView.layer.borderWidth = 1;
     [self setupSubViewsFunc];
 }
 
@@ -217,7 +220,7 @@ UITextViewDelegate
 - (IBAction)clickInsertDic:(id)sender {
     self.editingModel.type = BaseJsonViewStepModelType_Dictionary;
     self.currentSelectedInsertButton = sender;
-
+    
     if (self.clickInsertDicBlock) {
         self.clickInsertDicBlock();
     }
@@ -236,7 +239,7 @@ UITextViewDelegate
 - (IBAction)clickInsertString:(id)sender {
     self.editingModel.type = BaseJsonViewStepModelType_String;
     self.currentSelectedInsertButton = sender;
-
+    
     if (self.clickInsertStringBlock) {
         self.clickInsertStringBlock();
     }
@@ -245,7 +248,7 @@ UITextViewDelegate
 - (IBAction)clickInsertNumber:(id)sender {
     self.editingModel.type = BaseJsonViewStepModelType_Number;
     self.currentSelectedInsertButton = sender;
-
+    
     if (self.clickInsertNumberBlock) {
         self.clickInsertNumberBlock();
     }
@@ -254,7 +257,7 @@ UITextViewDelegate
 - (IBAction)clickInsertJson:(id)sender {
     self.editingModel.type = BaseJsonViewStepModelType_Dictionary;
     self.currentSelectedInsertButton = sender;
-
+    
     if (self.clickInsertJsonBlock) {
         self.clickInsertJsonBlock();
     }
@@ -339,6 +342,17 @@ failedCode: {
     
     self.massageButtonH.constant = h;
     self.massageBackgroundScrollview.contentSize = CGSizeMake(0, h);
+
+    if (errorStr.length > 0) {
+        [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(changeMassageBordeColor) object:nil];
+        [self performSelector:@selector(changeMassageBordeColor) withObject:nil afterDelay:0.2];
+    }else {
+        self.contentView.layer.borderColor = messageColor.CGColor;
+    }
+}
+
+- (void) changeMassageBordeColor {
+    self.contentView.layer.borderColor = errorColor.CGColor;
 }
 
 - (void) setupModelValueWithErrorModel: (BaseJsonViewStepErrorModel *)errorModel {
@@ -359,13 +373,13 @@ failedCode: {
     }
     
     if (self.insertDicButton.selected){
-        if (self.originType != self.editingModel.type || !self.editingModel.originData) {
+        if (self.originType != BaseJsonViewStepModelType_Dictionary || !self.editingModel.originData) {
             self.editingModel.originData = [NSMutableDictionary new];
         }
     }
     
     if (self.insertArrayButton.selected){
-        if (self.originType != self.editingModel.type || !self.editingModel.originData) {
+        if (self.originType != BaseJsonViewStepModelType_Array || !self.editingModel.originData) {
             self.editingModel.originData = [NSMutableArray new];
         }
     }
@@ -410,7 +424,14 @@ failedCode: {
             if(dic.count > 0) {
                 if (dic.count > 1) {
                     errorModel.code = BaseJsonViewStepErrorCode500;
-                    errorModel.errorMessage = @"🌶：想要插入一段json，但是json解析出两个并列对象";
+                    NSMutableString *strM = [NSMutableString new];
+                    __block NSInteger idx = 1;
+                    [dic enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
+                        [strM appendFormat:@"\n        %ld.%@",idx,key];
+                        idx += 1;
+                    }];
+                    errorModel.errorMessage = [NSString stringWithFormat: @"🌶：想要插入一段json，但是json解析出%ld个并列对象: %@",dic.count,strM];
+                    
                 }else if (dic.count == 1){
                     NSString *key = dic.allKeys.firstObject;
                     id data = [dic valueForKey:key];
@@ -452,8 +473,13 @@ failedCode: {
 }
 
 - (BOOL)isPureNumandCharacters:(NSString *)string {
-    string = [string stringByTrimmingCharactersInSet:[NSCharacterSet decimalDigitCharacterSet]];
-    return string.length <= 0;
+    NSScanner *scanner = [NSScanner scannerWithString:string];
+    int intValue;
+    BOOL isInt = [scanner scanInt:&intValue];
+    double doubleValue;
+    BOOL isDouble = [scanner scanDouble:&doubleValue];
+    
+    return (isInt || isDouble) && [scanner isAtEnd];
 }
 
 - (IBAction)clickCancellButton:(id)sender {
@@ -462,7 +488,7 @@ failedCode: {
     self.editingModel.type = self.originType;
     self.editingModel.key = self.originKey;
     [self.editingModel reloadDataWitOriginDataProperty];
-
+    
     if (self.clickCancellButtonBlock) {
         self.clickCancellButtonBlock();
     }
@@ -485,7 +511,9 @@ failedCode: {
         _currentSelectedInsertButton = self.insertJsonButton;
     }else{
         _currentSelectedInsertButton = currentSelectedInsertButton;
+        [self showErrorWithModel:nil];
     }
+    
     [self layoutKayValueViews];
     
     [self.insertButtonArray enumerateObjectsUsingBlock:^(UIButton * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -498,74 +526,77 @@ failedCode: {
 
 - (void) layoutKayValueViews {
     
-    BOOL isEditingSelf = self.editingModel.status == BaseJsonViewStepCellStatus_EditingSelf;
     BOOL isInsertItem = self.editingModel.status == BaseJsonViewStepCellStatus_InsertItem;
-    BOOL isHiddenKey = isInsertItem && self.editingModel.superPoint.type == BaseJsonViewStepModelType_Array;
+    BOOL isSuperPointIsArray = self.editingModel.superPoint.type == BaseJsonViewStepModelType_Array;
     
+    BOOL isSuperPointIsDic = self.editingModel.superPoint.type == BaseJsonViewStepModelType_Dictionary;
+    BOOL isHiddenKey = isSuperPointIsArray;
     BOOL isHiddenValue = !isHiddenKey;
     NSString *title = @"";
+    self.valueTextView.userInteractionEnabled = true;
     if (self.currentSelectedInsertButton == self.insertJsonButton) {
         isHiddenValue = false;
-        if (isInsertItem) {
-            isHiddenKey = true;
+        isHiddenKey = true;
+        
+        if (BaseJsonViewStepModelType_Dictionary == self.originType) {
+            title = @"⚠️：转成Dictionary类型，请输入json";
         }
-        if (isEditingSelf) {
-            title = @"⚠️：转成Dictionary类型，并清空子节点";
-        }
         if (isInsertItem) {
-            title = @"插入dictionary，输入的json，将解析成子节点";
+            title = @"插入Dictionary类型,输入json";
         }
     }
     
     if (self.currentSelectedInsertButton == self.insertDicButton) {
         isHiddenValue = true;
-        if (isEditingSelf) {
-            if (self.editingModel.type == self.originType) {
-                title = @"修改key的值";
-            }else{
-                title = @"⚠️：转成Dictionary类型，并清空子节点";
-            }
+        
+        if (BaseJsonViewStepModelType_Dictionary == self.originType) {
+            title = @"⚠️：本身就是Dictionary类型，值不变";
+        } else {
+            title = @"⚠️：转成Dictionary类型，并清空子节点";
         }
         if (isInsertItem) {
-            title = @"插入dictionary节点，输入的value不被保留";
+            title = @"插入Dictionary类型的节点";
         }
     }
     
     if (self.currentSelectedInsertButton == self.insertArrayButton) {
         isHiddenValue = true;
-        if (isEditingSelf) {
-            if (self.editingModel.type == self.originType) {
-                title = @"修改key的值";
-            }else{
-                title = @"⚠️：转成Array类型，并清空子节点";
-            }
-            
+        
+        if (BaseJsonViewStepModelType_Array == self.originType) {
+            title = @"⚠️：本身就是 Array类型，值不变";
+        } else {
+            title = @"⚠️：转成Array类型, 并清空子节点";
         }
         if (isInsertItem) {
-            title = @"插入Array节点，输入的value不被保留";
+            title = @"插入Array类型的节点";
         }
     }
     if (self.currentSelectedInsertButton == self.insertStringButton) {
         isHiddenValue = false;
-        if (isEditingSelf) {
-            if (self.editingModel.type == self.originType) {
-                title = @"修改的key与value将覆盖原值";
-            }else{
-                title = @"⚠️：转成String类型的字典，修改的key与value将覆盖原值";
+        
+        if (BaseJsonViewStepModelType_Dictionary == self.originType) {
+            title = @"String类型,请输入String";
+            if (isSuperPointIsArray) {
+                title = @"⚠️：转成String类型，请输入String";
             }
+        } else {
+            title = @"⚠️：转成String类型，请输入String";
         }
+        
         if (isInsertItem) {
             title = @"插入String类型的字典";
         }
     }
     if (self.currentSelectedInsertButton == self.insertNumberButton) {
         isHiddenValue = false;
-        if (isEditingSelf) {
-            if (self.editingModel.type == self.originType) {
-                title = @"修改的key与value将覆盖原值";
-            }else{
-                title = @"⚠️：转成Number类型的字典，修改的key与value将覆盖原值";
+        
+        if (BaseJsonViewStepModelType_Dictionary == self.originType) {
+            title = @"Number类型,请输入Number";
+            if (isSuperPointIsArray) {
+                title = @"⚠️：转成Number类型，请输入Number";
             }
+        } else {
+            title = @"⚠️：转成Number类型，请输入Number";
         }
         if (isInsertItem) {
             title = @"插入Number类型的字典";
@@ -602,6 +633,7 @@ failedCode: {
     if (self.textViewShouldBeginEditingBlock) {
         self.textViewShouldBeginEditingBlock(self);
     }
+    [self showErrorWithModel:nil];
     return true;
 }
 

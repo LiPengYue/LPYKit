@@ -20,7 +20,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSMutableArray <BaseJsonViewStepModel *>*) searchAndOpenAllWithKey: (NSString *)key;
 
+/// 是否为精准搜索
 @property (nonatomic,assign) BOOL isAccurateSearch;
+
+/// 是否为搜索正在编辑状态（插入状态）
+@property (nonatomic,assign) BOOL isEditingStatusSearch;
+
 
 - (void) scrollToModel: (BaseJsonViewStepModel *)model;
 

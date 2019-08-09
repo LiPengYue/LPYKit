@@ -33,6 +33,8 @@ typedef enum : NSUInteger {
 @property (nonatomic,assign) NSInteger currentLevelOffset;
 @property (nonatomic,assign) BaseJsonViewController_popType popType;
 @property (nonatomic,assign) BOOL isHiddenHeaderView;
+/// 剪切板
+@property (nonatomic,strong) UIPasteboard *pasteboard;
 @end
 
 @implementation BaseJsonViewController
@@ -111,6 +113,7 @@ typedef enum : NSUInteger {
     };
     self.panHandler.down = ^{
         __block BOOL isShowTopHeaderView = false;
+        [weakSelf.view endEditing:true];
         [weakSelf.navBarView.rightItems enumerateObjectsUsingBlock:^(UIButton * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             isShowTopHeaderView = obj.isSelected;
             *stop = isShowTopHeaderView;
@@ -142,6 +145,9 @@ typedef enum : NSUInteger {
 
 - (void) registerheaderViewEvent {
     __weak typeof(self)weakSelf = self;
+    [self.headerView setSearchEditingBlock:^(NSString * _Nonnull key) {
+        weakSelf.mainView.isEditingStatusSearch = key.length > 0;
+    }];
     [self.headerView setSearchBlock:^(NSString * _Nonnull key) {
         weakSelf.searchKey = key;
         NSArray <BaseJsonViewStepModel *>*modelArray = [weakSelf.mainView.tableView searchAndOpenAllWithKey:key];
@@ -178,7 +184,7 @@ typedef enum : NSUInteger {
 }
 
 - (void) jumpResultVc {
-    if (self.searchKey.length <= 0) {
+    if (self.searchKey.length <= 0 && !self.mainView.isEditingStatusSearch) {
         self.headerView.messageStr = @"🌶 请先输入搜索内容";
         return;
     }
@@ -202,7 +208,7 @@ typedef enum : NSUInteger {
 }
 
 - (void) scrollWtihIsNext: (BOOL) isNext {
-    if (self.searchKey.length <= 0) {
+    if (self.searchKey.length <= 0 && !self.mainView.isEditingStatusSearch) {
         self.headerView.messageStr = @"🌶 请先输入搜索内容";
         return;
     }
@@ -230,6 +236,7 @@ typedef enum : NSUInteger {
     .setDefaultIfNull([self.model getSuperPointKey])
     .setDefaultIfNull(@"Json视图")
     .getStr;
+    [self.navBarView.titleButton addTarget:self action:@selector(clickTitleButtonAction:) forControlEvents:UIControlEventTouchUpInside];
     [self.navBarView.titleButton setTitle:title forState:UIControlStateNormal];
     self.navBarView
     .addRightItemWithTitleAndImg(@"🔍",nil)
@@ -256,6 +263,10 @@ typedef enum : NSUInteger {
     [self.navBarView reloadView];
 }
 
+- (void) clickTitleButtonAction: (UIButton *) button {
+    [self.pasteboard setString:[self.model conversionToJson]];
+}
+
 - (void) clickSearch:(UIButton *)button {
     button.selected = !button.selected;
     [self.headerView getHWithEditModel:self.model andPathModel:self.headerView.currentPathModel andMaxW:self.view.width andIsSearch:true andAnimation:true];
@@ -268,6 +279,9 @@ typedef enum : NSUInteger {
 }
 
 - (void) clickEditing: (UIButton *)button {
+    if (self.model.type == BaseJsonViewStepModelType_String || self.model.type == BaseJsonViewStepModelType_Number) {
+        return;
+    }
     button.selected = !button.selected;
     if(button.selected) {
         [self.mainView openAll];
@@ -286,7 +300,7 @@ typedef enum : NSUInteger {
 }
 
 - (void) hiddenTopheaderView {
-    [self.view endEditing:true];
+    
     [UIView animateWithDuration:0.25 animations:^{
         self.headerView.bottom = self.navBarView.top;
         if (self.mainView.top != self.navBarView.bottom) {
@@ -341,5 +355,13 @@ typedef enum : NSUInteger {
     }
     return _headerView;
 }
+
+- (UIPasteboard *)pasteboard {
+    if (!_pasteboard) {
+        _pasteboard = [UIPasteboard generalPasteboard];
+    }
+    return _pasteboard;
+}
+
 @end
 

@@ -74,6 +74,11 @@
     [self.tableView reloadData];
 }
 
+- (void)setIsEditingStatusSearch:(BOOL)isEditingStatusSearch {
+    _isEditingStatusSearch = isEditingStatusSearch;
+    self.tableView.isEditingStatusSearch = isEditingStatusSearch;
+}
+
 - (BaseJsonViewTableView *)tableView {
     if (!_tableView) {
         _tableView = [[BaseJsonViewTableView alloc]initWithFrame:CGRectZero style:UITableViewStylePlain];

@@ -100,6 +100,9 @@ typedef enum : NSUInteger {
 /// 打开所有子节点
 - (void) openAll;
 
+/// 打开被标记为 BaseJsonViewStepCellStatus_Normal 的节点
+- (void) openAllNormalStatus;
+
 /**
  重新创建self.data
  

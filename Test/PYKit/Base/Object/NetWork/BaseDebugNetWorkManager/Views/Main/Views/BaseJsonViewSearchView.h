@@ -25,7 +25,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,copy) void(^clickJumpResultVc)(void);
 @property (nonatomic,copy) void(^clickAccurateSearchButton)(BOOL isAccurateSearch);
 @property (nonatomic,copy) void(^searchBlock)(NSString *key);
+@property (nonatomic,copy) void(^searchEditingBlock)(NSString *key);
 @property (nonatomic,copy) NSString *path;
+
++ (CGFloat) getHeightWidthModel:(BaseJsonViewStepModel *)model;
 @end
 
 NS_ASSUME_NONNULL_END

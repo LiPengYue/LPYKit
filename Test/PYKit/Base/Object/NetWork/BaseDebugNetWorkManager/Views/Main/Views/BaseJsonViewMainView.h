@@ -30,7 +30,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic,strong) BaseJsonViewTableView *tableView;
 
+/// 是否精准搜索
 @property (nonatomic,assign) BOOL isAccurateSearch;
+@property (nonatomic,assign) BOOL isEditingStatusSearch;
 
 - (void) scrollToModel: (BaseJsonViewStepModel *)model;
 
