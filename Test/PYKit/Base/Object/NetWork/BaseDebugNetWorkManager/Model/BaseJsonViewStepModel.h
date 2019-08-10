@@ -10,6 +10,9 @@
 #import <UIKit/UIKit.h>
 #import "BaseJsonViewStepUIModel.h"
 #import "BaseJsonViewStepErrorModel.h"
+#import "BaseJsonViewStepSearchModel.h"
+
+
 
 NS_ASSUME_NONNULL_BEGIN
 typedef enum : NSUInteger {
@@ -33,7 +36,7 @@ typedef enum : NSUInteger {
 + (BaseJsonViewStepModel *(^)(id)) createWithID;
 
 /// 创建 一个model
-+ (BaseJsonViewStepModel *) createStepModelWithId: (id) data andKey: (NSString *)key;
++ (BaseJsonViewStepModel *) createStepModelWithOriginData: (id) data andKey: (NSString *)key;
 
 /// 转成字典
 - (NSDictionary *) conversionToDic;
@@ -80,19 +83,41 @@ typedef enum : NSUInteger {
  */
 @property (nonatomic,weak) BaseJsonViewStepModel *superPoint;
 
+/// 类型
 @property (nonatomic,assign) BaseJsonViewStepModelType type;
 
-- (void) removeWithKey: (NSString *)key andModel: (BaseJsonViewStepModel *)model;
+/// 编辑状态
+@property (nonatomic,assign) BaseJsonViewStepCellStatus status;
 
-- (void) removeFromeSuper;
 
+/**
+ 插入一个节点
+
+ @param key 节点的key
+ @param originData 节点的原始子节点y数据
+ @param index 插入的位置
+ @return 插入报错的model
+ */
 - (BaseJsonViewStepErrorModel *) insertWithKey: (NSString *)key
          andOriginData: (id) originData
               andIndex:(NSInteger) index;
 
-- (BaseJsonViewStepErrorModel *) insertWithKey: (NSString *)key
-              andModel: (BaseJsonViewStepModel *) model
-              andIndex:(NSInteger) index;
+
+/**
+ 插入一个Model
+
+ @param model 准备插入的 节点 model
+ @param index 插入的位置
+ @return 错误信息
+ */
+- (BaseJsonViewStepErrorModel *) insertWithModel: (BaseJsonViewStepModel *) model
+                                        andIndex:(NSInteger) index;
+
+
+/// 从父节点移除本节点
+- (void) removeFromeSuper;
+
+- (NSMutableArray <BaseJsonViewStepModel *>*) searchWithIsAccurateSearch: (BOOL) isAccurateSearch andIsSearchEditing:(BOOL) isSearchEditing andKey:(NSString *)key;
 
 /// 关闭所有子节点
 - (void) closeAll;
@@ -117,6 +142,13 @@ typedef enum : NSUInteger {
  */
 - (NSArray <BaseJsonViewStepModel *>*) faltSelfDataIfOpen;
 
+/**
+ 平铺 self.data
+ 
+ 获取到所有的子节点数据，不管是否打开
+ */
+- (NSArray <BaseJsonViewStepModel *>*) faltSelfData;
+
 /// 到self的视图结构
 - (NSString *) getTreeLayer;
 
@@ -131,10 +163,13 @@ typedef enum : NSUInteger {
 /// 是否需要显示折行按钮
 @property (nonatomic,assign) BOOL isShowFoldLineButton;
 
-/// 编辑状态
-@property (nonatomic,assign) BaseJsonViewStepCellStatus status;
 
-///
+/**
+ 两个model的 原始的子节点数据 且 key 是否都相等
+
+ @param model 比较的model
+ @return 是否相等
+ */
 - (BOOL) isEqualToKeyAndOriginDataWithModel: (BaseJsonViewStepModel *)model;
 @end
 

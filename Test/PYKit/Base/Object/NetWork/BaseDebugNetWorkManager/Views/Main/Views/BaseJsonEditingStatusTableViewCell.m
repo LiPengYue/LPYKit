@@ -282,7 +282,8 @@ UITextViewDelegate
         case BaseJsonViewStepCellStatus_EditingSelf:
             break;
         case BaseJsonViewStepCellStatus_InsertItem:
-            errorModel = [self.editingModel.superPoint insertWithKey:self.editingModel.key andModel:self.editingModel andIndex: index];
+            
+            errorModel = [self.editingModel.superPoint insertWithModel:self.editingModel andIndex:index]; 
             break;
     }
     

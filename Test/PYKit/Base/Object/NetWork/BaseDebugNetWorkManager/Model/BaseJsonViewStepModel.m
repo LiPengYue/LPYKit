@@ -36,19 +36,17 @@
                 model = BaseJsonViewManager.convertToStepModelWithDic(dic);
             }
         }
-        
         if (!model) {
-            model = [BaseJsonViewStepModel createStepModelWithId:data andKey:@""];
+            model = [BaseJsonViewStepModel createStepModelWithOriginData:data andKey:@""];
         }
         return model;
     };
 }
 
-+ (BaseJsonViewStepModel *) createStepModelWithId: (id) data andKey: (NSString *)key{
++ (BaseJsonViewStepModel *) createStepModelWithOriginData: (id) data andKey: (NSString *)key{
     BaseJsonViewStepModel *model = [BaseJsonViewStepModel new];
     model.originData = data;
     model.key = key;
-//    [model reloadDataWitOriginDataProperty];
     return model;
 }
 
@@ -59,6 +57,9 @@
     return model;
 }
 
+//- (NSMutableArray <BaseJsonViewStepModel *>*) searchWithIsAccurateSearch: (BOOL) isAccurateSearch andIsSearchEditing:(BOOL) isSearchEditing andKey:(NSString *)key {
+//    
+//}
 
 - (void) closeAll {
     self.isOpen = false;
@@ -150,26 +151,6 @@
     return tempCount;
 }
 
-- (void) removeWithKey: (NSString *)key andModel: (BaseJsonViewStepModel *)model {
-    switch (self.type) {
-            
-        case BaseJsonViewStepModelType_Dictionary:
-        case BaseJsonViewStepModelType_Array:
-            if([self.data isKindOfClass:NSArray.class]) {
-                NSArray *array = (NSArray *)self.data;
-                NSMutableArray *arrayM = array.mutableCopy;
-                [arrayM removeObject:model];
-                self.data = arrayM;
-            }
-            break;
-        case BaseJsonViewStepModelType_Number:
-            break;
-        case BaseJsonViewStepModelType_String:
-            break;
-    }
-    
-}
-
 - (void) removeFromeSuper {
 
     if ([self.superPoint.originData isKindOfClass:NSArray.class]) {
@@ -199,23 +180,22 @@
     if (model.key.length <= 0) {
         model.key = key;
     }
-    BaseJsonViewStepErrorModel *error = [self insertWithKey:model.key andModel:model andIndex:index];
+    BaseJsonViewStepErrorModel *error = [self insertWithModel:model andIndex:index];
     return error;
 }
 
-- (BaseJsonViewStepErrorModel *) insertWithKey: (NSString *)key
-              andModel: (BaseJsonViewStepModel *) model
+- (BaseJsonViewStepErrorModel *) insertWithModel: (BaseJsonViewStepModel *) model
               andIndex:(NSInteger) index {
     
     BaseJsonViewStepErrorModel *error = [BaseJsonViewStepErrorModel new];
     switch (self.type) {
             
         case BaseJsonViewStepModelType_Dictionary:
-            error = [self dictionaryInsertWithKey:key andModel:model andIndex:index];
+            error = [self dictionaryInsertWithModel:model andIndex:index];
             break;
         case BaseJsonViewStepModelType_Array:
             
-            error = [self arrayInsertWithKey:key andModel:model andIndex:index];
+            error = [self arrayInsertWitModel:model andIndex:index]; 
             break;
         case BaseJsonViewStepModelType_Number:
             error.errorMessage = @"🌶 类型错误，标记为《BaseJsonViewStepModelType_Number》类型的数据，不能插入数据";
@@ -230,7 +210,7 @@
     return error;
 }
 
-- (BaseJsonViewStepErrorModel *) arrayInsertWithKey: (NSString *)key andModel: (BaseJsonViewStepModel *) model andIndex:(NSInteger) index {
+- (BaseJsonViewStepErrorModel *) arrayInsertWitModel: (BaseJsonViewStepModel *) model andIndex:(NSInteger) index {
     
     BaseJsonViewStepErrorModel *error = [BaseJsonViewStepErrorModel new];
     NSString *originDataClassStr = NSStringFromClass([self.originData class]);
@@ -272,8 +252,8 @@
     }
 }
 
-- (BaseJsonViewStepErrorModel *) dictionaryInsertWithKey: (NSString *)key andModel: (BaseJsonViewStepModel *) model andIndex:(NSInteger) index {
-    
+- (BaseJsonViewStepErrorModel *) dictionaryInsertWithModel: (BaseJsonViewStepModel *) model andIndex:(NSInteger) index {
+    NSString *key = model.key;
     BaseJsonViewStepErrorModel *error = [BaseJsonViewStepErrorModel new];
     NSString *originDataClassStr = NSStringFromClass([self.originData class]);
     if (key.length <= 0) {
@@ -447,7 +427,7 @@
         NSMutableArray *arrayM = [[NSMutableArray alloc]initWithCapacity:array.count];
         
         [array enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            BaseJsonViewStepModel *model = [BaseJsonViewStepModel createStepModelWithId:obj andKey:@""];
+            BaseJsonViewStepModel *model = [BaseJsonViewStepModel createStepModelWithOriginData:obj andKey:@""];
             model.superPoint = self;
             model.level = level+1;
             [arrayM addObject:model];
@@ -459,7 +439,7 @@
         NSDictionary *dic = obj;
         NSMutableArray *arrayM = [[NSMutableArray alloc] initWithCapacity:dic.count];
         [dic enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
-            BaseJsonViewStepModel *model = [BaseJsonViewStepModel createStepModelWithId:obj andKey:key];
+            BaseJsonViewStepModel *model = [BaseJsonViewStepModel createStepModelWithOriginData:obj andKey:key];
             model.superPoint = self;
             model.level = level+1;
             [arrayM addObject:model];
@@ -471,7 +451,7 @@
     }else if ([obj isKindOfClass:NSString.class]) {
         _data = [NSString stringWithFormat:@"%@",obj];
     } else {
-//        _data = [BaseJsonViewStepModel nullData];
+
     }
 }
 
@@ -490,7 +470,6 @@
 }
 
 - (BaseJsonViewStepModel *) createItemModelIfNeededWithIndex:(NSInteger) idx {
-//    return [BaseJsonViewStepModel new];
     BaseJsonViewStepModel *model;
     switch (self.type) {
         case BaseJsonViewStepModelType_Dictionary:
@@ -511,7 +490,6 @@
                 if (![dataArray isKindOfClass:NSMutableArray.class]) {
                      dataArrayM = dataArray.mutableCopy;
                 }
-//                model = [BaseJsonViewStepModel new];
                 [dataArrayM addObject:model];
                 _data = dataArrayM;
             }
@@ -553,7 +531,6 @@
         _type = BaseJsonViewStepModelType_Dictionary;
     }else if ([obj isKindOfClass:NSNumber.class]){
         _type = BaseJsonViewStepModelType_Number;
-        
     }else if ([obj isKindOfClass:NSString.class]) {
         _type = BaseJsonViewStepModelType_String;
     }
@@ -563,6 +540,35 @@
     NSMutableArray *array = [NSMutableArray new];
     [self faltSelfDataIfOpenWithModelArray:array];
     return array;
+}
+
+- (NSArray <BaseJsonViewStepModel *>*) faltSelfData {
+    NSMutableArray *array = [NSMutableArray new];
+    [self faltSelfDataWithModelArray:array];
+    return array;
+}
+
+
+- (void) faltSelfDataWithModelArray: (NSMutableArray <BaseJsonViewStepModel *>*) modelArray {
+    if (!self.data) {
+        [self reloadDataWitOriginDataProperty];
+    }
+    
+    if ([self.data isKindOfClass:NSArray.class]) {
+        
+        if (((NSArray *)self.data).count <= 0) {
+            [self reloadDataWitOriginDataProperty];
+        }
+        
+        NSArray *array = self.data;
+        [array enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            if([obj isKindOfClass:BaseJsonViewStepModel.class]){
+                BaseJsonViewStepModel *model = obj;
+                    [modelArray addObject:model];
+                    [model faltSelfDataWithModelArray:modelArray];
+            }
+        }];
+    }
 }
 
 - (void)faltSelfDataIfOpenWithModelArray: (NSMutableArray <BaseJsonViewStepModel *>*) modelArray{
@@ -609,172 +615,16 @@
 }
 
 - (NSString *) getTreeLayer {
-    NSMutableArray <BaseJsonViewStepModel *>*arrayM = [NSMutableArray new];
     
-    BaseJsonViewStepModel *modelTemp = self;
-    
-    while (1) {
-        [arrayM addObject:modelTemp];
-        if (modelTemp.superPoint == nil) {
-            break;
-        }
-        modelTemp = modelTemp.superPoint;
-    }
-    
-    BaseStringHandler *handler = BaseStringHandler.handler(@"");
-    for (NSInteger i = arrayM.count-1; i >= 0; i--) {
-        BaseJsonViewStepModel *model = arrayM[i];
-        if(model.superPoint) {
-            handler.addObjc(@"→");
-        }
-        switch (model.type) {
-                
-            case BaseJsonViewStepModelType_Dictionary: {
-                NSString *key = model.key;
-                if (key.length <= 0) {
-                    key = @"obj";
-                }
-                handler
-                .addObjc(key)
-                .setDefaultIfNull(@"obj")
-                .addObjc(@"{")
-                .addInt(model.count)
-                .addObjc(@"}");
-            }
-                break;
-            case BaseJsonViewStepModelType_Array: {
-                NSString *key = model.key;
-                if (key.length <= 0) {
-                    key = @"obj";
-                }
-                handler
-                .addObjc(key)
-                .setDefaultIfNull(@"arr")
-                .addObjc(@"[")
-                .addInt(model.count)
-                .addObjc(@"]");
-            }
-                break;
-            case BaseJsonViewStepModelType_Number:
-            case BaseJsonViewStepModelType_String:
-                handler
-                .addObjc(model.key)
-                .addObjc(@":")
-                .addObjc(model.data);
-                break;
-        }
-    }
-    return handler.getStr;
+    return BaseJsonViewStepUIModel.getTreeLayerStringWithModel(self);
 }
 
 - (NSAttributedString *)getTreeLayerAttriStr {
-    NSMutableArray <BaseJsonViewStepModel *>*arrayM = [NSMutableArray new];
-    
-    BaseJsonViewStepModel *modelTemp = self;
-    
-    while (1) {
-        [arrayM addObject:modelTemp];
-        if (modelTemp.superPoint == nil) {
-            break;
-        }
-        modelTemp = modelTemp.superPoint;
-    }
-    
-    BaseAttributedStrHandler*handler = BaseAttributedStrHandler.handle(@"");
-    for (NSInteger i = arrayM.count-1; i >= 0; i--) {
-        BaseJsonViewStepModel *model = arrayM[i];
-        if(model.superPoint) {
-            //            handler.addObjc(@"→");
-            handler.append(
-                           BaseAttributedStrHandler
-                           .handle(@"→")
-                           );
-        }
-        switch (model.type) {
-                
-            case BaseJsonViewStepModelType_Dictionary: {
-                NSString *key = model.key;
-                if (key.length <= 0) {
-                    key = @"obj";
-                }
-                
-                key =
-                BaseStringHandler
-                .handler(key)
-                .addObjc(@"{")
-                .addInt(model.count)
-                .addObjc(@"}")
-                .getStr;
-                
-                handler
-                .append(
-                        BaseAttributedStrHandler
-                        .handle(key)
-                        );
-                handler
-                .setUpColor(normalColor);
-            }
-                break;
-            case BaseJsonViewStepModelType_Array: {
-                NSString *key = model.key;
-                if (key.length <= 0) {
-                    key = @"array";
-                }
-                key =
-                BaseStringHandler
-                .handler(key)
-                .addObjc(@"[")
-                .addInt(model.count)
-                .addObjc(@"]")
-                .getStr;
-                
-                handler
-                .append(
-                        BaseAttributedStrHandler
-                        .handle(key)
-                        );
-                
-                handler
-                .setUpColor(normalColor);
-            }
-                break;
-            case BaseJsonViewStepModelType_Number:
-            case BaseJsonViewStepModelType_String:
-                handler
-                .append(
-                        BaseAttributedStrHandler
-                        .handle(BaseStringHandler.handler(@"\n").addObjc(model.key))
-                        .setUpColor(searchResultCellKeyColor)
-                        )
-                .append(
-                        BaseAttributedStrHandler
-                        .handle(@":")
-                        .setUpColor(normalColor)
-                        )
-                .append(
-                        BaseAttributedStrHandler
-                        .handle(model.data)
-                        .setUpColor(BaseJsonViewStepModelType_Number == model.type ? numberColor : stringColor)
-                        );
-                break;
-        }
-    }
-    handler.setUpFont(BaseFont.fontSCR(12));
-    return handler.str;
+    return BaseJsonViewStepUIModel.getTreeLayerAttriStrWithModel(self);
 }
 
 - (NSString *)getSuperPointKey {
-    BaseJsonViewStepModel *modelTemp = self.superPoint;
-    
-    NSString *key = @"";
-    while (1) {
-        key = modelTemp.key;
-        if (key.length > 0 || modelTemp.superPoint == nil) {
-            break;
-        }
-        modelTemp = modelTemp.superPoint;
-    }
-    return key;
+    return BaseJsonViewStepUIModel.getSuperPointKeyWithModel(self);
 }
 
 - (NSString *) conversionToJson {

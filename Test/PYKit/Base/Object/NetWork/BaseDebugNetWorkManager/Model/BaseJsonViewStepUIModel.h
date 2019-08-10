@@ -8,13 +8,18 @@
 
 
 #import "BaseJsonViewStepModel.h"
+
+@class BaseJsonViewStepModel;
 NS_ASSUME_NONNULL_BEGIN
 /// 和UI有关的model
 @interface BaseJsonViewStepUIModel : NSObject
-/// 是否展开
-@property (nonatomic,assign) BOOL isUnfoldLine;
-/// 是否需要显示折行按钮
-@property (nonatomic,assign) BOOL isOverflow;
+
+
++ (NSAttributedString *(^)(BaseJsonViewStepModel *))getTreeLayerAttriStrWithModel;
+
++ (NSString *(^)(BaseJsonViewStepModel *))getTreeLayerStringWithModel;
+
++ (NSString *(^)(BaseJsonViewStepModel *))getSuperPointKeyWithModel;
 @end
 
 NS_ASSUME_NONNULL_END

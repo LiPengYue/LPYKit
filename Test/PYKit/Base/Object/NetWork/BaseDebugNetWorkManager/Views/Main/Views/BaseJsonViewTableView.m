@@ -11,6 +11,7 @@
 #import "BaseJsonViewTableViewCell.h"
 #import "BaseJsonViewSearchView.h"
 #import "BaseJsonEditingStatusTableViewCell.h"
+#import "BaseJsonViewStepSearchModel.h"
 
 static NSString *const kBaseJsonViewTableViewCellId = @"kBaseJsonViewTableViewCellId";
 static NSString *const kBaseJsonEditingStatusTableViewCell = @"kBaseJsonEditingStatusTableViewCell";
@@ -28,7 +29,6 @@ UITableViewDataSource
 @property (nonatomic,strong) UIPasteboard *pasteboard;
 @property (nonatomic,strong) BaseJsonEditingStatusTableViewCell *currentEdtingCell;
 @property (nonatomic,strong) NSMutableArray *editingModelArray;
-@property (nonatomic,assign) BOOL isSetupKeybordOffset;
 @end
 
 @implementation BaseJsonViewTableView
@@ -41,8 +41,6 @@ UITableViewDataSource
         self.isAutoClose = true;
         [self addNoticeForKeyboard];
         [self setupViews];
-        self.isSetupKeybordOffset = true;
-        self.contentInset = UIEdgeInsetsMake(0, 0, 10, 0);
     }
     return self;
 }
@@ -95,24 +93,18 @@ UITableViewDataSource
     [self reloadData];
 }
 
-
 - (NSMutableArray <BaseJsonViewStepModel *>*) searchAndOpenAllWithKey: (NSString *)key {
-    
-    [self.model openAll];
-    self.model = self.model;
-    NSMutableArray <BaseJsonViewStepModel *>*arrayM = [NSMutableArray new];
-    if (key.length > 0 || self.isEditingStatusSearch) {
-        [self.modelArray enumerateObjectsUsingBlock:^(BaseJsonViewStepModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            BOOL isSearchModel = [self isSearchDataWithModel:obj andKey:key];
-            if (isSearchModel) {
-                [arrayM addObject:obj];
-            }
-        }];
-    }
-    self.searchResultModelArray = arrayM;
+
+    SBaseJsonViewStepSearchModelConfig config;
+    config.key = key;
+    config.model = self.model;
+    config.isSearchEditing = self.isEditingStatusSearch;
+    config.isAccurateSearch = self.isAccurateSearch;
+    self.searchResultModelArray = BaseJsonViewStepSearchModel.getResultWithSearchConfig(config);
+
     [self.model closeAll];
     
-    [arrayM enumerateObjectsUsingBlock:^(BaseJsonViewStepModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+    [self.searchResultModelArray enumerateObjectsUsingBlock:^(BaseJsonViewStepModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         BaseJsonViewStepModel *model = obj;
         obj.isOpen = true;
         while (model.superPoint) {
@@ -121,7 +113,7 @@ UITableViewDataSource
         }
     }];
     self.model = self.model;
-    return arrayM;
+    return self.searchResultModelArray;
 }
 
 - (BOOL) isSearchDataWithModel: (BaseJsonViewStepModel *) obj andKey: (NSString *)key {
@@ -420,7 +412,6 @@ UITableViewDataSource
     }
 }
 
-// 单击功能
 - (void) handleSingleTapActionWithMessage: (id)message {
     /// 展开 或 收起
     if ([message isKindOfClass:BaseJsonViewTableViewCell.class]) {
@@ -519,7 +510,6 @@ UITableViewDataSource
     return _pasteboard;
 }
 
-
 - (void)addNoticeForKeyboard {
     
     //注册键盘出现的通知
@@ -532,32 +522,19 @@ UITableViewDataSource
                                                  name:UIKeyboardWillHideNotification object:nil];
 }
 
-
-///键盘显示事件
 - (void) keyboardWillShow:(NSNotification *)notification {
    
-    //获取键盘高度，在不同设备上，以及中英文下是不同的
     CGFloat kbHeight = [[notification.userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size.height;
     
-    //计算出键盘顶端到inputTextView panel底端的距离(加上自定义的缓冲距离INTERVAL_KEYBOARD)
     CGFloat offsetY = self.contentOffset.y + self.height + kbHeight - self.currentEdtingCell.bottom;
     CGFloat offsetH = offsetY;
-//    CGFloat offset = (self.frame.origin.y+textView.frame.size.height) - (self.view.frame.size.height - kbHeight);
     CGRect rect = [self convertRect:self.currentEdtingCell.frame toView:[self superview]];
     offsetH = self.height - CGRectGetMaxY(rect);
-    offsetH = kbHeight - offsetH;
+    offsetH = kbHeight - offsetY;
     
     self.contentInset = UIEdgeInsetsMake(0, 0, kbHeight, 0);
-    
-    //cell在window中的位置
-    // 取得键盘的动画时间，这样可以在视图上移的时候更连贯
+
     double duration = [[notification.userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
-    if (self.isSetupKeybordOffset) {
-        self.isSetupKeybordOffset = false;
-    }else{
-//        return;
-    }
-    //将视图上移计算好的偏移
     if(offsetH > 0) {
         [UIView animateWithDuration:duration animations:^{
             self.contentOffset = CGPointMake(0, self.contentOffset.y + offsetH);
@@ -565,20 +542,8 @@ UITableViewDataSource
     }
 }
 
-///键盘消失事件
 - (void) keyboardWillHide:(NSNotification *)notify {
-    // 键盘动画时间
     self.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
-    self.isSetupKeybordOffset = true;
-//    double duration = [[notify.userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
-//    [UIView animateWithDuration:duration animations:^{
-//        self.contentOffset = CGPointMake(0, self.contentOffset.y + offsetH);
-//    }];
-//    //视图下沉恢复原状
-//    [UIView animateWithDuration:duration animations:^{
-//        self.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
-//    }];
-
 }
 
 - (NSMutableArray *)editingModelArray {
@@ -599,9 +564,4 @@ UITableViewDataSource
     self.modelArray = [self.model faltSelfDataIfOpen].mutableCopy;
     [self reloadData];
 }
-
-/// 获取tableview 当前正在编辑的cell
-
-#pragma mark - delegate
-
 @end
