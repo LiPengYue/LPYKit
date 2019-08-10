@@ -57,9 +57,14 @@
     return model;
 }
 
-//- (NSMutableArray <BaseJsonViewStepModel *>*) searchWithIsAccurateSearch: (BOOL) isAccurateSearch andIsSearchEditing:(BOOL) isSearchEditing andKey:(NSString *)key {
-//    
-//}
+- (NSMutableArray <BaseJsonViewStepModel *>*) searchWithKey:(NSString *)key andIsAccurateSearch: (BOOL) isAccurateSearch andIsSearchEditing:(BOOL) isSearchEditing {
+    SBaseJsonViewStepSearchModelConfig config;
+    config.isSearchEditing = isSearchEditing;
+    config.isAccurateSearch = isAccurateSearch;
+    config.key = key;
+    config.model = self;
+    return BaseJsonViewStepSearchModel.getResultWithSearchConfig(config);
+}
 
 - (void) closeAll {
     self.isOpen = false;

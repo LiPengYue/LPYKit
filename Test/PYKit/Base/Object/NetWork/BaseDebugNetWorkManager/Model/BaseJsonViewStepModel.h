@@ -35,7 +35,14 @@ typedef enum : NSUInteger {
 /// 创建 一个model
 + (BaseJsonViewStepModel *(^)(id)) createWithID;
 
-/// 创建 一个model
+
+/**
+ 创建 一个model
+
+ @param data 原始的子节点数据
+ @param key 创建出的model对应的key
+ @return model
+ */
 + (BaseJsonViewStepModel *) createStepModelWithOriginData: (id) data andKey: (NSString *)key;
 
 /// 转成字典
@@ -117,7 +124,16 @@ typedef enum : NSUInteger {
 /// 从父节点移除本节点
 - (void) removeFromeSuper;
 
-- (NSMutableArray <BaseJsonViewStepModel *>*) searchWithIsAccurateSearch: (BOOL) isAccurateSearch andIsSearchEditing:(BOOL) isSearchEditing andKey:(NSString *)key;
+
+/**
+ 搜索
+
+ @param key 搜索 关键字
+ @param isAccurateSearch 是否为精准搜索（如果选中精准搜索，搜索策略将从`containsString` 变成 `isEqualToString`。不管是否为精准搜索，都区分大小写）
+ @param isSearchEditing 是否搜索正在编辑状态的model
+ @return 搜索结果
+ */
+- (NSMutableArray <BaseJsonViewStepModel *>*) searchWithKey:(NSString *)key andIsAccurateSearch: (BOOL) isAccurateSearch andIsSearchEditing:(BOOL) isSearchEditing;
 
 /// 关闭所有子节点
 - (void) closeAll;

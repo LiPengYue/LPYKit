@@ -11,8 +11,6 @@
 
 @implementation BaseJsonViewStepSearchModel
 
-
-
 + (NSMutableArray <BaseJsonViewStepModel *>*(^)(SBaseJsonViewStepSearchModelConfig)) getResultWithSearchConfig {
     return ^(SBaseJsonViewStepSearchModelConfig config) {
         BaseJsonViewStepModel *model = config.model;

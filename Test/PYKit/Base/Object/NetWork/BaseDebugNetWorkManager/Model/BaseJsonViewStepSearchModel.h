@@ -12,9 +12,13 @@ NS_ASSUME_NONNULL_BEGIN
 @class BaseJsonViewStepModel;
 
 struct SBaseJsonViewStepSearchModelConfig {
+    /// 需要搜索的model
     BaseJsonViewStepModel *model;
+    /// 是否为精准搜索
     BOOL isAccurateSearch;
+    /// 是否搜索正在编辑状态的model
     BOOL isSearchEditing;
+    /// 搜索的key
     NSString *key;
 };
 
