@@ -388,7 +388,7 @@ failedCode: {
     if (self.insertNumberButton.selected) {
         BOOL isNumber = [self isPureNumandCharacters:data];
         if (isNumber) {
-            self.editingModel.originData = @(data.floatValue);
+            self.editingModel.originData = @(data.doubleValue);
         }else{
             errorModel.code = BaseJsonViewStepTypeErrorCode404;
             errorModel.errorMessage = [NSString stringWithFormat:@"🌶: 想要插入一个Number，但实际插入的是字符串【%@】",data];
