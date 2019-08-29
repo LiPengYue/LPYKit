@@ -6,11 +6,11 @@
 //  Copyright © 2019 衣二三. All rights reserved.
 //
 
-#import "BaseTableViewCell.h"
+#import "PYBaseTableViewCell.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface BaseTableTestCell1 : BaseTableViewCell
+@interface BaseTableTestCell1 : PYBaseTableViewCell
 
 @end
 

@@ -6,9 +6,9 @@
 //  Copyright © 2019 衣二三. All rights reserved.
 //
 
-#import "BaseTableHeaderFooterView.h"
+#import "PYBaseTableHeaderFooterView.h"
 
-@implementation BaseTableHeaderFooterView
+@implementation PYBaseTableHeaderFooterView
 
 - (instancetype)initWithReuseIdentifier:(NSString *)reuseIdentifier {
     if (self = [super initWithReuseIdentifier:reuseIdentifier]) {

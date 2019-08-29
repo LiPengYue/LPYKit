@@ -6,11 +6,11 @@
 //  Copyright © 2019 衣二三. All rights reserved.
 //
 
-#import "BaseTableHeaderFooterView.h"
+#import "PYBaseTableHeaderFooterView.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface BasetableTestHeserFooterView1 : BaseTableHeaderFooterView
+@interface BasetableTestHeserFooterView1 : PYBaseTableHeaderFooterView
 @property (nonatomic,strong) UILabel *titleLabel;
 @end
 

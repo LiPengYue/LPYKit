@@ -13,10 +13,10 @@
 
 @interface MainView ()
 <
-BaseTableViewDelegate,
-BaseTableViewDataSource
+PYBaseTableViewDelegate,
+PYBaseTableViewDataSource
 >
-@property (nonatomic,strong) BaseTableView *tableView;
+@property (nonatomic,strong) PYTableMainView *tableView;
 @property (nonatomic,strong) NSArray <NSString *>*dataArray;
 @end
 
@@ -67,9 +67,9 @@ BaseTableViewDataSource
 }
 
 // MARK: lazy loads
-- (BaseTableView *)tableView {
+- (PYTableMainView *)tableView {
     if (!_tableView) {
-        _tableView = [[BaseTableView alloc]initWithFrame:self.bounds];
+        _tableView = [[PYTableMainView alloc]initWithFrame:self.bounds];
         _tableView.tableViewDelegate = self;
         _tableView.tableViewDataSource = self;
     }
@@ -82,7 +82,7 @@ BaseTableViewDataSource
 
 
 #pragma mark - delegate dataSource
-- (SBaseTabelViewData) getTableViewData:(BaseTableView *)baseTableView andCurrentSection:(NSInteger)section andCurrentRow:(NSInteger)row {
+- (SBaseTabelViewData) getTableViewData:(PYTableMainView *)PYTableMainView andCurrentSection:(NSInteger)section andCurrentRow:(NSInteger)row {
     
     SBaseTabelViewData data = SBaseTabelViewDataMakeDefault();
     data.rowCount = self.dataArray.count;
@@ -94,8 +94,7 @@ BaseTableViewDataSource
     return data;
 }
 
-- (void)baseTableView:(BaseTableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath andData:(SBaseTabelViewData)data{
-    
+- (void)baseTableView:(PYTableMainView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath andData:(SBaseTabelViewData)data {
     if ([MainTableViewCell.class isEqual: data.rowType]) {
         MainTableViewCell *mainCell = (MainTableViewCell *)cell;
         mainCell.title = self.dataArray[indexPath.row];
@@ -103,7 +102,7 @@ BaseTableViewDataSource
 }
 
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath andData:(SBaseTabelViewData)data {
+- (void) tableView:(PYTableMainView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath andData:(SBaseTabelViewData)data {
     
     if ([MainTableViewCell.class isEqual:data.rowType]) {
         NSString *classStr = data.key;

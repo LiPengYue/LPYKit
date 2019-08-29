@@ -8,10 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "BaseNavigationBarView.h"
+#import "BaseAnimaterHeaders.h"
 
-@class BasePresentNavigationController;
-@class BasePresentViewControllerConfiguration;
-@class BaseModalShadowAnimationConfig;
 
 typedef void(^ BasicAnimationBlock)(CABasicAnimation *animation);
 

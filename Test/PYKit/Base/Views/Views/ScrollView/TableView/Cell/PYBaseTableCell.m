@@ -1,25 +1,22 @@
 //
-//  BaseTableViewCell.m
-//  Test
+//  PYBaseTableCell.m
+//  FBSnapshotTestCase
 //
-//  Created by 衣二三 on 2019/4/16.
-//  Copyright © 2019 衣二三. All rights reserved.
+//  Created by 衣二三 on 2019/8/23.
 //
 
-#import "BaseTableViewCell.h"
-#import "BaseColorHandler.h"
+#import "PYBaseTableCell.h"
 
-@interface BaseTableViewCell()
+@interface PYBaseTableCell()
 @property (nonatomic,strong) NSIndexPath *touchBeginIndexPath;
 @end
 
-@implementation BaseTableViewCell
+@implementation PYBaseTableCell
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         self.isHiddenSeparatorLine = false;
         self.separatorLineH = 1;
-        self.separatorColor = BaseColorHandler.separatorColor;
         [self baseTCellSetupViews];
     }
     return self;
@@ -29,7 +26,6 @@
     [super awakeFromNib];
     self.isHiddenSeparatorLine = false;
     self.separatorLineH = 1;
-    self.separatorColor = BaseColorHandler.separatorColor;
     [self baseTCellSetupViews];
 }
 

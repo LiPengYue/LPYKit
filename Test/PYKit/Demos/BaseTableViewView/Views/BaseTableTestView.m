@@ -19,11 +19,11 @@
 
 @interface BaseTableTestView()
 <
-BaseTableViewDelegate,
-BaseTableViewDataSource,
-BaseTableViewCellDelegate
+PYBaseTableViewDelegate,
+PYBaseTableViewDataSource,
+PYBaseTableViewCellDelegate
 >
-@property (nonatomic,strong) BaseTableView *tableView;
+@property (nonatomic,strong) PYTableMainView *tableView;
 @property (nonatomic,strong) NSMutableArray <NSString *>*data1;
 @property (nonatomic,strong) NSMutableArray <NSString *>*data2;
 @property (nonatomic,strong) NSMutableArray <NSString *>*data3;
@@ -80,9 +80,9 @@ static NSString *const KBasetableTestHeserFooterView2 = @"BasetableTestHeserFoot
 }
 
 // MARK: lazy loads
-- (BaseTableView *)tableView {
+- (PYTableMainView *)tableView {
     if (!_tableView) {
-        _tableView = [[BaseTableView alloc]initWithFrame:self.bounds];
+        _tableView = [[PYTableMainView alloc]initWithFrame:self.bounds];
         _tableView.tableViewDelegate = self;
         _tableView.tableViewDataSource = self;
         _tableView.tableViewStyle = UITableViewStyleGrouped;
@@ -96,7 +96,7 @@ static NSString *const KBasetableTestHeserFooterView2 = @"BasetableTestHeserFoot
 
 
 #pragma mark - delegate dataSource
-- (SBaseTabelViewData) getTableViewData:(BaseTableView *)baseTableView andCurrentSection:(NSInteger)section andCurrentRow:(NSInteger)row {
+- (SBaseTabelViewData) getTableViewData:(PYTableMainView *)baseTableView andCurrentSection:(NSInteger)section andCurrentRow:(NSInteger)row {
     
     SBaseTabelViewData data = SBaseTabelViewDataMakeDefault();
     data.sectionCount = 6;
@@ -145,7 +145,7 @@ static NSString *const KBasetableTestHeserFooterView2 = @"BasetableTestHeserFoot
     return data;
 }
 
-- (void)baseTableView:(BaseTableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath andData:(SBaseTabelViewData)data{
+- (void)baseTableView:(PYTableMainView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath andData:(SBaseTabelViewData)data{
     
     if ([BaseTableTestCell1.class isEqual: cell.class]) {
     }
@@ -205,12 +205,15 @@ static NSString *const KBasetableTestHeserFooterView2 = @"BasetableTestHeserFoot
     }
 }
 
-//- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath andData:(SBaseTabelViewData)data {
-//    if ([BaseTableTestCell1.class isEqual:data.rowType]) {
-//        NSLog(@"BaseTableTestCell1");
-//    }
-//}
-
+- (void)tableView:(PYTableMainView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath andData:(SBaseTabelViewData)data {
+    
+    CGFloat y = [self.tableView getYWithIndex:indexPath];
+    CGRect headerFrame = [self.tableView getHeaderFrameWithSection:indexPath.section];
+    CGRect footerFrame = [self.tableView getFooterFrameWithSection:indexPath.section];
+    NSLog(@"cell.y:%lf\n\
+          header.frame:%@\n\
+          footer.frame:%@",y,[NSValue valueWithCGRect:headerFrame],[NSValue valueWithCGRect: footerFrame]);
+}
 - (void)longPressGestureActionWithIndex:(NSIndexPath *)index {
     NSLog(@"%@",index);
 }

@@ -25,7 +25,7 @@
 - (void) setupViews {
     [self.contentView addSubview:self.titleLabel];
     [self.contentView addSubview:self.subTitleLabel];
-    [self.contentView addSubview:self.button];
+//    [self.contentView addSubview:self.button];
 }
 
 - (void) layoutSubviews {
@@ -34,7 +34,7 @@
     CGFloat w = self.frame.size.width;
     self.titleLabel.frame = CGRectMake(14, 0, w/2.0-14, h);
     self.subTitleLabel.frame = CGRectMake(w/2.0-14, 0, w/2.0-14, h);
-    self.button.frame = self.contentView.bounds;
+//    self.button.frame = self.contentView.bounds;
 }
 
 - (UILabel *)titleLabel {
@@ -59,7 +59,7 @@
     if (!_button) {
         _button = [UIButton new];
         
-        [_button addTarget:self action:@selector(click_buttonAction:) forControlEvents:UIControlEventTouchUpInside];
+//        [_button addTarget:self action:@selector(click_buttonAction:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _button;
 }

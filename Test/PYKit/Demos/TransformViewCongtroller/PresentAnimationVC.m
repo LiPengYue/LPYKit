@@ -7,16 +7,16 @@
 //
 
 #import "PresentAnimationVC.h"
-#import "BaseTableView.h"
+#import "PYTableMainView.h"
 #import "MainTableViewCell.h"
 #import "BaseStringHandler.h"
 #import "PresentDemoViewController.h"
 @interface PresentAnimationVC ()
 <
-BaseTableViewDelegate,
-BaseTableViewDataSource
+PYBaseTableViewDataSource,
+PYBaseTableViewDelegate
 >
-@property (nonatomic,strong) BaseTableView *tableView;
+@property (nonatomic,strong) PYTableMainView *tableView;
 @property (nonatomic,strong) NSArray <NSString *>*presentData;
 @property (nonatomic,strong) NSArray <NSString *>*dismissData;
 @property (nonatomic,copy) NSString *selectedPersentStyle;
@@ -47,18 +47,12 @@ BaseTableViewDataSource
     if (!_presentData) {
         
         _presentData = @[
-                       /// 无动画
-                       @"PresentAnimationStyleNull",
-                       /// 位置不动 进行 缩放与透明度 动画
-                       @"PresentAnimationStyleZoom",
-                       /// 从下到上
-                       @"PresentAnimationStyleBottom_up",
-                       /// 从上到下
-                       @"PresentAnimationStyleUp_Bottom",
-                       /// 右向左滑动
-                       @"PresentAnimationStyleRight_left",
-                       /// 左向右滑动
-                       @"PresentAnimationStyleLeft_right"
+                       @"没动画: PresentAnimationStyleNull",
+                       @"缩放: PresentAnimationStyleZoom",
+                       @"上->下: PresentAnimationStyleUp_Bottom",
+                       @"下->上: PresentAnimationStyleBottom_up",
+                       @"左->右: PresentAnimationStyleLeft_right",
+                       @"右->左: PresentAnimationStyleRight_left",
                        ];
     }
     return _presentData;
@@ -67,18 +61,12 @@ BaseTableViewDataSource
 - (NSArray<NSString *> *)dismissData {
     if(!_dismissData) {
         _dismissData = @[
-                         /// 无动画
-                        @"DismissAnimationStyleNull",
-                         /// 位置不动 进行 缩放与透明度 动画
-                        @"DismissAnimationStyleZoom",
-                         /// 从上到下
-                        @"DismissAnimationStyleUp_bottom",
-                         /// 从下到上
-                        @"DismissAnimationStyleBottom_Up",
-                         /// 左向右滑动
-                        @"DismissAnimationStyleLeft_Right",
-                         /// 右向左滑动
-                        @"DismissAnimationStyleRight_Left"
+                    @"没动画: DismissAnimationStyleNull",
+                    @"缩放:   DismissAnimationStyleZoom",
+                    @"上->下: DismissAnimationStyleUp_bottom",
+                    @"下->上: DismissAnimationStyleBottom_Up",
+                    @"左->右: DismissAnimationStyleLeft_Right",
+                    @"右->左: DismissAnimationStyleRight_Left"
                          ];
     }
     return _dismissData;
@@ -99,9 +87,10 @@ BaseTableViewDataSource
         _label = [UILabel new];
         _label.textColor = UIColor.redColor;
         _label.numberOfLines = 0;
+        _label.font = [UIFont systemFontOfSize:12];
         _label.layer.borderColor = UIColor.redColor.CGColor;
         _label.layer.borderWidth = 1;
-        _label.frame = CGRectMake(10, 90, self.view.frame.size.width-20, 100);
+        _label.frame = CGRectMake(10, 90, self.view.frame.size.width-20, 60);
     }
     return _label;
 }
@@ -190,9 +179,9 @@ BaseTableViewDataSource
 
 
 
-- (BaseTableView *)tableView {
+- (PYTableMainView *)tableView {
     if (!_tableView) {
-        _tableView = [[BaseTableView alloc]initWithFrame:self.view.bounds];
+        _tableView = [[PYTableMainView alloc]initWithFrame:self.view.bounds];
         _tableView.tableViewDelegate = self;
         _tableView.tableViewDataSource = self;
         _tableView.frame = CGRectMake(0, CGRectGetMaxY(self.presentButton.frame) + 10, self.view.frame.size.width, self.view.frame.size.height-CGRectGetMaxY(self.presentButton.frame) - 10);
@@ -207,19 +196,21 @@ BaseTableViewDataSource
     return _tableView;
 }
 
-// MARK: systom functions
+// MARK: systom  functions
 
 // MARK:life cycles
 
 
 #pragma mark - delegate dataSource
-- (SBaseTabelViewData) getTableViewData:(BaseTableView *)baseTableView andCurrentSection:(NSInteger)section andCurrentRow:(NSInteger)row {
+- (SBaseTabelViewData) getTableViewData:(PYTableMainView *)PYTableMainView andCurrentSection:(NSInteger)section andCurrentRow:(NSInteger)row {
    
     SBaseTabelViewData data = SBaseTabelViewDataMakeDefault();
     data.sectionCount = 2;
     data.rowHeight = 60;
     data.rowType = MainTableViewCell.class;
     data.rowIdentifier = @"MainTableViewCell";
+    
+    data.headerHeight = 20;
     
     if (section == 0) {
         data.rowCount = self.presentData.count;
@@ -232,7 +223,7 @@ BaseTableViewDataSource
     return data;
 }
 
-- (void)baseTableView:(BaseTableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath andData:(SBaseTabelViewData)data{
+- (void)baseTableView:(PYTableMainView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath andData:(SBaseTabelViewData)data {
     
     if ([MainTableViewCell.class isEqual: data.rowType]) {
         
@@ -252,8 +243,15 @@ BaseTableViewDataSource
     }
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath andData:(SBaseTabelViewData)data {
-    
+- (nullable NSString *)tableView:(PYTableMainView *)tableView titleForHeaderInSection:(NSInteger)section  andData: (SBaseTabelViewData)data {
+    if (section == 0) {
+        return @"PRESENT";
+    }
+    return @"DISMISS";
+}
+
+- (void) tableView:(PYTableMainView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath andData:(SBaseTabelViewData)data {
+
     if ([MainTableViewCell.class isEqual:data.rowType]) {
         if ([data.key isEqualToString:@"present"]) {
             self.selectedPersentStyle = self.presentData[indexPath.row];
@@ -266,12 +264,12 @@ BaseTableViewDataSource
     
     BaseStringHandler *handler =
     BaseStringHandler
-    .handler(@"1. ")
+    .handler(@" present: ")
     .addObjc(self.selectedPersentStyle);
     
     if (self.selectedDismissStyle != NULL) {
         handler
-        .addObjc(@"\n2. ")
+        .addObjc(@"\n dismiss: ")
         .addObjc(self.selectedDismissStyle);
     }
     self.label.text = handler.getStr;

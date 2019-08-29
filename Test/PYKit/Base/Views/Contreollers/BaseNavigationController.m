@@ -11,7 +11,6 @@
 @interface BaseNavigationController ()
 /// interictave
 @property (nonatomic,strong) NSArray <Class>*closeInteractivePopClassArray;
-@property (nonatomic,strong) NSArray <NSString *>*closeInteractivePopClassStrArray;
 @end
 
 @implementation BaseNavigationController

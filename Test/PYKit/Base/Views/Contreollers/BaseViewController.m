@@ -17,7 +17,6 @@
 #endif
 
 @interface BaseViewController ()
-@property (nonatomic,strong) BaseView *baseVCBackgroundView;
 @end
 
 @implementation BaseViewController
@@ -33,7 +32,7 @@
     self.navBarView.titleButtonHeight = 40;
     self.navBarView.isHiddenBottomLine = false;
     self.navBarView.itemHeight = 40;
-    self.navBarView.addLeftItemWithTitleAndImg(@"返回",nil);
+    
     __weak typeof (self)weakSelf = self;
     
     [self.navBarView clickLeftButtonFunc:^(UIButton *button, NSInteger index) {
@@ -101,14 +100,6 @@
     [self.navigationController.navigationBar addSubview:lineImageView];
 }
 
-// MARK: lazy loads
-- (BaseView *)baseVCBackgroundView {
-    if (!_baseVCBackgroundView) {
-        _baseVCBackgroundView = [BaseView new];
-        _baseVCBackgroundView.frame = CGRectMake(0, 0, BaseSize.screenW, BaseSize.screenH);
-    }
-    return _baseVCBackgroundView;
-}
 
 - (BaseNavigationBarView *)navBarView {
     if (!_navBarView) {

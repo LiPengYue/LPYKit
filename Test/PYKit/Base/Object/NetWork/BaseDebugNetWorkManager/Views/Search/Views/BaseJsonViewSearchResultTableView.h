@@ -8,12 +8,12 @@
 
 
 #import <UIKit/UIKit.h>
-#import "BaseTableView.h"
+#import "PYTableMainView.h"
 #import "BaseJsonViewStepModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface BaseJsonViewSearchResultTableView : BaseTableView
+@interface BaseJsonViewSearchResultTableView : PYTableMainView
 @property (nonatomic,assign) BOOL isAutoClose;
 @property (nonatomic,assign) BOOL isAccurateSearch;
 @property (nonatomic,strong) NSArray <BaseJsonViewStepModel *>*modelArray;

@@ -7,10 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "BaseTableViewCell.h"
+#import "PYBaseTableViewCell.h"
 NS_ASSUME_NONNULL_BEGIN
 
-@interface BaseTableTestCell3 : BaseTableViewCell
+@interface BaseTableTestCell3 : PYBaseTableViewCell
 @property (weak, nonatomic) IBOutlet UIImageView *productImageView;
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *subTitleLabel;

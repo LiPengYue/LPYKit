@@ -19,8 +19,8 @@ static NSString *const kBaseJsonViewTableViewCellID = @"kBaseJsonViewTableViewCe
 
 @interface BaseJsonViewSearchResultTableView()
 <
-BaseTableViewDataSource,
-BaseTableViewDelegate
+PYBaseTableViewDataSource,
+PYBaseTableViewDelegate
 >
 @property (nonatomic,strong) NSMutableArray <NSMutableArray <BaseJsonViewStepModel *>*>*modelDataArray;
 @property (nonatomic,strong) NSMutableArray <NSString *>*titleArray;
@@ -91,7 +91,7 @@ BaseTableViewDelegate
 // MARK: - dataSource && delegate
 
 /// 获取tableView 的布局数据 (将会频繁调用)
-- (SBaseTabelViewData) getTableViewData: (BaseTableView *)baseTableView
+- (SBaseTabelViewData) getTableViewData: (PYTableMainView *)baseTableView
                       andCurrentSection: (NSInteger) section
                           andCurrentRow: (NSInteger) row {
     SBaseTabelViewData data = SBaseTabelViewDataMakeDefault();
@@ -131,7 +131,7 @@ BaseTableViewDelegate
     }
 }
 
-- (void) baseTableView:(BaseTableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath andData: (SBaseTabelViewData)data {
+- (void) baseTableView:(PYTableMainView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath andData: (SBaseTabelViewData)data {
     if ([cell isKindOfClass:BaseJsonViewTableViewCell.class]) {
         BaseJsonViewTableViewCell *netWorkCell = (BaseJsonViewTableViewCell *)cell;
         netWorkCell.indexPath = indexPath;

@@ -6,8 +6,8 @@
 //  Copyright © 2019 衣二三. All rights reserved.
 //
 
-#import "BaseTableViewDelegate.h"
+#import "PYBaseTableViewDelegate.h"
 
-@implementation BaseTableViewDelegateHandler
+@implementation PYBaseTableViewDelegateHandler 
 
 @end

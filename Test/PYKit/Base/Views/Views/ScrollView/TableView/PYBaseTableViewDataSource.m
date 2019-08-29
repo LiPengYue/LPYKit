@@ -6,9 +6,9 @@
 //  Copyright © 2019 衣二三. All rights reserved.
 //
 
-#import "BaseTableViewDataSource.h"
+#import "PYBaseTableViewDataSource.h"
 
-@implementation BaseTableViewDataSource
+@implementation PYBaseTableViewDataSource
 
 /*
 // Only override drawRect: if you perform custom drawing.
